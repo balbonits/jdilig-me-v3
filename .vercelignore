@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Testing
+coverage/
+*.test.*
+*.spec.*
+tests/
+test/
+
+# Development
+*.log
+.DS_Store
+*.local
+.env*.local
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Storybook
+storybook-static/
+.storybook/
+
+# Source files (Vercel only needs dist)
+src/
+*.ts
+*.tsx
+!*.d.ts
+
+# Config files not needed for deployment
+vitest.config.*
+playwright.config.*
+tsconfig.*
+eslint.*
