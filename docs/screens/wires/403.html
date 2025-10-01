@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 Forbidden - jdilig.me</title>
+
+    <!-- Core wireframe CSS -->
+    <link rel="stylesheet" href="../libs/wf.css">
+
+    <!-- Shared components CSS -->
+    <link rel="stylesheet" href="../shared/components.css">
+
+    <!-- Page-specific styles -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Error page content */
+        .error-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+            min-height: 70vh;
+        }
+
+        .error-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Large error code */
+        .error-code {
+            font-size: 8rem;
+            font-weight: bold;
+            color: #f59e0b;
+            line-height: 1;
+            margin: 0;
+        }
+
+        .error-title {
+            font-size: 2rem;
+            margin: 1rem 0;
+            color: var(--wf-text);
+        }
+
+        .error-message {
+            font-size: 1.125rem;
+            color: var(--wf-mute);
+            margin: 1.5rem 0;
+            line-height: 1.6;
+        }
+
+        /* Error illustration - lock/shield icon */
+        .error-illustration {
+            width: 300px;
+            height: 200px;
+            margin: 2rem auto;
+            background: #fef3c7;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Lock icon */
+        .lock-icon {
+            position: relative;
+            width: 80px;
+            height: 90px;
+        }
+
+        .lock-body {
+            position: absolute;
+            bottom: 0;
+            width: 80px;
+            height: 60px;
+            background: #f59e0b;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lock-shackle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 40px;
+            border: 8px solid #f59e0b;
+            border-radius: 25px 25px 0 0;
+            border-bottom: none;
+        }
+
+        .lock-keyhole {
+            width: 12px;
+            height: 20px;
+            background: white;
+            border-radius: 6px 6px 8px 8px;
+            position: relative;
+        }
+
+        .lock-keyhole::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        /* Shield badge */
+        .shield-badge {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 40px;
+            height: 45px;
+            background: #dc2626;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Action buttons */
+        .error-actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Access request form */
+        .access-request {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--wf-surf);
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .access-request h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .access-request .wf-grp {
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 5rem;
+            }
+
+            .error-title {
+                font-size: 1.5rem;
+            }
+
+            .error-illustration {
+                width: 250px;
+                height: 150px;
+            }
+
+            .lock-icon {
+                width: 60px;
+                height: 70px;
+            }
+
+            .lock-body {
+                width: 60px;
+                height: 45px;
+            }
+
+            .lock-shackle {
+                width: 40px;
+                height: 30px;
+                border-width: 6px;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .error-actions .wf-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body class="wf">
+    <!-- Site Header (loaded dynamically) -->
+    <div id="site-header"></div>
+
+    <!-- Error Content -->
+    <main class="error-content">
+        <div class="wf-ctr">
+            <div class="error-container">
+            <!-- Error Code -->
+            <h1 class="error-code">403</h1>
+
+            <!-- Error Title -->
+            <h2 class="error-title">Access Forbidden</h2>
+
+            <!-- Error Illustration -->
+            <div class="error-illustration">
+                <div class="lock-icon">
+                    <div class="lock-shackle"></div>
+                    <div class="lock-body">
+                        <div class="lock-keyhole"></div>
+                    </div>
+                    <div class="shield-badge">!</div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <p class="error-message">
+                You don't have permission to access this resource. This area might be restricted to authorized users only, or you may need to log in first.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="error-actions">
+                <button class="wf-btn wf-btn--pri wf-btn--lg" onclick="window.history.back()">
+                    ← Go Back
+                </button>
+                <a href="homepage.html" class="wf-btn wf-btn--out wf-btn--lg">
+                    Go to Homepage
+                </a>
+            </div>
+
+            <!-- Access Request Form (optional) -->
+            <div class="access-request">
+                <h3>Request Access</h3>
+                <p class="wf-p wf-sm wf-mute">If you believe you should have access to this page, please contact me with details about what you're trying to access.</p>
+
+                <div class="wf-grp">
+                    <label class="wf-lbl">Your Email</label>
+                    <input type="email" class="wf-inp" placeholder="your@email.com">
+                </div>
+
+                <div class="wf-grp">
+                    <label class="wf-lbl">Reason for Access</label>
+                    <textarea class="wf-inp" rows="3" placeholder="Please explain why you need access to this resource..."></textarea>
+                </div>
+
+                <button class="wf-btn wf-btn--pri">Submit Request</button>
+            </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Site Footer (loaded dynamically) -->
+    <div id="site-footer"></div>
+
+    <!-- Shared components JavaScript -->
+    <script src="../shared/components.js"></script>
+
+    <!-- Load shared components -->
+    <script>
+        // Load header
+        fetch('../shared/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('site-header').innerHTML = html;
+                // Re-initialize mobile menu after loading
+                if (typeof initMobileMenu !== 'undefined') {
+                    initMobileMenu();
+                }
+            });
+
+        // Load footer
+        fetch('../shared/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('site-footer').innerHTML = html;
+            });
+    </script>
+</body>
+</html>

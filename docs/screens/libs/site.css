@@ -1,0 +1,83 @@
+/* Site-wide consistent styles for docs/screens */
+
+.v-hdr {
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.v-hdr h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.v-hdr nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.v-hdr nav a {
+    color: #666;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.v-hdr nav a:hover,
+.v-hdr nav a.active {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.v-list {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.v-list h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.v-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.v-list li {
+    margin-bottom: 0.5rem;
+}
+
+.v-list a {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.v-list a:hover {
+    background: #f0f0f0;
+    border-color: #999;
+}
+
+.v-intro {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

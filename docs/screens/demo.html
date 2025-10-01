@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WF Framework Demo - Component Library</title>
+    <link rel="stylesheet" href="libs/wf.css">
+    <link rel="stylesheet" href="libs/viewer.css">
+    <link rel="stylesheet" href="libs/site.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .demo-container {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar Styles */
+        .demo-sidebar {
+            width: 260px;
+            background: #f9fafb;
+            border-right: 1px solid #e5e7eb;
+            padding: 2rem 0;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .demo-sidebar h3 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+            padding: 0 1.5rem;
+        }
+
+        .demo-sidebar nav {
+            margin-bottom: 2rem;
+        }
+
+        .demo-sidebar a {
+            display: block;
+            padding: 0.5rem 1.5rem;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.15s ease;
+        }
+
+        .demo-sidebar a:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .demo-sidebar a.active {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 3px solid #3b82f6;
+        }
+
+        /* Main Content */
+        .demo-content {
+            flex: 1;
+            padding: 2rem 3rem;
+            max-width: 1000px;
+        }
+
+        .demo-section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 100px;
+        }
+
+        .demo-section > h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .demo-subsection {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .demo-subsection h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+
+        .demo-subsection h4 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            color: #374151;
+        }
+
+        /* Code examples */
+        .code-example {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+        }
+
+        /* Demo boxes */
+        .demo-box {
+            padding: 2rem;
+            margin: 1rem 0;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            background: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .demo-container {
+                flex-direction: column;
+            }
+
+            .demo-sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .demo-content {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Component showcases */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .color-swatch {
+            padding: 2rem 1rem;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="wf">
+    <!-- Header -->
+    <div class="v-hdr" style="position: sticky; top: 0; z-index: 100; background: white;">
+        <h1>📐 WF Framework Demo</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="demo.html" class="active">Demo</a>
+            <a href="wires.html">Wireframes</a>
+            <a href="screens.html">Screens</a>
+            <a href="flows.html">Flows</a>
+        </nav>
+    </div>
+
+    <div class="demo-container">
+        <!-- Sidebar Navigation -->
+        <aside class="demo-sidebar">
+            <nav>
+                <h3>Foundation</h3>
+                <a href="#typography">Typography</a>
+                <a href="#colors">Colors</a>
+                <a href="#spacing">Spacing</a>
+                <a href="#layout">Layout Grid</a>
+            </nav>
+
+            <nav>
+                <h3>Components</h3>
+                <a href="#buttons">Buttons</a>
+                <a href="#cards">Cards</a>
+                <a href="#forms">Forms</a>
+                <a href="#navigation">Navigation</a>
+                <a href="#alerts">Alerts</a>
+                <a href="#modals">Modals</a>
+            </nav>
+
+            <nav>
+                <h3>Patterns</h3>
+                <a href="#placeholders">Placeholders</a>
+                <a href="#images">Images</a>
+                <a href="#tables">Tables</a>
+                <a href="#lists">Lists</a>
+            </nav>
+
+            <nav>
+                <h3>Flowcharts</h3>
+                <a href="#flowchart-nodes">Flow Nodes</a>
+                <a href="#flowchart-connectors">Connectors</a>
+                <a href="#flowchart-examples">Examples</a>
+            </nav>
+
+            <nav>
+                <h3>Utilities</h3>
+                <a href="#helpers">Helper Classes</a>
+                <a href="#responsive">Responsive</a>
+                <a href="#accessibility">Accessibility</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="demo-content">
+            <h1>WF Framework Component Library</h1>
+            <p class="wf-lg">A comprehensive guide to all wireframe components and patterns. See <a href="libs/README.md">full documentation</a>.</p>
+
+            <!-- Typography Section -->
+            <section id="typography" class="demo-section">
+                <h2>Typography</h2>
+                <div class="demo-subsection">
+                    <h3>Headings</h3>
+                    <h1 class="wf-h1">Heading 1 - wf-h1</h1>
+                    <h2 class="wf-h2">Heading 2 - wf-h2</h2>
+                    <h3 class="wf-h3">Heading 3 - wf-h3</h3>
+                    <h4 class="wf-h4">Heading 4 - wf-h4</h4>
+
+                    <div class="code-example">
+&lt;h1 class="wf-h1"&gt;Heading 1&lt;/h1&gt;
+&lt;h2 class="wf-h2"&gt;Heading 2&lt;/h2&gt;
+                    </div>
+                </div>
+
+                <div class="demo-subsection">
+                    <h3>Text Styles</h3>
+                    <p class="wf-p">Regular paragraph text using <code>.wf-p</code></p>
+                    <p class="wf-p wf-lg">Large paragraph text using <code>.wf-lg</code></p>
+                    <p class="wf-p wf-sm">Small paragraph text using <code>.wf-sm</code></p>
+                    <p class="wf-p wf-mute">Muted text using <code>.wf-mute</code></p>
+                    <p class="wf-p"><strong>Bold text</strong> and <em>italic text</em></p>
+                </div>
+            </section>
+
+            <!-- Colors Section -->
+            <section id="colors" class="demo-section">
+                <h2>Colors</h2>
+                <div class="demo-subsection">
+                    <h3>Color Palette</h3>
+                    <div class="component-grid">
+                        <div class="color-swatch" style="background: var(--wf-pri); color: white;">
+                            Primary<br>--wf-pri
+                        </div>
+                        <div class="color-swatch" style="background: var(--wf-sec); color: white;">
+                            Secondary<br>--wf-sec
+                        </div>
+                        <div class="color-swatch" style="background: var(--wf-surf);">
+                            Surface<br>--wf-surf
+                        </div>
+                        <div class="color-swatch" style="background: var(--wf-brd);">
+                            Border<br>--wf-brd
+                        </div>
+                        <div class="color-swatch" style="background: var(--wf-text); color: white;">
+                            Text<br>--wf-text
+                        </div>
+                        <div class="color-swatch" style="background: white; border: 1px solid var(--wf-brd);">
+                            Background<br>--wf-bg
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Spacing Section -->
+            <section id="spacing" class="demo-section">
+                <h2>Spacing</h2>
+                <div class="demo-subsection">
+                    <h3>Padding Classes</h3>
+                    <div class="wf-p1" style="background: var(--wf-surf); margin: 0.5rem 0;">wf-p1 (0.25rem)</div>
+                    <div class="wf-p2" style="background: var(--wf-surf); margin: 0.5rem 0;">wf-p2 (0.5rem)</div>
+                    <div class="wf-p3" style="background: var(--wf-surf); margin: 0.5rem 0;">wf-p3 (1rem)</div>
+                    <div class="wf-p4" style="background: var(--wf-surf); margin: 0.5rem 0;">wf-p4 (1.5rem)</div>
+                    <div class="wf-p5" style="background: var(--wf-surf); margin: 0.5rem 0;">wf-p5 (2rem)</div>
+
+                    <h3>Margin Classes</h3>
+                    <p>Use <code>.wf-mt1</code> through <code>.wf-mt5</code> for top margin</p>
+                    <p>Use <code>.wf-mb1</code> through <code>.wf-mb5</code> for bottom margin</p>
+                </div>
+            </section>
+
+            <!-- Layout Section -->
+            <section id="layout" class="demo-section">
+                <h2>Layout Grid</h2>
+                <div class="demo-subsection">
+                    <h3>12-Column Grid</h3>
+                    <div class="wf-row">
+                        <div class="wf-col wf-c12">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">12 columns</div>
+                        </div>
+                    </div>
+                    <div class="wf-row wf-mt2">
+                        <div class="wf-col wf-c6">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">6 columns</div>
+                        </div>
+                        <div class="wf-col wf-c6">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">6 columns</div>
+                        </div>
+                    </div>
+                    <div class="wf-row wf-mt2">
+                        <div class="wf-col wf-c4">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">4 cols</div>
+                        </div>
+                        <div class="wf-col wf-c4">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">4 cols</div>
+                        </div>
+                        <div class="wf-col wf-c4">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">4 cols</div>
+                        </div>
+                    </div>
+                    <div class="wf-row wf-mt2">
+                        <div class="wf-col wf-c3">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">3</div>
+                        </div>
+                        <div class="wf-col wf-c3">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">3</div>
+                        </div>
+                        <div class="wf-col wf-c3">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">3</div>
+                        </div>
+                        <div class="wf-col wf-c3">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">3</div>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+&lt;div class="wf-row"&gt;
+    &lt;div class="wf-col wf-c8"&gt;Main Content (8 columns)&lt;/div&gt;
+    &lt;div class="wf-col wf-c4"&gt;Sidebar (4 columns)&lt;/div&gt;
+&lt;/div&gt;
+                    </div>
+                </div>
+            </section>
+
+            <!-- Buttons Section -->
+            <section id="buttons" class="demo-section">
+                <h2>Buttons</h2>
+                <div class="demo-subsection">
+                    <h3>Button Styles</h3>
+                    <button class="wf-btn">Default Button</button>
+                    <button class="wf-btn wf-btn--pri">Primary Button</button>
+                    <button class="wf-btn wf-btn--sec">Secondary Button</button>
+                    <button class="wf-btn wf-btn--out">Outline Button</button>
+                    <button class="wf-btn" disabled>Disabled Button</button>
+
+                    <h4>Button Sizes</h4>
+                    <button class="wf-btn wf-btn--sm">Small</button>
+                    <button class="wf-btn">Default</button>
+                    <button class="wf-btn wf-btn--lg">Large</button>
+
+                    <h4>Full Width Button</h4>
+                    <button class="wf-btn wf-btn--pri" style="width: 100%;">Full Width Button</button>
+
+                    <div class="code-example">
+&lt;button class="wf-btn wf-btn--pri wf-btn--lg"&gt;Large Primary Button&lt;/button&gt;
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cards Section -->
+            <section id="cards" class="demo-section">
+                <h2>Cards</h2>
+                <div class="demo-subsection">
+                    <h3>Basic Card</h3>
+                    <div class="wf-card" style="max-width: 400px;">
+                        <div class="wf-card-body">
+                            <h3 class="wf-h3">Card Title</h3>
+                            <p class="wf-p">This is a basic card with some content inside.</p>
+                            <button class="wf-btn wf-btn--pri">Action</button>
+                        </div>
+                    </div>
+
+                    <h3 class="wf-mt4">Card with Header</h3>
+                    <div class="wf-card" style="max-width: 400px;">
+                        <div class="wf-card-hdr">Card Header</div>
+                        <div class="wf-card-body">
+                            <p class="wf-p">Card content goes here.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="wf-mt4">Card with Image Placeholder</h3>
+                    <div class="wf-card" style="max-width: 400px;">
+                        <div class="wf-img" style="height: 200px;"></div>
+                        <div class="wf-card-body">
+                            <h3 class="wf-h3">Product Name</h3>
+                            <p class="wf-p wf-mute">Product description goes here.</p>
+                            <button class="wf-btn wf-btn--pri">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Forms Section -->
+            <section id="forms" class="demo-section">
+                <h2>Forms</h2>
+                <div class="demo-subsection">
+                    <h3>Form Elements</h3>
+                    <div class="wf-grp">
+                        <label class="wf-lbl">Text Input</label>
+                        <input type="text" class="wf-inp" placeholder="Enter text here">
+                    </div>
+
+                    <div class="wf-grp">
+                        <label class="wf-lbl">Required Field <span style="color: red;">*</span></label>
+                        <input type="email" class="wf-inp" placeholder="email@example.com" required>
+                    </div>
+
+                    <div class="wf-grp">
+                        <label class="wf-lbl">Select Dropdown</label>
+                        <select class="wf-sel">
+                            <option>Choose an option</option>
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                    </div>
+
+                    <div class="wf-grp">
+                        <label class="wf-lbl">Textarea</label>
+                        <textarea class="wf-inp" rows="4" placeholder="Enter longer text here..."></textarea>
+                    </div>
+
+                    <div class="wf-grp">
+                        <label class="wf-lbl">
+                            <input type="checkbox"> I agree to the terms
+                        </label>
+                    </div>
+
+                    <div class="wf-grp">
+                        <label class="wf-lbl">Radio Options</label>
+                        <label style="display: block; margin: 0.5rem 0;">
+                            <input type="radio" name="radio-demo"> Option A
+                        </label>
+                        <label style="display: block; margin: 0.5rem 0;">
+                            <input type="radio" name="radio-demo"> Option B
+                        </label>
+                    </div>
+
+                    <button class="wf-btn wf-btn--pri">Submit Form</button>
+                </div>
+            </section>
+
+            <!-- Navigation Section -->
+            <section id="navigation" class="demo-section">
+                <h2>Navigation</h2>
+                <div class="demo-subsection">
+                    <h3>Header Navigation</h3>
+                    <div class="wf-hdr" style="position: relative;">
+                        <div class="wf-nav">
+                            <div class="wf-brand">Logo</div>
+                            <nav class="wf-menu" style="position: static; display: flex; gap: 1rem;">
+                                <a href="#" class="wf-link wf-link--on">Home</a>
+                                <a href="#" class="wf-link">About</a>
+                                <a href="#" class="wf-link">Services</a>
+                                <a href="#" class="wf-link">Contact</a>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <h3 class="wf-mt4">Breadcrumbs</h3>
+                    <nav style="display: flex; gap: 0.5rem; align-items: center;">
+                        <a href="#" class="wf-link">Home</a>
+                        <span>/</span>
+                        <a href="#" class="wf-link">Products</a>
+                        <span>/</span>
+                        <span>Current Page</span>
+                    </nav>
+
+                    <h3 class="wf-mt4">Pagination</h3>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <button class="wf-btn">← Previous</button>
+                        <button class="wf-btn">1</button>
+                        <button class="wf-btn wf-btn--pri">2</button>
+                        <button class="wf-btn">3</button>
+                        <button class="wf-btn">Next →</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alerts Section -->
+            <section id="alerts" class="demo-section">
+                <h2>Alerts</h2>
+                <div class="demo-subsection">
+                    <div style="padding: 1rem; background: #dbeafe; border: 1px solid #60a5fa; border-radius: 6px; margin-bottom: 1rem;">
+                        <strong>Info:</strong> This is an informational alert message.
+                    </div>
+                    <div style="padding: 1rem; background: #dcfce7; border: 1px solid #86efac; border-radius: 6px; margin-bottom: 1rem;">
+                        <strong>Success:</strong> Operation completed successfully!
+                    </div>
+                    <div style="padding: 1rem; background: #fef3c7; border: 1px solid #fde047; border-radius: 6px; margin-bottom: 1rem;">
+                        <strong>Warning:</strong> Please review before proceeding.
+                    </div>
+                    <div style="padding: 1rem; background: #fee2e2; border: 1px solid #fca5a5; border-radius: 6px;">
+                        <strong>Error:</strong> Something went wrong. Please try again.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modals Section -->
+            <section id="modals" class="demo-section">
+                <h2>Modals</h2>
+                <div class="demo-subsection">
+                    <h3>Modal Example (Static)</h3>
+                    <div class="wf-card" style="max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                        <div class="wf-card-hdr" style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Modal Title</span>
+                            <button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                        </div>
+                        <div class="wf-card-body">
+                            <p class="wf-p">This is modal content. Modals are used for important dialogs and forms.</p>
+                            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                                <button class="wf-btn">Cancel</button>
+                                <button class="wf-btn wf-btn--pri">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Placeholders Section -->
+            <section id="placeholders" class="demo-section">
+                <h2>Placeholders</h2>
+                <div class="demo-subsection">
+                    <h3>Content Placeholders</h3>
+                    <div class="wf-box wf-box--title"></div>
+                    <div class="wf-box wf-box--txt"></div>
+                    <div class="wf-box wf-box--txt"></div>
+                    <div class="wf-box wf-box--txt" style="width: 60%;"></div>
+
+                    <h3 class="wf-mt4">Skeleton Loading</h3>
+                    <div class="wf-card" style="max-width: 400px;">
+                        <div class="wf-img wf-skeleton" style="height: 200px;"></div>
+                        <div class="wf-card-body">
+                            <div class="wf-box wf-box--title wf-skeleton"></div>
+                            <div class="wf-box wf-box--txt wf-skeleton"></div>
+                            <div class="wf-box wf-box--txt wf-skeleton" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Images Section -->
+            <section id="images" class="demo-section">
+                <h2>Images</h2>
+                <div class="demo-subsection">
+                    <h3>Image Placeholders</h3>
+                    <div class="component-grid">
+                        <div>
+                            <h4>Square</h4>
+                            <div class="wf-img" style="width: 200px; height: 200px;"></div>
+                        </div>
+                        <div>
+                            <h4>Landscape</h4>
+                            <div class="wf-img" style="width: 300px; height: 200px;"></div>
+                        </div>
+                        <div>
+                            <h4>Portrait</h4>
+                            <div class="wf-img" style="width: 200px; height: 300px;"></div>
+                        </div>
+                    </div>
+
+                    <h3 class="wf-mt4">Avatar Placeholders</h3>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div class="wf-img" style="width: 40px; height: 40px; border-radius: 50%;"></div>
+                        <div class="wf-img" style="width: 60px; height: 60px; border-radius: 50%;"></div>
+                        <div class="wf-img" style="width: 80px; height: 80px; border-radius: 50%;"></div>
+                        <div class="wf-img" style="width: 100px; height: 100px; border-radius: 50%;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tables Section -->
+            <section id="tables" class="demo-section">
+                <h2>Tables</h2>
+                <div class="demo-subsection">
+                    <h3>Data Table</h3>
+                    <table class="wf-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>001</td>
+                                <td>John Doe</td>
+                                <td>john@example.com</td>
+                                <td><span style="color: green;">Active</span></td>
+                                <td>
+                                    <button class="wf-btn wf-btn--sm">Edit</button>
+                                    <button class="wf-btn wf-btn--sm wf-btn--out">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>002</td>
+                                <td>Jane Smith</td>
+                                <td>jane@example.com</td>
+                                <td><span style="color: orange;">Pending</span></td>
+                                <td>
+                                    <button class="wf-btn wf-btn--sm">Edit</button>
+                                    <button class="wf-btn wf-btn--sm wf-btn--out">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>003</td>
+                                <td>Bob Johnson</td>
+                                <td>bob@example.com</td>
+                                <td><span style="color: red;">Inactive</span></td>
+                                <td>
+                                    <button class="wf-btn wf-btn--sm">Edit</button>
+                                    <button class="wf-btn wf-btn--sm wf-btn--out">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Lists Section -->
+            <section id="lists" class="demo-section">
+                <h2>Lists</h2>
+                <div class="demo-subsection">
+                    <h3>Unordered List</h3>
+                    <ul>
+                        <li>First item in the list</li>
+                        <li>Second item in the list</li>
+                        <li>Third item with nested items
+                            <ul>
+                                <li>Nested item one</li>
+                                <li>Nested item two</li>
+                            </ul>
+                        </li>
+                        <li>Fourth item in the list</li>
+                    </ul>
+
+                    <h3>Ordered List</h3>
+                    <ol>
+                        <li>Step one in the process</li>
+                        <li>Step two in the process</li>
+                        <li>Step three in the process</li>
+                        <li>Final step</li>
+                    </ol>
+
+                    <h3>Definition List</h3>
+                    <dl>
+                        <dt><strong>Term 1</strong></dt>
+                        <dd>Definition for the first term goes here.</dd>
+                        <dt><strong>Term 2</strong></dt>
+                        <dd>Definition for the second term goes here.</dd>
+                        <dt><strong>Term 3</strong></dt>
+                        <dd>Definition for the third term goes here.</dd>
+                    </dl>
+                </div>
+            </section>
+
+            <!-- Flowchart Nodes Section -->
+            <section id="flowchart-nodes" class="demo-section">
+                <h2>Flowchart Nodes</h2>
+                <div class="demo-subsection">
+                    <h3>Node Types</h3>
+                    <div class="wf-flow">
+                        <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+                            <div class="wf-flow-node wf-flow-node--start">Start</div>
+                            <div class="wf-flow-node wf-flow-node--process">Process</div>
+                            <div class="wf-flow-node wf-flow-node--decision">Decision?</div>
+                            <div class="wf-flow-node wf-flow-node--data">Data I/O</div>
+                            <div class="wf-flow-node wf-flow-node--end">End</div>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+&lt;div class="wf-flow-node wf-flow-node--start"&gt;Start&lt;/div&gt;
+&lt;div class="wf-flow-node wf-flow-node--process"&gt;Process&lt;/div&gt;
+&lt;div class="wf-flow-node wf-flow-node--decision"&gt;Decision?&lt;/div&gt;
+&lt;div class="wf-flow-node wf-flow-node--data"&gt;Data I/O&lt;/div&gt;
+&lt;div class="wf-flow-node wf-flow-node--end"&gt;End&lt;/div&gt;
+                    </div>
+                </div>
+            </section>
+
+            <!-- Flowchart Connectors Section -->
+            <section id="flowchart-connectors" class="demo-section">
+                <h2>Flowchart Connectors</h2>
+                <div class="demo-subsection">
+                    <h3>Arrow Types</h3>
+                    <div class="wf-flow">
+                        <div style="display: flex; gap: 2rem; align-items: center;">
+                            <span>Node A</span>
+                            <div class="wf-flow-arrow"></div>
+                            <span>Node B</span>
+                        </div>
+                    </div>
+
+                    <h3 class="wf-mt4">Vertical Flow</h3>
+                    <div class="wf-flow">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                            <div class="wf-flow-node wf-flow-node--process">Step 1</div>
+                            <div class="wf-flow-arrow" style="transform: rotate(90deg);"></div>
+                            <div class="wf-flow-node wf-flow-node--process">Step 2</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Flowchart Examples Section -->
+            <section id="flowchart-examples" class="demo-section">
+                <h2>Flowchart Examples</h2>
+                <div class="demo-subsection">
+                    <h3>Simple Linear Flow</h3>
+                    <div class="wf-flow">
+                        <div class="wf-flow-container">
+                            <div class="wf-flow-node wf-flow-node--start">Start</div>
+                            <div class="wf-flow-arrow"></div>
+                            <div class="wf-flow-node wf-flow-node--process">Initialize</div>
+                            <div class="wf-flow-arrow"></div>
+                            <div class="wf-flow-node wf-flow-node--process">Process Data</div>
+                            <div class="wf-flow-arrow"></div>
+                            <div class="wf-flow-node wf-flow-node--end">Complete</div>
+                        </div>
+                    </div>
+
+                    <h3 class="wf-mt4">Decision Flow</h3>
+                    <div class="wf-flow">
+                        <div class="wf-flow-container" style="flex-direction: column; align-items: center;">
+                            <div class="wf-flow-node wf-flow-node--start">Start</div>
+                            <div class="wf-flow-arrow" style="transform: rotate(90deg);"></div>
+                            <div class="wf-flow-node wf-flow-node--process">Check Condition</div>
+                            <div class="wf-flow-arrow" style="transform: rotate(90deg);"></div>
+                            <div class="wf-flow-node wf-flow-node--decision">Valid?</div>
+                            <div style="display: flex; gap: 4rem; margin-top: 2rem;">
+                                <div style="text-align: center;">
+                                    <div class="wf-flow-arrow" style="transform: rotate(90deg);"></div>
+                                    <div class="wf-flow-node wf-flow-node--process">Yes Path</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div class="wf-flow-arrow" style="transform: rotate(90deg);"></div>
+                                    <div class="wf-flow-node wf-flow-node--process">No Path</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Helper Classes Section -->
+            <section id="helpers" class="demo-section">
+                <h2>Helper Classes</h2>
+                <div class="demo-subsection">
+                    <h3>Text Alignment</h3>
+                    <p class="wf-tl">Left aligned text (default)</p>
+                    <p class="wf-tc">Center aligned text using .wf-tc</p>
+                    <p class="wf-tr">Right aligned text using .wf-tr</p>
+
+                    <h3 class="wf-mt4">Display Utilities</h3>
+                    <div class="wf-show">This element is visible (.wf-show)</div>
+                    <div class="wf-hide">This element is hidden (.wf-hide)</div>
+
+                    <h3 class="wf-mt4">Borders</h3>
+                    <div class="wf-p3" style="border: 1px solid var(--wf-brd);">Element with border</div>
+                    <div class="wf-p3 wf-mt2" style="border-radius: 8px; border: 1px solid var(--wf-brd);">Element with rounded border</div>
+                </div>
+            </section>
+
+            <!-- Responsive Section -->
+            <section id="responsive" class="demo-section">
+                <h2>Responsive Design</h2>
+                <div class="demo-subsection">
+                    <h3>Breakpoints</h3>
+                    <ul>
+                        <li><strong>Mobile:</strong> < 768px</li>
+                        <li><strong>Tablet:</strong> 768px - 1023px</li>
+                        <li><strong>Desktop:</strong> ≥ 1024px</li>
+                    </ul>
+
+                    <h3>Responsive Grid</h3>
+                    <p>The grid system automatically stacks on mobile devices and expands on larger screens.</p>
+
+                    <div class="wf-row">
+                        <div class="wf-col wf-c12 wf-c6-md wf-c4-lg">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">
+                                12 mobile / 6 tablet / 4 desktop
+                            </div>
+                        </div>
+                        <div class="wf-col wf-c12 wf-c6-md wf-c4-lg">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">
+                                12 mobile / 6 tablet / 4 desktop
+                            </div>
+                        </div>
+                        <div class="wf-col wf-c12 wf-c12-md wf-c4-lg">
+                            <div style="background: var(--wf-surf); padding: 1rem; border: 1px solid var(--wf-brd); text-align: center;">
+                                12 mobile / 12 tablet / 4 desktop
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Accessibility Section -->
+            <section id="accessibility" class="demo-section">
+                <h2>Accessibility</h2>
+                <div class="demo-subsection">
+                    <h3>Best Practices</h3>
+                    <ul>
+                        <li>Use semantic HTML elements</li>
+                        <li>Include proper ARIA labels for interactive elements</li>
+                        <li>Ensure sufficient color contrast (4.5:1 for normal text)</li>
+                        <li>Make all interactive elements keyboard accessible</li>
+                        <li>Provide focus indicators for keyboard navigation</li>
+                        <li>Use descriptive link text (avoid "click here")</li>
+                        <li>Include alt text for images</li>
+                    </ul>
+
+                    <h3>Skip Links</h3>
+                    <div style="background: var(--wf-surf); padding: 1rem; border-radius: 6px;">
+                        <a href="#main" class="wf-link">Skip to main content</a><br>
+                        <a href="#nav" class="wf-link">Skip to navigation</a>
+                    </div>
+
+                    <h3 class="wf-mt4">Focus States</h3>
+                    <p>All interactive elements should have visible focus indicators:</p>
+                    <button class="wf-btn">Tab to see focus state</button>
+                    <input type="text" class="wf-inp wf-mt2" placeholder="Tab to see focus state" style="max-width: 300px;">
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div class="wf-mt5 wf-p4 wf-tc" style="border-top: 1px solid var(--wf-brd);">
+                <p class="wf-mute">WF Framework v1.0 - Wireframing Component Library</p>
+                <p class="wf-sm wf-mute">For full documentation and examples, see <a href="libs/README.md">README.md</a></p>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript for active section highlighting -->
+    <script>
+        // Smooth scrolling for sidebar links
+        document.querySelectorAll('.demo-sidebar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Highlight active section in sidebar
+        function highlightActiveSection() {
+            const sections = document.querySelectorAll('.demo-section');
+            const sidebarLinks = document.querySelectorAll('.demo-sidebar a');
+
+            let current = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Listen for scroll events
+        window.addEventListener('scroll', highlightActiveSection);
+        highlightActiveSection(); // Initial check
+    </script>
+</body>
+</html>
