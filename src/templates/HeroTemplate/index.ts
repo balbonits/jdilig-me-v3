@@ -1,1 +1,0 @@
-export { HeroTemplate } from './HeroTemplate'

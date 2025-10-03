@@ -1,1 +1,0 @@
-export { GridTemplate } from './GridTemplate'
