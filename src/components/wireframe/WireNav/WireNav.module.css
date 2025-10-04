@@ -1,0 +1,43 @@
+/* WireNav - Navigation bar wireframe */
+
+.wire-nav {
+  @apply w-full border-b-2 border-gray-400 bg-gray-100 px-4 py-3;
+}
+
+.wire-nav--top {
+  @apply border-b-2 border-t-0;
+}
+
+.wire-nav--bottom {
+  @apply border-t-2 border-b-0;
+}
+
+.wire-nav__container {
+  @apply flex gap-4;
+}
+
+.wire-nav__item {
+  @apply px-3 py-1 text-sm font-medium text-gray-600 bg-gray-200 rounded;
+}
+
+/* Mobile-first responsive */
+@screen md {
+  .wire-nav__container {
+    @apply gap-6;
+  }
+
+  .wire-nav__item {
+    @apply px-4 py-2 text-base;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .wire-nav {
+    @apply border-gray-600 bg-gray-800;
+  }
+
+  .wire-nav__item {
+    @apply text-gray-400 bg-gray-700;
+  }
+}

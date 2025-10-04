@@ -1,0 +1,24 @@
+/* WireCard - Composed card wireframe */
+
+.wire-card {
+  @apply p-0 flex-col items-stretch;
+}
+
+.wire-card__content {
+  @apply flex flex-col w-full;
+}
+
+.wire-card__body {
+  @apply p-4 flex flex-col gap-3;
+}
+
+.wire-card__actions {
+  @apply flex gap-2 mt-2;
+}
+
+/* Mobile-first responsive */
+@screen md {
+  .wire-card__body {
+    @apply p-6;
+  }
+}

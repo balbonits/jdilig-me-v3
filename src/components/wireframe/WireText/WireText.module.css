@@ -1,0 +1,40 @@
+/* WireText - Placeholder text lines */
+
+.wire-text {
+  @apply flex flex-col;
+}
+
+.wire-text__line {
+  @apply h-2 bg-gray-300 rounded mb-2;
+}
+
+.wire-text__line--heading {
+  @apply h-4 bg-gray-400;
+}
+
+.wire-text__line--paragraph {
+  @apply h-2 bg-gray-300;
+}
+
+.wire-text__line--caption {
+  @apply h-1 bg-gray-200;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .wire-text__line {
+    @apply bg-gray-700;
+  }
+
+  .wire-text__line--heading {
+    @apply bg-gray-600;
+  }
+
+  .wire-text__line--paragraph {
+    @apply bg-gray-700;
+  }
+
+  .wire-text__line--caption {
+    @apply bg-gray-800;
+  }
+}

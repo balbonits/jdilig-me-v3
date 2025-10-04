@@ -1,0 +1,28 @@
+/* WireImage - Image placeholder */
+
+.wire-image {
+  @apply border-2 border-dashed border-gray-400 bg-gray-100 flex flex-col items-center justify-center relative rounded;
+}
+
+.wire-image__icon {
+  @apply text-4xl text-gray-400;
+}
+
+.wire-image__label {
+  @apply absolute bottom-2 text-xs text-gray-500 font-mono bg-gray-100 px-2 py-1 rounded;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .wire-image {
+    @apply border-gray-600 bg-gray-800;
+  }
+
+  .wire-image__icon {
+    @apply text-gray-600;
+  }
+
+  .wire-image__label {
+    @apply text-gray-400 bg-gray-800;
+  }
+}

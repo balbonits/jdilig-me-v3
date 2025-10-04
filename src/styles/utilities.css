@@ -1,0 +1,74 @@
+/**
+ * Custom Utility Classes
+ * Reusable utility classes built on top of Tailwind
+ */
+
+/* Theme Color Utilities using @apply */
+.text-primary {
+  @apply text-[--color-primary];
+}
+
+.text-secondary {
+  @apply text-[--color-secondary];
+}
+
+.text-accent {
+  @apply text-[--color-accent];
+}
+
+.bg-primary {
+  @apply bg-[--color-primary];
+}
+
+.bg-secondary {
+  @apply bg-[--color-secondary];
+}
+
+.bg-accent {
+  @apply bg-[--color-accent];
+}
+
+.border-primary {
+  @apply border-[--color-primary];
+}
+
+.border-secondary {
+  @apply border-[--color-secondary];
+}
+
+.border-accent {
+  @apply border-[--color-accent];
+}
+
+/* Common BEM Patterns */
+.btn {
+  @apply px-4 py-2 rounded font-medium transition-colors duration-200;
+}
+
+.btn--primary {
+  @apply bg-[--color-primary] text-white hover:opacity-90;
+}
+
+.btn--secondary {
+  @apply bg-[--color-secondary] text-white hover:opacity-90;
+}
+
+.btn--accent {
+  @apply bg-[--color-accent] text-white hover:opacity-90;
+}
+
+.btn--outline {
+  @apply border-2 bg-transparent hover:bg-opacity-10;
+}
+
+.btn--outline.btn--primary {
+  @apply border-[--color-primary] text-[--color-primary] hover:bg-[--color-primary];
+}
+
+.btn--outline.btn--secondary {
+  @apply border-[--color-secondary] text-[--color-secondary] hover:bg-[--color-secondary];
+}
+
+.btn--outline.btn--accent {
+  @apply border-[--color-accent] text-[--color-accent] hover:bg-[--color-accent];
+}

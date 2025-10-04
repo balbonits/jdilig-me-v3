@@ -1,0 +1,32 @@
+/* WireBox - Base wireframe container */
+
+.wire-box {
+  @apply border-2 border-gray-400 bg-gray-50 rounded flex items-center justify-center relative;
+}
+
+.wire-box--solid {
+  @apply border-solid;
+}
+
+.wire-box--dashed {
+  @apply border-dashed;
+}
+
+.wire-box--dotted {
+  @apply border-dotted;
+}
+
+.wire-box__label {
+  @apply absolute top-1 left-2 text-xs text-gray-600 font-mono bg-gray-50 px-1 rounded;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .wire-box {
+    @apply border-gray-600 bg-gray-900;
+  }
+
+  .wire-box__label {
+    @apply text-gray-400 bg-gray-900;
+  }
+}
