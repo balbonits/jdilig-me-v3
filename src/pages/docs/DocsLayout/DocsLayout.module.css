@@ -1,0 +1,101 @@
+@import "tailwindcss" reference;
+
+.layout {
+  @apply min-h-screen bg-gray-50;
+
+  :global(.dark) & {
+    @apply bg-gray-900;
+  }
+}
+
+.top-nav {
+  @apply w-full border-b-2 px-6 py-4 border-gray-300 bg-white;
+
+  :global(.dark) & {
+    @apply border-gray-700 bg-gray-800;
+  }
+}
+
+.nav-list {
+  @apply flex gap-6;
+}
+
+.nav-link {
+  @apply px-4 py-2 text-base font-medium rounded transition-colors text-gray-700 hover:text-gray-900 bg-gray-100 hover:bg-gray-200;
+
+  :global(.dark) & {
+    @apply text-gray-300 hover:text-gray-100 bg-gray-700 hover:bg-gray-600;
+  }
+}
+
+.nav-link--active {
+  @apply text-blue-600 bg-blue-50;
+
+  :global(.dark) & {
+    @apply text-blue-400 bg-blue-900/30;
+  }
+}
+
+.nav-link--disabled {
+  @apply cursor-not-allowed text-gray-400 bg-gray-100;
+
+  :global(.dark) & {
+    @apply text-gray-600 bg-gray-800;
+  }
+}
+
+.content-wrapper {
+  @apply flex min-h-screen;
+}
+
+.sidebar {
+  @apply w-52 border-r-2 p-4 border-gray-300 bg-white;
+
+  :global(.dark) & {
+    @apply border-gray-700 bg-gray-800;
+  }
+}
+
+.sidebar-nav {
+  @apply flex flex-col gap-2;
+}
+
+.sidebar-back {
+  @apply px-3 py-2 text-sm rounded transition-colors text-gray-700 hover:text-gray-900 bg-gray-100 hover:bg-gray-200;
+
+  :global(.dark) & {
+    @apply text-gray-300 hover:text-gray-100 bg-gray-700 hover:bg-gray-600;
+  }
+}
+
+.sidebar-divider {
+  @apply border-t my-2 border-gray-300;
+
+  :global(.dark) & {
+    @apply border-gray-600;
+  }
+}
+
+.sidebar-link {
+  @apply px-3 py-2 text-sm rounded transition-colors text-gray-700 hover:text-gray-900 bg-gray-100 hover:bg-gray-200;
+
+  :global(.dark) & {
+    @apply text-gray-300 hover:text-gray-100 bg-gray-700 hover:bg-gray-600;
+  }
+}
+
+.sidebar-link--active {
+  @apply font-medium text-blue-600 bg-blue-50;
+
+  :global(.dark) & {
+    @apply text-blue-400 bg-blue-900/30;
+  }
+}
+
+.main-content {
+  @apply flex-1;
+}
+
+.main-content--full {
+  @apply w-full;
+}

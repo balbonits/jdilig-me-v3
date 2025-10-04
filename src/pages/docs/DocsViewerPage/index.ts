@@ -1,0 +1,1 @@
+export { DocsViewerPage } from './DocsViewerPage';

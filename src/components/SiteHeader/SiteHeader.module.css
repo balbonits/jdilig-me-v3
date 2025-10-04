@@ -6,11 +6,8 @@
 
 .site-header__link {
   @apply text-sm;
-
-  :global(.light) & {
-    @apply text-gray-900;
-    @apply hover:text-blue-600;
-  }
+  @apply text-gray-900;
+  @apply hover:text-blue-600;
 
   :global(.dark) & {
     @apply text-gray-300;

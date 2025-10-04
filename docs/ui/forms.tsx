@@ -2,18 +2,19 @@ import { Badge } from '@components/ui/Badge';
 import { Alert } from '@components/ui/Alert';
 import { InputGroup } from '@components/ui/InputGroup';
 import { MagnifyingGlassIcon, EnvelopeIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
+import styles from './showcase.module.css';
 
 export function FormsShowcase() {
   return (
-    <div className="flex flex-col gap-12 p-8">
+    <div className={styles.showcase}>
       {/* Badge Component Section */}
       <section>
-        <h2 className="text-2xl font-bold mb-6">Badge Component</h2>
+        <h2 className={styles['section-title']}>Badge Component</h2>
 
         {/* Standard Badges */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">Standard Badges</h3>
-          <div className="flex flex-wrap gap-3">
+          <h3 className={styles['subsection-title']}>Standard Badges</h3>
+          <div className={styles.grid}>
             <Badge variant="primary">Primary</Badge>
             <Badge variant="secondary">Secondary</Badge>
             <Badge variant="success">Success</Badge>
@@ -27,8 +28,8 @@ export function FormsShowcase() {
 
         {/* Pill Badges */}
         <div>
-          <h3 className="text-xl font-semibold mb-4">Pill Badges</h3>
-          <div className="flex flex-wrap gap-3">
+          <h3 className={styles['subsection-title']}>Pill Badges</h3>
+          <div className={styles.grid}>
             <Badge variant="primary" pill>Primary</Badge>
             <Badge variant="secondary" pill>Secondary</Badge>
             <Badge variant="success" pill>Success</Badge>
@@ -43,12 +44,12 @@ export function FormsShowcase() {
 
       {/* Alert Component Section */}
       <section>
-        <h2 className="text-2xl font-bold mb-6">Alert Component</h2>
+        <h2 className={styles['section-title']}>Alert Component</h2>
 
         {/* Standard Alerts */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">Standard Alerts</h3>
-          <div className="flex flex-col gap-4">
+          <h3 className={styles['subsection-title']}>Standard Alerts</h3>
+          <div className={styles.col}>
             <Alert variant="primary">
               <strong>Primary Alert:</strong> This is a primary alert message.
             </Alert>
@@ -78,8 +79,8 @@ export function FormsShowcase() {
 
         {/* Dismissible Alerts */}
         <div>
-          <h3 className="text-xl font-semibold mb-4">Dismissible Alerts</h3>
-          <div className="flex flex-col gap-4">
+          <h3 className={styles['subsection-title']}>Dismissible Alerts</h3>
+          <div className={styles.col}>
             <Alert variant="success" dismissible>
               <strong>Dismissible Success:</strong> Click the X to dismiss this alert.
             </Alert>
@@ -95,12 +96,12 @@ export function FormsShowcase() {
 
       {/* InputGroup Component Section */}
       <section>
-        <h2 className="text-2xl font-bold mb-6">InputGroup Component</h2>
+        <h2 className={styles['section-title']}>InputGroup Component</h2>
 
         {/* With Prepend */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">With Prepend</h3>
-          <div className="flex flex-col gap-4 max-w-md">
+          <h3 className={styles['subsection-title']}>With Prepend</h3>
+          <div className={styles.col} style={{ maxWidth: '28rem' }}>
             <InputGroup prepend={<MagnifyingGlassIcon className="w-5 h-5" />}>
               <input
                 type="text"
@@ -127,8 +128,8 @@ export function FormsShowcase() {
 
         {/* With Append */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">With Append</h3>
-          <div className="flex flex-col gap-4 max-w-md">
+          <h3 className={styles['subsection-title']}>With Append</h3>
+          <div className={styles.col} style={{ maxWidth: '28rem' }}>
             <InputGroup append=".00">
               <input
                 type="number"
@@ -148,8 +149,8 @@ export function FormsShowcase() {
 
         {/* With Both Prepend and Append */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">With Prepend and Append</h3>
-          <div className="flex flex-col gap-4 max-w-md">
+          <h3 className={styles['subsection-title']}>With Prepend and Append</h3>
+          <div className={styles.col} style={{ maxWidth: '28rem' }}>
             <InputGroup prepend={<CurrencyDollarIcon className="w-5 h-5" />} append=".00">
               <input
                 type="number"
@@ -169,8 +170,8 @@ export function FormsShowcase() {
 
         {/* Different Sizes */}
         <div>
-          <h3 className="text-xl font-semibold mb-4">Different Sizes</h3>
-          <div className="flex flex-col gap-4 max-w-md">
+          <h3 className={styles['subsection-title']}>Different Sizes</h3>
+          <div className={styles.col} style={{ maxWidth: '28rem' }}>
             <div>
               <label className="block text-sm font-medium mb-2">Small Size</label>
               <InputGroup prepend="@" size="sm">

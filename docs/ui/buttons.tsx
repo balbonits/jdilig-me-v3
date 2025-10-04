@@ -1,23 +1,24 @@
 import { Button, ButtonGroup } from '@components/ui';
+import styles from './showcase.module.css';
 
 export function ButtonsShowcase() {
   return (
-    <div className="flex flex-col gap-12 p-8">
+    <div className={styles.showcase}>
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-bold mb-2">Buttons</h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400">
+        <h1 className={styles['header-title']}>Buttons</h1>
+        <p className={styles['header-description']}>
           Bootstrap-inspired button components with multiple variants, sizes, and states.
         </p>
       </div>
 
       {/* All 8 Variants */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Button Variants</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <h2 className={styles['section-title']}>Button Variants</h2>
+        <p className={styles['section-description']}>
           Eight semantic color variants to communicate different actions and meanings.
         </p>
-        <div className="flex flex-wrap gap-3">
+        <div className={styles.grid}>
           <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
           <Button variant="success">Success</Button>
@@ -31,11 +32,11 @@ export function ButtonsShowcase() {
 
       {/* Outline Variants */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Outline Variants</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <h2 className={styles['section-title']}>Outline Variants</h2>
+        <p className={styles['section-description']}>
           Use outline buttons for secondary actions or when you need a lighter visual weight.
         </p>
-        <div className="flex flex-wrap gap-3">
+        <div className={styles.grid}>
           <Button variant="primary" outline>Primary</Button>
           <Button variant="secondary" outline>Secondary</Button>
           <Button variant="success" outline>Success</Button>
@@ -49,8 +50,8 @@ export function ButtonsShowcase() {
 
       {/* Button Sizes */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Button Sizes</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <h2 className={styles['section-title']}>Button Sizes</h2>
+        <p className={styles['section-description']}>
           Three size options: small, medium (default), and large.
         </p>
         <div className="flex flex-wrap items-center gap-3">
@@ -62,27 +63,27 @@ export function ButtonsShowcase() {
 
       {/* Size Comparison Across Variants */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Size Comparison</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <h2 className={styles['section-title']}>Size Comparison</h2>
+        <p className={styles['section-description']}>
           All sizes work consistently across all button variants.
         </p>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="w-20 text-sm font-medium">Small:</span>
+        <div className={styles.col}>
+          <div className={styles.row}>
+            <span className={styles.label}>Small:</span>
             <Button variant="primary" size="sm">Primary</Button>
             <Button variant="secondary" size="sm">Secondary</Button>
             <Button variant="success" size="sm">Success</Button>
             <Button variant="danger" size="sm">Danger</Button>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="w-20 text-sm font-medium">Medium:</span>
+          <div className={styles.row}>
+            <span className={styles.label}>Medium:</span>
             <Button variant="primary" size="md">Primary</Button>
             <Button variant="secondary" size="md">Secondary</Button>
             <Button variant="success" size="md">Success</Button>
             <Button variant="danger" size="md">Danger</Button>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="w-20 text-sm font-medium">Large:</span>
+          <div className={styles.row}>
+            <span className={styles.label}>Large:</span>
             <Button variant="primary" size="lg">Primary</Button>
             <Button variant="secondary" size="lg">Secondary</Button>
             <Button variant="success" size="lg">Success</Button>
@@ -93,14 +94,14 @@ export function ButtonsShowcase() {
 
       {/* Disabled States */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Disabled States</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <h2 className={styles['section-title']}>Disabled States</h2>
+        <p className={styles['section-description']}>
           Disabled buttons have reduced opacity and cannot be interacted with.
         </p>
-        <div className="flex flex-col gap-6">
+        <div className={styles.col}>
           <div>
-            <h3 className="text-lg font-medium mb-3">Solid Disabled</h3>
-            <div className="flex flex-wrap gap-3">
+            <h3 className={styles['subsection-title']}>Solid Disabled</h3>
+            <div className={styles.grid}>
               <Button variant="primary" disabled>Primary</Button>
               <Button variant="secondary" disabled>Secondary</Button>
               <Button variant="success" disabled>Success</Button>
@@ -112,8 +113,8 @@ export function ButtonsShowcase() {
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-medium mb-3">Outline Disabled</h3>
-            <div className="flex flex-wrap gap-3">
+            <h3 className={styles['subsection-title']}>Outline Disabled</h3>
+            <div className={styles.grid}>
               <Button variant="primary" outline disabled>Primary</Button>
               <Button variant="secondary" outline disabled>Secondary</Button>
               <Button variant="success" outline disabled>Success</Button>
@@ -129,13 +130,13 @@ export function ButtonsShowcase() {
 
       {/* ButtonGroup Horizontal */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Button Groups (Horizontal)</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <h2 className={styles['section-title']}>Button Groups (Horizontal)</h2>
+        <p className={styles['section-description']}>
           Group related buttons together for toolbar-like interfaces. Buttons in a group have connected borders.
         </p>
-        <div className="flex flex-col gap-6">
+        <div className={styles.col}>
           <div>
-            <h3 className="text-lg font-medium mb-3">Primary Group</h3>
+            <h3 className={styles['subsection-title']}>Primary Group</h3>
             <ButtonGroup>
               <Button variant="primary">Left</Button>
               <Button variant="primary">Middle</Button>
@@ -143,7 +144,7 @@ export function ButtonsShowcase() {
             </ButtonGroup>
           </div>
           <div>
-            <h3 className="text-lg font-medium mb-3">Secondary Outline Group</h3>
+            <h3 className={styles['subsection-title']}>Secondary Outline Group</h3>
             <ButtonGroup>
               <Button variant="secondary" outline>One</Button>
               <Button variant="secondary" outline>Two</Button>
@@ -152,7 +153,7 @@ export function ButtonsShowcase() {
             </ButtonGroup>
           </div>
           <div>
-            <h3 className="text-lg font-medium mb-3">Mixed Variants</h3>
+            <h3 className={styles['subsection-title']}>Mixed Variants</h3>
             <ButtonGroup>
               <Button variant="success">Save</Button>
               <Button variant="warning">Edit</Button>
@@ -160,7 +161,7 @@ export function ButtonsShowcase() {
             </ButtonGroup>
           </div>
           <div>
-            <h3 className="text-lg font-medium mb-3">Small Size Group</h3>
+            <h3 className={styles['subsection-title']}>Small Size Group</h3>
             <ButtonGroup>
               <Button variant="info" size="sm">Prev</Button>
               <Button variant="info" size="sm">1</Button>
@@ -170,7 +171,7 @@ export function ButtonsShowcase() {
             </ButtonGroup>
           </div>
           <div>
-            <h3 className="text-lg font-medium mb-3">Large Size Group</h3>
+            <h3 className={styles['subsection-title']}>Large Size Group</h3>
             <ButtonGroup>
               <Button variant="dark" size="lg">Bold</Button>
               <Button variant="dark" size="lg">Italic</Button>
@@ -182,35 +183,35 @@ export function ButtonsShowcase() {
 
       {/* Interactive Examples */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Interactive Examples</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <h2 className={styles['section-title']}>Interactive Examples</h2>
+        <p className={styles['section-description']}>
           Common button patterns and use cases.
         </p>
-        <div className="flex flex-col gap-6">
+        <div className={styles.col}>
           <div>
-            <h3 className="text-lg font-medium mb-3">Form Actions</h3>
-            <div className="flex gap-3">
+            <h3 className={styles['subsection-title']}>Form Actions</h3>
+            <div className={styles['example-group']}>
               <Button variant="primary">Submit</Button>
               <Button variant="secondary" outline>Cancel</Button>
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-medium mb-3">Destructive Actions</h3>
-            <div className="flex gap-3">
+            <h3 className={styles['subsection-title']}>Destructive Actions</h3>
+            <div className={styles['example-group']}>
               <Button variant="danger">Delete Account</Button>
               <Button variant="secondary" outline>Keep Account</Button>
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-medium mb-3">Status Actions</h3>
-            <div className="flex gap-3">
+            <h3 className={styles['subsection-title']}>Status Actions</h3>
+            <div className={styles['example-group']}>
               <Button variant="success" size="sm">Approve</Button>
               <Button variant="warning" size="sm">Pending</Button>
               <Button variant="danger" size="sm">Reject</Button>
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-medium mb-3">Navigation Group</h3>
+            <h3 className={styles['subsection-title']}>Navigation Group</h3>
             <ButtonGroup>
               <Button variant="light">Previous</Button>
               <Button variant="light">1</Button>

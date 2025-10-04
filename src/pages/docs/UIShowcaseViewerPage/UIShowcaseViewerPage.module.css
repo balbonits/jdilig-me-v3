@@ -1,0 +1,29 @@
+@import "tailwindcss" reference;
+
+.error-wrapper {
+  @apply p-8;
+}
+
+.error-title {
+  @apply text-2xl font-bold text-red-600;
+
+  :global(.dark) & {
+    @apply text-red-400;
+  }
+}
+
+.error-text {
+  @apply mt-2 text-gray-600;
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}
+
+.iframe-container {
+  @apply w-full h-screen;
+}
+
+.iframe {
+  @apply w-full h-full border-0;
+}

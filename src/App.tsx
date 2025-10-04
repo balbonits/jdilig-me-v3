@@ -42,12 +42,14 @@ function App() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <BrowserRouter>
-      <SiteHeader theme={theme} onThemeToggle={toggleTheme} />
-      <Routes>
-        {AppRoutes()}
-      </Routes>
-    </BrowserRouter>
+    <div className={theme}>
+      <BrowserRouter>
+        <SiteHeader theme={theme} onThemeToggle={toggleTheme} />
+        <Routes>
+          {AppRoutes()}
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

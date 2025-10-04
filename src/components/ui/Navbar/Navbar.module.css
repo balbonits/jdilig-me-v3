@@ -3,10 +3,7 @@
 /* Base navbar styles - mobile-first */
 .navbar {
   @apply w-full shadow-sm border-b;
-
-  :global(.light) & {
-    @apply bg-white border-gray-200;
-  }
+  @apply bg-white border-gray-200;
 
   :global(.dark) & {
     @apply bg-gray-900 border-gray-800;
@@ -24,10 +21,7 @@
 .navbar__brand {
   @apply flex items-center gap-2;
   @apply font-semibold text-lg;
-
-  :global(.light) & {
-    @apply text-gray-900;
-  }
+  @apply text-gray-900;
 
   :global(.dark) & {
     @apply text-white;

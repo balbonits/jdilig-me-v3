@@ -1,0 +1,87 @@
+@import "tailwindcss" reference;
+
+/* Shared showcase styles for all UI component documentation */
+
+.showcase {
+  @apply flex flex-col gap-12 p-8;
+}
+
+.header-title {
+  @apply text-4xl font-bold mb-2 text-gray-900;
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+}
+
+.header-description {
+  @apply text-lg text-gray-600;
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}
+
+.section-title {
+  @apply text-2xl font-semibold mb-4 text-gray-900;
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+}
+
+.section-description {
+  @apply mb-6 text-gray-600;
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}
+
+.subsection-title {
+  @apply text-lg font-medium mb-3 text-gray-900;
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+}
+
+.grid {
+  @apply flex flex-wrap gap-3;
+}
+
+.col {
+  @apply flex flex-col gap-6;
+}
+
+.row {
+  @apply flex flex-wrap items-center gap-3;
+}
+
+.label {
+  @apply w-20 text-sm font-medium text-gray-700;
+
+  :global(.dark) & {
+    @apply text-gray-300;
+  }
+}
+
+.example-group {
+  @apply flex gap-3;
+}
+
+.text {
+  @apply text-gray-700;
+
+  :global(.dark) & {
+    @apply text-gray-300;
+  }
+}
+
+.text-muted {
+  @apply text-gray-600;
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}

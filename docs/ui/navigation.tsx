@@ -8,6 +8,7 @@ import {
   type NavItem,
   type DropdownItem,
 } from '@components/ui';
+import styles from './showcase.module.css';
 
 export function NavigationShowcase() {
   // Nav state
@@ -101,42 +102,42 @@ export function NavigationShowcase() {
   ];
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '3rem', fontSize: '2rem', fontWeight: 'bold' }}>
+    <div className={styles.showcase}>
+      <h1 className={styles['header-title']}>
         Navigation Components Showcase
       </h1>
 
       {/* Nav Component Section */}
-      <section style={{ marginBottom: '4rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1.5rem' }}>
+      <section>
+        <h2 className={styles['section-title']}>
           Nav Component
         </h2>
 
         {/* Tabs Variant */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+        <div className="mb-8">
+          <h3 className={styles['subsection-title']}>
             Tabs Variant
           </h3>
           <Nav variant="tabs" items={tabItems} />
-          <div style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
+          <div className={styles['text-muted']} style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
             Active tab: <strong>{activeTab}</strong>
           </div>
         </div>
 
         {/* Pills Variant */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+        <div className="mb-8">
+          <h3 className={styles['subsection-title']}>
             Pills Variant
           </h3>
           <Nav variant="pills" items={pillItems} />
-          <div style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
+          <div className={styles['text-muted']} style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
             Active pill: <strong>{activePill}</strong>
           </div>
         </div>
 
         {/* Vertical Tabs */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+        <div className="mb-8">
+          <h3 className={styles['subsection-title']}>
             Vertical Tabs
           </h3>
           <div style={{ display: 'flex', gap: '2rem' }}>
@@ -149,14 +150,14 @@ export function NavigationShowcase() {
       </section>
 
       {/* Navbar Component Section */}
-      <section style={{ marginBottom: '4rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1.5rem' }}>
+      <section>
+        <h2 className={styles['section-title']}>
           Navbar Component
         </h2>
 
         {/* Light Navbar */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+        <div className="mb-8">
+          <h3 className={styles['subsection-title']}>
             Light Navbar
           </h3>
           <Navbar brand={<strong>Brand</strong>}>
@@ -173,8 +174,8 @@ export function NavigationShowcase() {
         </div>
 
         {/* Dark Navbar */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+        <div className="mb-8">
+          <h3 className={styles['subsection-title']}>
             Dark Navbar
           </h3>
           <Navbar brand={<strong>Brand</strong>} dark>
@@ -191,8 +192,8 @@ export function NavigationShowcase() {
         </div>
 
         {/* Fixed Top Navbar */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+        <div className="mb-8">
+          <h3 className={styles['subsection-title']}>
             Fixed Top Navbar (Demo - Not Actually Fixed)
           </h3>
           <div style={{ position: 'relative' }}>
@@ -211,14 +212,14 @@ export function NavigationShowcase() {
       </section>
 
       {/* Pagination Component Section */}
-      <section style={{ marginBottom: '4rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1.5rem' }}>
+      <section>
+        <h2 className={styles['section-title']}>
           Pagination Component
         </h2>
 
         {/* Basic Pagination */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+        <div className="mb-8">
+          <h3 className={styles['subsection-title']}>
             Basic Pagination
           </h3>
           <Pagination
@@ -226,14 +227,14 @@ export function NavigationShowcase() {
             totalPages={10}
             onPageChange={setCurrentPage}
           />
-          <div style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
+          <div className={styles['text-muted']} style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
             Current page: <strong>{currentPage}</strong> of 10
           </div>
         </div>
 
         {/* Compact Pagination */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+        <div className="mb-8">
+          <h3 className={styles['subsection-title']}>
             Compact Pagination (Small Size)
           </h3>
           <Pagination
@@ -243,14 +244,14 @@ export function NavigationShowcase() {
             size="sm"
             showPrevNext={false}
           />
-          <div style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
+          <div className={styles['text-muted']} style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
             Current page: <strong>{compactPage}</strong> of 5
           </div>
         </div>
 
         {/* Full Pagination */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+        <div className="mb-8">
+          <h3 className={styles['subsection-title']}>
             Full Pagination (With First/Last)
           </h3>
           <Pagination
@@ -261,22 +262,22 @@ export function NavigationShowcase() {
             size="lg"
             maxVisible={7}
           />
-          <div style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
+          <div className={styles['text-muted']} style={{ marginTop: '1rem', padding: '1rem', background: '#f9fafb', borderRadius: '0.5rem' }}>
             Current page: <strong>{fullPage}</strong> of 20
           </div>
         </div>
       </section>
 
       {/* Dropdown Component Section */}
-      <section style={{ marginBottom: '4rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1.5rem' }}>
+      <section>
+        <h2 className={styles['section-title']}>
           Dropdown Component
         </h2>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
           {/* Bottom Start */}
           <div>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+            <h3 className={styles['subsection-title']}>
               Bottom Start (Default)
             </h3>
             <Dropdown
@@ -288,7 +289,7 @@ export function NavigationShowcase() {
 
           {/* Bottom End */}
           <div>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+            <h3 className={styles['subsection-title']}>
               Bottom End
             </h3>
             <Dropdown
@@ -300,7 +301,7 @@ export function NavigationShowcase() {
 
           {/* Top Start */}
           <div>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+            <h3 className={styles['subsection-title']}>
               Top Start
             </h3>
             <Dropdown
@@ -312,7 +313,7 @@ export function NavigationShowcase() {
 
           {/* Top End */}
           <div>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+            <h3 className={styles['subsection-title']}>
               Top End
             </h3>
             <Dropdown
@@ -325,7 +326,7 @@ export function NavigationShowcase() {
 
         {/* With Disabled Items */}
         <div style={{ marginTop: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+          <h3 className={styles['subsection-title']}>
             Dropdown With Disabled Items
           </h3>
           <Dropdown
@@ -336,7 +337,7 @@ export function NavigationShowcase() {
 
         {/* Custom Trigger */}
         <div style={{ marginTop: '2rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '500', marginBottom: '1rem' }}>
+          <h3 className={styles['subsection-title']}>
             Custom Trigger Element
           </h3>
           <Dropdown

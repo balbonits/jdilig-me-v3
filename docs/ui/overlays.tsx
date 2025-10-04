@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Modal } from '@components/ui/Modal/Modal';
 import { Tooltip } from '@components/ui/Tooltip/Tooltip';
 import { Button } from '@components/ui/Button/Button';
+import styles from './showcase.module.css';
 
 export function OverlaysShowcase() {
   const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
@@ -11,21 +12,21 @@ export function OverlaysShowcase() {
   const [isModalWithFooterOpen, setIsModalWithFooterOpen] = useState(false);
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '2rem' }}>
+    <div className={styles.showcase}>
+      <h1 className={styles['header-title']}>
         Overlays Showcase
       </h1>
 
       {/* Modal Section */}
-      <section style={{ marginBottom: '3rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+      <section>
+        <h2 className={styles['section-title']}>
           Modal Component
         </h2>
-        <p style={{ marginBottom: '1.5rem', color: '#666' }}>
+        <p className={`${styles['section-description']} ${styles['text-muted']}`}>
           Modals with different sizes (sm, md, lg, xl) and examples with/without footers.
         </p>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+        <div className={styles.grid} style={{ marginBottom: '2rem' }}>
           <Button variant="primary" onClick={() => setIsSmallModalOpen(true)}>
             Small Modal
           </Button>
@@ -209,14 +210,14 @@ export function OverlaysShowcase() {
 
       {/* Tooltip Section */}
       <section>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+        <h2 className={styles['section-title']}>
           Tooltip Component
         </h2>
-        <p style={{ marginBottom: '1.5rem', color: '#666' }}>
+        <p className={`${styles['section-description']} ${styles['text-muted']}`}>
           Tooltips in all 4 placements: top, bottom, left, and right. Hover over the buttons to see them.
         </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3rem' }}>
+        <div className={styles.col} style={{ alignItems: 'center', gap: '3rem' }}>
           {/* Top Tooltip */}
           <div>
             <Tooltip content="This tooltip appears on top" placement="top">
@@ -244,10 +245,10 @@ export function OverlaysShowcase() {
 
           {/* Advanced Tooltip Examples */}
           <div style={{ marginTop: '2rem', width: '100%' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+            <h3 className={styles['subsection-title']}>
               Advanced Tooltip Examples
             </h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+            <div className={styles.grid}>
               <Tooltip content="Tooltips work great for providing helpful hints" placement="top">
                 <Button variant="warning" size="sm">
                   Small Button with Tooltip
@@ -281,13 +282,13 @@ export function OverlaysShowcase() {
 
       {/* Usage Notes */}
       <section style={{ marginTop: '3rem', padding: '1.5rem', background: '#f9fafb', borderRadius: '0.5rem', border: '1px solid #e5e7eb' }}>
-        <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+        <h3 className={styles['subsection-title']}>
           Usage Notes
         </h3>
         <div style={{ display: 'grid', gap: '1rem' }}>
           <div>
-            <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Modal Features:</h4>
-            <ul style={{ marginLeft: '1.5rem', listStyle: 'disc' }}>
+            <h4 className={styles.text} style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Modal Features:</h4>
+            <ul className={styles['text-muted']} style={{ marginLeft: '1.5rem', listStyle: 'disc' }}>
               <li>Keyboard support: Press ESC to close</li>
               <li>Click outside the modal to dismiss</li>
               <li>Body scroll is prevented when modal is open</li>
@@ -296,8 +297,8 @@ export function OverlaysShowcase() {
             </ul>
           </div>
           <div>
-            <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Tooltip Features:</h4>
-            <ul style={{ marginLeft: '1.5rem', listStyle: 'disc' }}>
+            <h4 className={styles.text} style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Tooltip Features:</h4>
+            <ul className={styles['text-muted']} style={{ marginLeft: '1.5rem', listStyle: 'disc' }}>
               <li>Hover to show, leave to hide</li>
               <li>Four placement options: top, bottom, left, right</li>
               <li>Automatic positioning with visual arrow indicators</li>

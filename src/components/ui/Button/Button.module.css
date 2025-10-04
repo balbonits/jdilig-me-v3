@@ -102,13 +102,9 @@
 
 /* Light variant */
 .button--light {
-  /* Common styles */
-
-  :global(.light) & {
-    @apply bg-white text-gray-900 border-gray-300;
-    @apply hover:bg-gray-50;
-    @apply active:bg-gray-100;
-  }
+  @apply bg-white text-gray-900 border-gray-300;
+  @apply hover:bg-gray-50;
+  @apply active:bg-gray-100;
 
   :global(.dark) & {
     @apply bg-gray-800 text-white border-gray-600;
@@ -119,12 +115,9 @@
 
 .button--light.button--outline {
   @apply bg-transparent;
-
-  :global(.light) & {
-    @apply text-gray-900 border-gray-300;
-    @apply hover:bg-gray-50;
-    @apply active:bg-gray-100;
-  }
+  @apply text-gray-900 border-gray-300;
+  @apply hover:bg-gray-50;
+  @apply active:bg-gray-100;
 
   :global(.dark) & {
     @apply text-gray-200 border-gray-600;
@@ -135,13 +128,9 @@
 
 /* Dark variant */
 .button--dark {
-  /* Common styles */
-
-  :global(.light) & {
-    @apply bg-gray-900 text-white;
-    @apply hover:bg-gray-800;
-    @apply active:bg-gray-700;
-  }
+  @apply bg-gray-900 text-white;
+  @apply hover:bg-gray-800;
+  @apply active:bg-gray-700;
 
   :global(.dark) & {
     @apply bg-gray-100 text-gray-900;
@@ -152,12 +141,9 @@
 
 .button--dark.button--outline {
   @apply bg-transparent;
-
-  :global(.light) & {
-    @apply text-gray-900 border-gray-900;
-    @apply hover:bg-gray-50;
-    @apply active:bg-gray-100;
-  }
+  @apply text-gray-900 border-gray-900;
+  @apply hover:bg-gray-50;
+  @apply active:bg-gray-100;
 
   :global(.dark) & {
     @apply text-gray-100 border-gray-100;

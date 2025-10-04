@@ -19,6 +19,12 @@ export function SiteHeader({ theme, onThemeToggle }: SiteHeaderProps) {
         <Link to="/docs" className={styles['site-header__link']}>
           Docs
         </Link>
+        <Link to="/docs/protos" className={styles['site-header__link']}>
+          Protos
+        </Link>
+        <Link to="/docs/ui" className={styles['site-header__link']}>
+          UI
+        </Link>
         <Button
           variant={theme === 'dark' ? 'primary' : 'light'}
           outline={theme === 'light'}

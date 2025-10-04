@@ -9,11 +9,7 @@
 }
 
 .title {
-  @apply text-3xl font-bold mb-2;
-
-  :global(.light) & {
-    @apply text-gray-900;
-  }
+  @apply text-3xl font-bold mb-2 text-gray-900;
 
   :global(.dark) & {
     @apply text-gray-100;
@@ -21,11 +17,7 @@
 }
 
 .subtitle {
-  @apply mb-8;
-
-  :global(.light) & {
-    @apply text-gray-600;
-  }
+  @apply mb-8 text-gray-600;
 
   :global(.dark) & {
     @apply text-gray-400;
@@ -41,11 +33,7 @@
 }
 
 .card {
-  @apply border-2 rounded-lg p-6 h-64 flex flex-col items-center justify-center transition-colors;
-
-  :global(.light) & {
-    @apply bg-white border-gray-300 hover:border-blue-400;
-  }
+  @apply border-2 rounded-lg p-6 h-64 flex flex-col items-center justify-center transition-colors bg-white border-gray-300 hover:border-blue-400;
 
   :global(.dark) & {
     @apply bg-gray-800 border-gray-700 hover:border-blue-500;
@@ -57,20 +45,14 @@
 }
 
 .card-title {
-  @apply text-xl font-semibold mb-2;
-
-  :global(.light) & {
-    @apply text-gray-900;
-  }
+  @apply text-xl font-semibold mb-2 text-gray-900;
 
   :global(.dark) & {
     @apply text-gray-100;
   }
 
   :global(.group):hover & {
-    :global(.light) & {
-      @apply text-blue-600;
-    }
+    @apply text-blue-600;
 
     :global(.dark) & {
       @apply text-blue-400;
@@ -79,11 +61,7 @@
 }
 
 .card-description {
-  @apply text-sm;
-
-  :global(.light) & {
-    @apply text-gray-500;
-  }
+  @apply text-sm text-gray-500;
 
   :global(.dark) & {
     @apply text-gray-400;

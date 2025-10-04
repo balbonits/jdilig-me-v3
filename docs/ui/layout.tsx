@@ -2,10 +2,11 @@ import { Card } from '@components/ui/Card/Card';
 import { Section } from '@components/ui/Section/Section';
 import { ListGroup } from '@components/ui/ListGroup/ListGroup';
 import { Badge } from '@components/ui/Badge/Badge';
+import styles from './showcase.module.css';
 
 export function LayoutShowcase() {
   return (
-    <div>
+    <div className={styles.showcase}>
       {/* Card Component Section */}
       <Section
         title="Card Component"

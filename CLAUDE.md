@@ -70,38 +70,61 @@ public/            # Static assets
   - Element: `.card__title`
   - Modifier: `.card--featured`
 - **CSS Modules**: Use `.module.css` files for ALL components AND pages
+  - Every component/page folder contains: `ComponentName.tsx`, `ComponentName.module.css`, `index.ts`
+  - Barrel exports via `index.ts`: `export { ComponentName } from './ComponentName';`
 - **BEM + @apply Pattern**: Avoid long Tailwind classes in JSX
   - ❌ Bad: `<div className="flex flex-col gap-4 md:flex-row md:gap-8 p-4 md:p-8">`
   - ✅ Good: `<div className="card">` + CSS module with `@apply flex flex-col gap-4 p-4;`
   - Keep JSX clean with BEM classnames, use `@apply` in CSS modules for Tailwind utilities
   - Better browser DevTools debugging (see `.card` instead of 15 utility classes)
 - **Dark Mode**: Class-based theming using `.light` and `.dark` parent classes
+  - **Default Theme**: Light mode (configured in `useTheme` hook)
   - **NEVER use Tailwind's `dark:` utilities** - Tailwind v4 alpha only supports OS `prefers-color-scheme`
-  - **ALWAYS use `:global(.light)` and `:global(.dark)` in CSS modules** for theme-aware styles
-  - Pattern:
+  - **CRITICAL PATTERN**: Light theme styles are DEFAULT, dark theme is OVERRIDE
+  - **CORRECT Pattern**:
     ```css
     .element {
-      @apply base-styles;
-
-      :global(.light) & {
-        @apply light-theme-styles;
-      }
+      @apply bg-white text-gray-900;  /* Light theme as DEFAULT */
 
       :global(.dark) & {
-        @apply dark-theme-styles;
+        @apply bg-gray-800 text-gray-100;  /* Dark theme OVERRIDE */
       }
     }
     ```
+  - **INCORRECT Pattern** (DO NOT USE):
+    ```css
+    .element {
+      :global(.light) & {
+        @apply bg-white text-gray-900;  /* ❌ WRONG - don't wrap light theme */
+      }
+
+      :global(.dark) & {
+        @apply bg-gray-800 text-gray-100;
+      }
+    }
+    ```
+  - **Why**: Light theme should be the failover/default styles that work without any parent class
+  - **Only use** `:global(.dark) &` for dark mode overrides
   - Theme managed by `useTheme` hook with localStorage persistence
   - Theme toggle in `SiteHeader` component
+  - Theme class applied to root div in `App.tsx`
 
 ### Component Patterns
-- Components live in `src/components/` with co-located `.module.css` styles
-- Pages live in `src/pages/` WITH `.module.css` styles (changed from previous convention)
+- **Folder Structure**: All components and pages use folder-based organization
+  - Each component/page has its own folder containing:
+    - `ComponentName.tsx` - Component implementation
+    - `ComponentName.module.css` - Component styles
+    - `index.ts` - Barrel export: `export { ComponentName } from './ComponentName';`
+  - Example: `src/components/ui/Button/` contains `Button.tsx`, `Button.module.css`, `index.ts`
+  - Import via: `import { Button } from '@components/ui/Button';`
+- Components live in `src/components/` with two main categories:
+  - `src/components/ui/` - UI component library (Bootstrap-inspired)
+  - `src/components/proto/` - Proto component library (design mockups)
+- Pages live in `src/pages/` with co-located styles
 - **Page Structure Mirrors Routes**: Pages in `src/pages/` follow the route structure
-  - `/docs` → `src/pages/docs/DocsLandingPage.tsx` + `DocsLandingPage.module.css`
-  - `/docs/protos` → `src/pages/docs/ProtosLandingPage.tsx` + `ProtosLandingPage.module.css`
-  - `/docs/protos/:proto` → `src/pages/docs/ProtosViewerPage.tsx` + `ProtosViewerPage.module.css`
+  - `/docs` → `src/pages/docs/DocsLandingPage/`
+  - `/docs/protos` → `src/pages/docs/ProtosLandingPage/`
+  - `/docs/protos/:proto` → `src/pages/docs/ProtosViewerPage/`
 - Custom hooks live in `src/hooks/` for reusable logic
 - Use TypeScript interfaces for props
 - Functional components with hooks

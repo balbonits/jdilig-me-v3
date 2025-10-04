@@ -1,0 +1,37 @@
+@import "tailwindcss" reference;
+
+.error-wrapper {
+  @apply flex items-center justify-center min-h-screen p-4;
+}
+
+.error-content {
+  @apply text-center;
+}
+
+.error-title {
+  @apply text-2xl font-bold mb-2 text-red-600;
+
+  :global(.dark) & {
+    @apply text-red-400;
+  }
+}
+
+.error-text {
+  @apply mb-4 text-gray-600;
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}
+
+.error-link {
+  @apply underline text-blue-600 hover:text-blue-800;
+
+  :global(.dark) & {
+    @apply text-blue-400 hover:text-blue-300;
+  }
+}
+
+.container {
+  @apply p-8;
+}
