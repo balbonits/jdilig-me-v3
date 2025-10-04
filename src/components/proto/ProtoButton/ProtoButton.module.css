@@ -1,0 +1,39 @@
+/* ProtoButton - Button placeholder */
+@import "tailwindcss" reference;
+
+
+.proto-button {
+  @apply inline-flex items-center justify-center gap-2 rounded font-medium border-2;
+}
+
+.proto-button__icon {
+  @apply h-4 w-4;
+}
+
+/* Variants */
+.proto-button--primary {
+  @apply bg-gray-400 border-gray-500 text-white;
+}
+
+.proto-button--secondary {
+  @apply bg-gray-300 border-gray-400 text-gray-700;
+}
+
+.proto-button--outline {
+  @apply bg-transparent border-gray-400 text-gray-600;
+}
+
+/* Sizes */
+.proto-button--sm {
+  @apply px-2 py-1 text-xs;
+}
+
+.proto-button--md {
+  @apply px-4 py-2 text-sm;
+}
+
+.proto-button--lg {
+  @apply px-6 py-3 text-base;
+}
+
+/* Force light mode for wireframes - they are design mockups */

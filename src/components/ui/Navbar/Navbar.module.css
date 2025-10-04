@@ -1,0 +1,85 @@
+@import "tailwindcss" reference;
+
+/* Base navbar styles - mobile-first */
+.navbar {
+  @apply w-full shadow-sm border-b;
+
+  :global(.light) & {
+    @apply bg-white border-gray-200;
+  }
+
+  :global(.dark) & {
+    @apply bg-gray-900 border-gray-800;
+  }
+}
+
+/* Container with max-width and padding */
+.navbar__container {
+  @apply flex items-center justify-between;
+  @apply px-4 py-3;
+  @apply max-w-7xl mx-auto;
+}
+
+/* Brand section */
+.navbar__brand {
+  @apply flex items-center gap-2;
+  @apply font-semibold text-lg;
+
+  :global(.light) & {
+    @apply text-gray-900;
+  }
+
+  :global(.dark) & {
+    @apply text-white;
+  }
+}
+
+/* Content section (nav items, buttons, etc) */
+.navbar__content {
+  @apply flex items-center gap-4;
+}
+
+/* Fixed positioning */
+.navbar--fixed-top {
+  @apply fixed top-0 left-0 right-0 z-50;
+}
+
+.navbar--fixed-bottom {
+  @apply fixed bottom-0 left-0 right-0 z-50;
+  @apply border-t border-b-0;
+}
+
+/* Dark variant */
+.navbar--dark {
+  @apply bg-gray-900 border-gray-800;
+
+  :global(.dark) & {
+    @apply bg-gray-950 border-gray-900;
+  }
+
+  .navbar__brand {
+    @apply text-white;
+  }
+}
+
+/* Tablet and up - larger padding */
+@media (min-width: 768px) {
+  .navbar__container {
+    @apply px-6 py-4;
+  }
+
+  .navbar__brand {
+    @apply text-xl;
+  }
+
+  .navbar__content {
+    @apply gap-6;
+  }
+}
+
+/* Desktop - max container width */
+@media (min-width: 1024px) {
+  .navbar__container {
+    @apply px-8;
+  }
+}

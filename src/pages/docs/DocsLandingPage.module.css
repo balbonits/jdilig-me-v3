@@ -1,0 +1,73 @@
+@import "tailwindcss" reference;
+
+.container {
+  @apply max-w-4xl mx-auto px-6 py-12;
+}
+
+.card {
+  @apply border-2 rounded-lg p-8;
+
+  :global(.light) & {
+    @apply bg-white border-gray-300;
+  }
+
+  :global(.dark) & {
+    @apply bg-gray-800 border-gray-700;
+  }
+}
+
+.title {
+  @apply text-3xl font-bold mb-2;
+
+  :global(.light) & {
+    @apply text-gray-900;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+}
+
+.subtitle {
+  @apply mb-8;
+
+  :global(.light) & {
+    @apply text-gray-600;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}
+
+.toc {
+  @apply space-y-4;
+}
+
+.toc-item {
+  @apply flex gap-4 items-start;
+}
+
+.toc-number {
+  @apply font-mono text-sm w-8 flex-shrink-0;
+
+  :global(.light) & {
+    @apply text-gray-500;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-500;
+  }
+}
+
+.toc-link {
+  @apply text-lg hover:underline;
+
+  :global(.light) & {
+    @apply text-blue-600 hover:text-blue-800;
+  }
+
+  :global(.dark) & {
+    @apply text-blue-400 hover:text-blue-300;
+  }
+}

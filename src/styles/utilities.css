@@ -3,41 +3,41 @@
  * Reusable utility classes built on top of Tailwind
  */
 
-/* Theme Color Utilities using @apply */
+/* Theme Color Utilities */
 .text-primary {
-  @apply text-[--color-primary];
+  color: var(--color-primary);
 }
 
 .text-secondary {
-  @apply text-[--color-secondary];
+  color: var(--color-secondary);
 }
 
 .text-accent {
-  @apply text-[--color-accent];
+  color: var(--color-accent);
 }
 
 .bg-primary {
-  @apply bg-[--color-primary];
+  background-color: var(--color-primary);
 }
 
 .bg-secondary {
-  @apply bg-[--color-secondary];
+  background-color: var(--color-secondary);
 }
 
 .bg-accent {
-  @apply bg-[--color-accent];
+  background-color: var(--color-accent);
 }
 
 .border-primary {
-  @apply border-[--color-primary];
+  border-color: var(--color-primary);
 }
 
 .border-secondary {
-  @apply border-[--color-secondary];
+  border-color: var(--color-secondary);
 }
 
 .border-accent {
-  @apply border-[--color-accent];
+  border-color: var(--color-accent);
 }
 
 /* Common BEM Patterns */
@@ -46,29 +46,51 @@
 }
 
 .btn--primary {
-  @apply bg-[--color-primary] text-white hover:opacity-90;
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn--primary:hover {
+  opacity: 0.9;
 }
 
 .btn--secondary {
-  @apply bg-[--color-secondary] text-white hover:opacity-90;
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.btn--secondary:hover {
+  opacity: 0.9;
 }
 
 .btn--accent {
-  @apply bg-[--color-accent] text-white hover:opacity-90;
+  background-color: var(--color-accent);
+  color: white;
+}
+
+.btn--accent:hover {
+  opacity: 0.9;
 }
 
 .btn--outline {
-  @apply border-2 bg-transparent hover:bg-opacity-10;
+  @apply border-2 bg-transparent;
+}
+
+.btn--outline:hover {
+  opacity: 0.8;
 }
 
 .btn--outline.btn--primary {
-  @apply border-[--color-primary] text-[--color-primary] hover:bg-[--color-primary];
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .btn--outline.btn--secondary {
-  @apply border-[--color-secondary] text-[--color-secondary] hover:bg-[--color-secondary];
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
 }
 
 .btn--outline.btn--accent {
-  @apply border-[--color-accent] text-[--color-accent] hover:bg-[--color-accent];
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }

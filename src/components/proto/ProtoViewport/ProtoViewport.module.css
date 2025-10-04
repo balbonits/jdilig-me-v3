@@ -1,0 +1,29 @@
+/* ProtoViewport - Responsive viewport switcher */
+@import "tailwindcss" reference;
+
+
+.proto-viewport {
+  @apply flex flex-col gap-4 w-full;
+}
+
+.proto-viewport__controls {
+  @apply flex gap-2 justify-center p-4 bg-gray-50 border-2 border-gray-300 rounded;
+}
+
+.proto-viewport__button {
+  @apply cursor-pointer;
+}
+
+.proto-viewport__frame {
+  @apply border-2 border-gray-400 bg-white mx-auto transition-all duration-300 overflow-auto;
+  min-height: 400px;
+}
+
+/* Mobile-first responsive */
+@media (min-width: 768px) {
+  .proto-viewport__controls {
+    @apply justify-start;
+  }
+}
+
+/* Force light mode for wireframes - they are design mockups */

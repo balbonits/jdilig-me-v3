@@ -1,0 +1,103 @@
+@import "tailwindcss" reference;
+
+/* Base input group container */
+.input-group {
+  @apply flex w-full;
+}
+
+/* Size variants */
+.input-group--sm {
+  @apply text-sm;
+}
+
+.input-group--md {
+  @apply text-base;
+}
+
+.input-group--lg {
+  @apply text-lg;
+}
+
+/* Prepend addon */
+.input-group__prepend {
+  @apply flex items-center px-3 py-2 bg-gray-100 border border-gray-300 border-r-0;
+  @apply rounded-l-md;
+
+  :global(.dark) & {
+    @apply bg-gray-800 border-gray-600;
+  }
+}
+
+/* Input wrapper */
+.input-group__input {
+  @apply flex-1 flex items-center;
+}
+
+/* Remove border radius from input when it has siblings */
+.input-group__prepend + .input-group__input :global(input),
+.input-group__prepend + .input-group__input :global(textarea),
+.input-group__prepend + .input-group__input :global(select) {
+  @apply rounded-l-none;
+}
+
+.input-group__input:has(+ .input-group__append) :global(input),
+.input-group__input:has(+ .input-group__append) :global(textarea),
+.input-group__input:has(+ .input-group__append) :global(select) {
+  @apply rounded-r-none;
+}
+
+.input-group__prepend + .input-group__input:has(+ .input-group__append) :global(input),
+.input-group__prepend + .input-group__input:has(+ .input-group__append) :global(textarea),
+.input-group__prepend + .input-group__input:has(+ .input-group__append) :global(select) {
+  @apply rounded-none;
+}
+
+/* Ensure input fills the wrapper */
+.input-group__input :global(input),
+.input-group__input :global(textarea),
+.input-group__input :global(select) {
+  @apply w-full;
+}
+
+/* Append addon */
+.input-group__append {
+  @apply flex items-center px-3 py-2 bg-gray-100 border border-gray-300 border-l-0;
+  @apply rounded-r-md;
+
+  :global(.dark) & {
+    @apply bg-gray-800 border-gray-600;
+  }
+}
+
+/* Size-specific padding adjustments */
+.input-group--sm .input-group__prepend,
+.input-group--sm .input-group__append {
+  @apply px-2 py-1;
+}
+
+.input-group--lg .input-group__prepend,
+.input-group--lg .input-group__append {
+  @apply px-4 py-3;
+}
+
+/* Ensure buttons in addons don't have conflicting margins */
+.input-group__prepend :global(button),
+.input-group__append :global(button) {
+  @apply m-0;
+}
+
+/* Handle icon sizing in addons */
+.input-group--sm .input-group__prepend :global(svg),
+.input-group--sm .input-group__append :global(svg) {
+  @apply w-4 h-4;
+}
+
+.input-group--md .input-group__prepend :global(svg),
+.input-group--md .input-group__append :global(svg) {
+  @apply w-5 h-5;
+}
+
+.input-group--lg .input-group__prepend :global(svg),
+.input-group--lg .input-group__append :global(svg) {
+  @apply w-6 h-6;
+}

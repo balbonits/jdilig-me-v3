@@ -1,0 +1,34 @@
+/* ProtoIcon - Icon wireframe component */
+@import "tailwindcss" reference;
+
+
+.proto-icon-wrapper {
+  @apply inline-flex flex-col items-center gap-1;
+}
+
+.proto-icon {
+  @apply text-gray-500;
+}
+
+/* Sizes */
+.proto-icon--sm {
+  @apply h-4 w-4;
+}
+
+.proto-icon--md {
+  @apply h-6 w-6;
+}
+
+.proto-icon--lg {
+  @apply h-8 w-8;
+}
+
+.proto-icon--xl {
+  @apply h-12 w-12;
+}
+
+.proto-icon__label {
+  @apply text-xs text-gray-500 font-mono;
+}
+
+/* Force light mode for wireframes - they are design mockups */

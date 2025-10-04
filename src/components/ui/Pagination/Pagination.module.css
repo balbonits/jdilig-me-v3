@@ -1,0 +1,181 @@
+@import "tailwindcss" reference;
+
+/* Pagination Container */
+.pagination {
+  @apply flex items-center justify-center gap-1;
+}
+
+/* Size Variants */
+.pagination--sm {
+  @apply gap-0.5;
+}
+
+.pagination--md {
+  @apply gap-1;
+}
+
+.pagination--lg {
+  @apply gap-2;
+}
+
+/* Page Numbers Container */
+.pagination__pages {
+  @apply flex items-center gap-1;
+}
+
+.pagination--sm .pagination__pages {
+  @apply gap-0.5;
+}
+
+.pagination--lg .pagination__pages {
+  @apply gap-2;
+}
+
+/* Base Button Styles */
+.pagination__button {
+  @apply inline-flex items-center justify-center;
+  @apply border border-gray-300 rounded;
+  @apply bg-white text-gray-700;
+  @apply transition-colors duration-200;
+  @apply cursor-pointer;
+  @apply font-medium;
+
+  :global(.dark) & {
+    @apply bg-gray-800 text-gray-200 border-gray-600;
+  }
+}
+
+.pagination__button:hover:not(:disabled) {
+  @apply bg-gray-50 border-gray-400;
+
+  :global(.dark) & {
+    @apply bg-gray-700 border-gray-500;
+  }
+}
+
+.pagination__button:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+.pagination__button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Navigation Buttons (Prev/Next/First/Last) */
+.pagination__button--nav {
+  @apply px-2 py-2;
+}
+
+.pagination--sm .pagination__button--nav {
+  @apply px-1.5 py-1.5;
+}
+
+.pagination--md .pagination__button--nav {
+  @apply px-2 py-2;
+}
+
+.pagination--lg .pagination__button--nav {
+  @apply px-3 py-3;
+}
+
+/* Page Number Buttons */
+.pagination__button--page {
+  @apply min-w-8 px-3 py-2;
+}
+
+.pagination--sm .pagination__button--page {
+  @apply min-w-6 px-2 py-1 text-sm;
+}
+
+.pagination--md .pagination__button--page {
+  @apply min-w-8 px-3 py-2 text-base;
+}
+
+.pagination--lg .pagination__button--page {
+  @apply min-w-10 px-4 py-2.5 text-lg;
+}
+
+/* Active Page Button */
+.pagination__button--active {
+  @apply bg-blue-600 text-white border-blue-600;
+
+  :global(.dark) & {
+    @apply bg-blue-500 border-blue-500;
+  }
+}
+
+.pagination__button--active:hover:not(:disabled) {
+  @apply bg-blue-700 border-blue-700;
+
+  :global(.dark) & {
+    @apply bg-blue-600 border-blue-600;
+  }
+}
+
+/* Icon Styles */
+.pagination__icon {
+  @apply w-5 h-5;
+}
+
+.pagination--sm .pagination__icon {
+  @apply w-4 h-4;
+}
+
+.pagination--md .pagination__icon {
+  @apply w-5 h-5;
+}
+
+.pagination--lg .pagination__icon {
+  @apply w-6 h-6;
+}
+
+/* Ellipsis */
+.pagination__ellipsis {
+  @apply inline-flex items-center justify-center;
+  @apply min-w-8 px-2 py-2;
+  @apply text-gray-500;
+  @apply select-none;
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}
+
+.pagination--sm .pagination__ellipsis {
+  @apply min-w-6 px-1.5 py-1 text-sm;
+}
+
+.pagination--md .pagination__ellipsis {
+  @apply min-w-8 px-2 py-2 text-base;
+}
+
+.pagination--lg .pagination__ellipsis {
+  @apply min-w-10 px-3 py-2.5 text-lg;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 640px) {
+  .pagination__button--page {
+    @apply min-w-7 px-2 text-sm;
+  }
+
+  .pagination__button--nav {
+    @apply px-1.5 py-1.5;
+  }
+
+  .pagination__icon {
+    @apply w-4 h-4;
+  }
+
+  .pagination--lg .pagination__button--page {
+    @apply min-w-9 px-3 text-base;
+  }
+
+  .pagination--lg .pagination__button--nav {
+    @apply px-2.5 py-2.5;
+  }
+
+  .pagination--lg .pagination__icon {
+    @apply w-5 h-5;
+  }
+}

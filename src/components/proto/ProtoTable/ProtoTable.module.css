@@ -1,0 +1,30 @@
+/* ProtoTable - Data table wireframe */
+@import "tailwindcss" reference;
+
+.proto-table {
+  @apply w-full overflow-x-auto;
+}
+
+.proto-table__table {
+  @apply w-full border-collapse border-2 border-gray-400;
+}
+
+.proto-table__thead {
+  @apply bg-gray-200 border-b-2 border-gray-400;
+}
+
+.proto-table__th {
+  @apply border border-gray-400 p-2 md:p-3 text-left;
+}
+
+.proto-table__tr {
+  @apply border-b border-gray-300;
+}
+
+.proto-table__td {
+  @apply border border-gray-300 p-2 md:p-3;
+}
+
+.proto-table__cell-content {
+  @apply h-4 bg-gray-300 rounded w-3/4;
+}

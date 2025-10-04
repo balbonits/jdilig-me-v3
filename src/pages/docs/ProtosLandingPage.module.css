@@ -1,0 +1,91 @@
+@import "tailwindcss" reference;
+
+.container {
+  @apply p-8;
+}
+
+.content {
+  @apply max-w-6xl;
+}
+
+.title {
+  @apply text-3xl font-bold mb-2;
+
+  :global(.light) & {
+    @apply text-gray-900;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+}
+
+.subtitle {
+  @apply mb-8;
+
+  :global(.light) & {
+    @apply text-gray-600;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}
+
+.grid {
+  @apply grid gap-6 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.card-link {
+  @apply block;
+}
+
+.card {
+  @apply border-2 rounded-lg p-6 h-64 flex flex-col items-center justify-center transition-colors;
+
+  :global(.light) & {
+    @apply bg-white border-gray-300 hover:border-blue-400;
+  }
+
+  :global(.dark) & {
+    @apply bg-gray-800 border-gray-700 hover:border-blue-500;
+  }
+}
+
+.card-content {
+  @apply text-center;
+}
+
+.card-title {
+  @apply text-xl font-semibold mb-2;
+
+  :global(.light) & {
+    @apply text-gray-900;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+
+  :global(.group):hover & {
+    :global(.light) & {
+      @apply text-blue-600;
+    }
+
+    :global(.dark) & {
+      @apply text-blue-400;
+    }
+  }
+}
+
+.card-description {
+  @apply text-sm;
+
+  :global(.light) & {
+    @apply text-gray-500;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}

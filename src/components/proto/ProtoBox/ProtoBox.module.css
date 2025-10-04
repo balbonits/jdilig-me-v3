@@ -1,0 +1,25 @@
+/* ProtoBox - Base wireframe container */
+@import "tailwindcss" reference;
+
+
+.proto-box {
+  @apply border-2 border-gray-400 bg-gray-50 rounded flex items-center justify-center relative;
+}
+
+.proto-box--solid {
+  @apply border-solid;
+}
+
+.proto-box--dashed {
+  @apply border-dashed;
+}
+
+.proto-box--dotted {
+  @apply border-dotted;
+}
+
+.proto-box__label {
+  @apply absolute top-2 left-2 text-xs text-gray-600 font-mono bg-gray-50 px-1 rounded z-10;
+}
+
+/* Force light mode for wireframes - they are design mockups */

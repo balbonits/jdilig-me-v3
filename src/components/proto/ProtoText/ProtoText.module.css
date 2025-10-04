@@ -1,0 +1,24 @@
+/* ProtoText - Placeholder text lines */
+@import "tailwindcss" reference;
+
+.proto-text {
+  @apply flex flex-col;
+}
+
+.proto-text__line {
+  @apply h-2 bg-gray-300 rounded mb-2;
+}
+
+.proto-text__line--heading {
+  @apply h-4 bg-gray-400;
+}
+
+.proto-text__line--paragraph {
+  @apply h-2 bg-gray-300;
+}
+
+.proto-text__line--caption {
+  @apply h-1 bg-gray-200;
+}
+
+/* Force light mode for wireframes - they are design mockups */

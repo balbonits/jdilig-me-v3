@@ -1,17 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git rev-parse:*)",
-      "Bash(npm create:*)",
-      "Bash(npx create-vite:*)",
-      "Bash(npm install)",
-      "Bash(npm install:*)",
-      "WebSearch",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:wiredjs.com)",
-      "Bash(npm run dev:*)",
-      "Bash(cat:*)",
-      "Bash(git add:*)"
+      "Bash(del NUL)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Implement class-based dark mode with SiteHeader and theme toggle\n\nMajor changes:\n- Replace wireframe library with proto component library\n- Add UI component library (Bootstrap-inspired React components)\n- Implement custom class-based dark mode using :global(.light)/:global(.dark)\n- Add SiteHeader component with theme toggle button\n- Create useTheme hook with localStorage persistence\n- Convert all components and pages to use CSS Modules with BEM naming\n- Update all styling to use theme-aware :global() selectors\n\nTheme System:\n- NEVER use Tailwind''s dark: utilities (Tailwind v4 alpha limitation)\n- ALWAYS use :global(.light) and :global(.dark) in CSS modules\n- Theme managed by useTheme hook with localStorage\n- Toggle button in SiteHeader (moon/sun icons)\n\nComponent Libraries:\n- Proto Library: Design prototyping components in src/components/proto/\n- UI Library: Bootstrap-inspired components in src/components/ui/\n- All components use CSS Modules with BEM naming convention\n\nDocumentation:\n- Updated CLAUDE.md with dark mode implementation details\n- Added PROTO_LIBRARY.md and UI_COMPONENT_LIBRARY.md\n- Documented Tailwind v4 dark mode limitation and workaround\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,51 @@
+@import "tailwindcss" reference;
+
+/* Base button group - horizontal by default (mobile-first) */
+.button-group {
+  @apply inline-flex;
+}
+
+/* Remove border radius from middle buttons in horizontal group */
+.button-group > button:not(:first-child):not(:last-child) {
+  @apply rounded-none;
+}
+
+/* First button - keep left rounded corners in horizontal group */
+.button-group > button:first-child {
+  @apply rounded-r-none;
+}
+
+/* Last button - keep right rounded corners in horizontal group */
+.button-group > button:last-child {
+  @apply rounded-l-none;
+}
+
+/* Merge borders between buttons in horizontal group */
+.button-group > button:not(:last-child) {
+  @apply border-r-0;
+}
+
+/* Vertical button group */
+.button-group--vertical {
+  @apply flex-col;
+}
+
+/* Remove border radius from middle buttons in vertical group */
+.button-group--vertical > button:not(:first-child):not(:last-child) {
+  @apply rounded-none;
+}
+
+/* First button - keep top rounded corners in vertical group */
+.button-group--vertical > button:first-child {
+  @apply rounded-b-none rounded-r-lg;
+}
+
+/* Last button - keep bottom rounded corners in vertical group */
+.button-group--vertical > button:last-child {
+  @apply rounded-t-none rounded-l-lg;
+}
+
+/* Merge borders between buttons in vertical group */
+.button-group--vertical > button:not(:last-child) {
+  @apply border-b-0 border-r;
+}

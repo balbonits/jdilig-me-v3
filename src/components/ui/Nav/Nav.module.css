@@ -1,0 +1,69 @@
+@import "tailwindcss" reference;
+
+/* Base nav styles - mobile-first */
+.nav {
+  @apply flex gap-2;
+}
+
+/* Vertical layout */
+.nav--vertical {
+  @apply flex-col;
+}
+
+/* Nav item base styles */
+.nav__item {
+  @apply px-4 py-2;
+  @apply font-medium text-sm;
+  @apply transition-all duration-200;
+  @apply cursor-pointer;
+  @apply bg-transparent;
+  @apply border-0;
+  @apply text-left;
+  @apply whitespace-nowrap;
+}
+
+/* Tabs variant */
+.nav--tabs .nav__item {
+  @apply text-gray-600 border-b-2 border-transparent;
+  @apply hover:text-gray-900 hover:border-gray-300;
+
+  :global(.dark) & {
+    @apply text-gray-400 hover:text-gray-200 hover:border-gray-600;
+  }
+}
+
+.nav--tabs .nav__item--active {
+  @apply text-blue-600 border-blue-600;
+  @apply hover:text-blue-700 hover:border-blue-700;
+
+  :global(.dark) & {
+    @apply text-blue-400 border-blue-400 hover:text-blue-300 hover:border-blue-300;
+  }
+}
+
+/* Pills variant */
+.nav--pills .nav__item {
+  @apply rounded-lg text-gray-600;
+  @apply hover:bg-gray-100 hover:text-gray-900;
+
+  :global(.dark) & {
+    @apply text-gray-400 hover:bg-gray-800 hover:text-gray-200;
+  }
+}
+
+.nav--pills .nav__item--active {
+  @apply bg-blue-600 text-white;
+  @apply hover:bg-blue-700;
+}
+
+/* Vertical tabs */
+.nav--vertical.nav--tabs .nav__item {
+  @apply border-b-0 border-l-2;
+}
+
+/* Tablet and up - larger touch targets */
+@media (min-width: 768px) {
+  .nav__item {
+    @apply px-6 py-2.5 text-base;
+  }
+}

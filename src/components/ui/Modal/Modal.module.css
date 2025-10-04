@@ -1,0 +1,83 @@
+@import "tailwindcss" reference;
+
+/* Overlay backdrop */
+.modal__overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50;
+
+  :global(.dark) & {
+    @apply bg-black/70;
+  }
+}
+
+/* Modal dialog */
+.modal {
+  @apply relative bg-white rounded-lg shadow-xl max-h-[90vh] flex flex-col;
+
+  :global(.dark) & {
+    @apply bg-gray-800;
+  }
+}
+
+/* Size variants */
+.modal--sm {
+  width: 384px;
+  max-width: calc(100vw - 2rem);
+}
+
+.modal--md {
+  width: 512px;
+  max-width: calc(100vw - 2rem);
+}
+
+.modal--lg {
+  width: 640px;
+  max-width: calc(100vw - 2rem);
+}
+
+.modal--xl {
+  width: 768px;
+  max-width: calc(100vw - 2rem);
+}
+
+/* Header */
+.modal__header {
+  @apply flex items-center justify-between border-b border-gray-200 px-6 py-4;
+
+  :global(.dark) & {
+    @apply border-gray-700;
+  }
+}
+
+.modal__title {
+  @apply text-xl font-semibold text-gray-900 m-0;
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+}
+
+.modal__close {
+  @apply p-2 text-gray-400 hover:text-gray-600 transition-colors rounded-lg hover:bg-gray-100 -mr-2;
+
+  :global(.dark) & {
+    @apply hover:text-gray-200 hover:bg-gray-700;
+  }
+}
+
+.modal__close_icon {
+  @apply w-5 h-5;
+}
+
+/* Body */
+.modal__body {
+  @apply flex-1 overflow-y-auto px-6 py-4;
+}
+
+/* Footer */
+.modal__footer {
+  @apply border-t border-gray-200 px-6 py-4 flex items-center justify-end gap-3;
+
+  :global(.dark) & {
+    @apply border-gray-700;
+  }
+}

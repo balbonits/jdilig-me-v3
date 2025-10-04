@@ -1,0 +1,109 @@
+@import "tailwindcss" reference;
+
+/* Wrapper for trigger element */
+.tooltip__wrapper {
+  @apply relative inline-block;
+  @apply w-fit;
+}
+
+/* Base tooltip styles */
+.tooltip {
+  @apply absolute z-50;
+  @apply opacity-0 invisible;
+  @apply transition-opacity duration-200;
+  @apply pointer-events-none;
+}
+
+/* Visible state */
+.tooltip--visible {
+  @apply opacity-100 visible;
+}
+
+/* Tooltip content box */
+.tooltip__content {
+  @apply bg-gray-900 text-white;
+  @apply px-3 py-2;
+  @apply rounded-lg;
+  @apply text-sm;
+  @apply whitespace-nowrap;
+  @apply shadow-lg;
+
+  :global(.dark) & {
+    @apply bg-gray-800 text-gray-100 shadow-2xl;
+  }
+}
+
+/* Arrow base styles */
+.tooltip__arrow {
+  @apply absolute;
+  @apply w-0 h-0;
+  @apply border-solid;
+}
+
+/* Placement: Top */
+.tooltip--top {
+  @apply bottom-full left-1/2;
+  @apply -translate-x-1/2 -translate-y-2;
+}
+
+.tooltip__arrow--top {
+  @apply top-full left-1/2;
+  @apply -translate-x-1/2;
+  @apply border-t-8 border-t-gray-900;
+  @apply border-x-8 border-x-transparent;
+
+  :global(.dark) & {
+    @apply border-t-gray-800;
+  }
+}
+
+/* Placement: Bottom */
+.tooltip--bottom {
+  @apply top-full left-1/2;
+  @apply -translate-x-1/2 translate-y-2;
+}
+
+.tooltip__arrow--bottom {
+  @apply bottom-full left-1/2;
+  @apply -translate-x-1/2;
+  @apply border-b-8 border-b-gray-900;
+  @apply border-x-8 border-x-transparent;
+
+  :global(.dark) & {
+    @apply border-b-gray-800;
+  }
+}
+
+/* Placement: Left */
+.tooltip--left {
+  @apply right-full top-1/2;
+  @apply -translate-y-1/2 -translate-x-2;
+}
+
+.tooltip__arrow--left {
+  @apply left-full top-1/2;
+  @apply -translate-y-1/2;
+  @apply border-l-8 border-l-gray-900;
+  @apply border-y-8 border-y-transparent;
+
+  :global(.dark) & {
+    @apply border-l-gray-800;
+  }
+}
+
+/* Placement: Right */
+.tooltip--right {
+  @apply left-full top-1/2;
+  @apply -translate-y-1/2 translate-x-2;
+}
+
+.tooltip__arrow--right {
+  @apply right-full top-1/2;
+  @apply -translate-y-1/2;
+  @apply border-r-8 border-r-gray-900;
+  @apply border-y-8 border-y-transparent;
+
+  :global(.dark) & {
+    @apply border-r-gray-800;
+  }
+}

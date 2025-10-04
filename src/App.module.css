@@ -1,0 +1,45 @@
+@import "tailwindcss" reference;
+
+.page {
+  @apply min-h-screen flex items-center justify-center;
+
+  :global(.light) & {
+    @apply bg-gray-100;
+  }
+
+  :global(.dark) & {
+    @apply bg-gray-900;
+  }
+}
+
+.content {
+  @apply text-center;
+}
+
+.title {
+  @apply text-4xl font-bold mb-4;
+
+  :global(.light) & {
+    @apply text-gray-900;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+}
+
+.nav {
+  @apply flex gap-4 justify-center mt-4;
+}
+
+.link {
+  @apply underline;
+
+  :global(.light) & {
+    @apply text-blue-600 hover:text-blue-800;
+  }
+
+  :global(.dark) & {
+    @apply text-blue-400 hover:text-blue-300;
+  }
+}

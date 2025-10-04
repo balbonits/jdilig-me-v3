@@ -1,0 +1,68 @@
+@import "tailwindcss" reference;
+
+/* ProtoForm Container */
+.proto-form {
+  @apply flex flex-col gap-6 p-4 md:p-6;
+}
+
+/* Form Fields Wrapper */
+.proto-form__fields {
+  @apply flex flex-col gap-4;
+}
+
+/* Individual Field Container */
+.proto-form__field {
+  @apply flex flex-col gap-2;
+}
+
+/* Field Width Variants */
+.proto-form__field--full {
+  @apply w-full;
+}
+
+.proto-form__field--half {
+  @apply w-full md:w-1/2;
+}
+
+.proto-form__field--third {
+  @apply w-full md:w-1/3;
+}
+
+.proto-form__field--two-thirds {
+  @apply w-full md:w-2/3;
+}
+
+/* Labels (gray bars) */
+.proto-form__label {
+  @apply h-4 bg-gray-300 rounded w-24;
+}
+
+/* Inputs (gray rectangles with borders) */
+.proto-form__input {
+  @apply h-10 bg-gray-100 border-2 border-gray-300 rounded px-3;
+}
+
+/* Textareas (taller gray rectangles) */
+.proto-form__textarea {
+  @apply h-24 bg-gray-100 border-2 border-gray-300 rounded p-3 resize-none;
+}
+
+/* Checkbox Container */
+.proto-form__checkbox-wrapper {
+  @apply flex items-center gap-2;
+}
+
+/* Checkboxes (small squares) */
+.proto-form__checkbox {
+  @apply w-5 h-5 bg-gray-100 border-2 border-gray-300 rounded;
+}
+
+/* Checkbox Label */
+.proto-form__checkbox-label {
+  @apply h-4 bg-gray-300 rounded w-32;
+}
+
+/* Submit Button (gray rounded rectangle) */
+.proto-form__submit {
+  @apply h-12 bg-gray-400 rounded-lg mt-4 w-full md:w-auto md:px-12;
+}

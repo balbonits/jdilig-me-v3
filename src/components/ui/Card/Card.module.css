@@ -1,0 +1,41 @@
+@import "tailwindcss" reference;
+
+.card {
+  @apply border border-gray-300 rounded-lg shadow-sm bg-white;
+
+  :global(.dark) & {
+    @apply border-gray-700 bg-gray-800;
+  }
+}
+
+.card__header {
+  @apply border-b border-gray-300 px-4 py-3;
+
+  @media (min-width: 768px) {
+    @apply px-6 py-4;
+  }
+
+  :global(.dark) & {
+    @apply border-gray-700;
+  }
+}
+
+.card__body {
+  @apply p-4;
+
+  @media (min-width: 768px) {
+    @apply p-6;
+  }
+}
+
+.card__footer {
+  @apply border-t border-gray-300 px-4 py-3;
+
+  @media (min-width: 768px) {
+    @apply px-6 py-4;
+  }
+
+  :global(.dark) & {
+    @apply border-gray-700;
+  }
+}

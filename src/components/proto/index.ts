@@ -1,0 +1,33 @@
+// Proto component library - export barrel
+export { ProtoBox } from './ProtoBox';
+export { ProtoText } from './ProtoText';
+export { ProtoButton } from './ProtoButton';
+export { ProtoImage } from './ProtoImage';
+export { ProtoIcon } from './ProtoIcon';
+export { ProtoNav, ProtoViewportContext } from './ProtoNav';
+export { ProtoSidebar } from './ProtoSidebar';
+export { ProtoCard } from './ProtoCard';
+export { ProtoViewport } from './ProtoViewport';
+export { ProtoViewer } from './ProtoViewer';
+export { ProtoTable } from './ProtoTable';
+export { ProtoForm } from './ProtoForm';
+export { ProtoBadge } from './ProtoBadge';
+export { ProtoAvatar } from './ProtoAvatar';
+export { ProtoTabs } from './ProtoTabs';
+export { ProtoModal } from './ProtoModal';
+
+export type { ProtoBoxProps } from './ProtoBox';
+export type { ProtoTextProps } from './ProtoText';
+export type { ProtoButtonProps } from './ProtoButton';
+export type { ProtoImageProps } from './ProtoImage';
+export type { ProtoIconProps } from './ProtoIcon';
+export type { ProtoNavProps } from './ProtoNav';
+export type { ProtoSidebarProps } from './ProtoSidebar';
+export type { ProtoCardProps } from './ProtoCard';
+export type { ProtoViewportProps } from './ProtoViewport';
+export type { ProtoTableProps } from './ProtoTable';
+export type { ProtoFormProps, ProtoFormField } from './ProtoForm';
+export type { ProtoBadgeProps } from './ProtoBadge';
+export type { ProtoAvatarProps } from './ProtoAvatar';
+export type { ProtoTabsProps } from './ProtoTabs';
+export type { ProtoModalProps } from './ProtoModal';

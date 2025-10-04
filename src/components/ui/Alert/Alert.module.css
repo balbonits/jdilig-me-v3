@@ -1,0 +1,101 @@
+@import "tailwindcss" reference;
+
+/* Base Alert */
+.alert {
+  @apply flex items-start justify-between gap-3 p-4 rounded-lg border;
+}
+
+/* Alert Content */
+.alert__content {
+  @apply flex-1;
+}
+
+/* Dismiss Button */
+.alert__dismiss {
+  @apply flex-shrink-0 p-1 -m-1 rounded-md transition-colors;
+  @apply hover:bg-black/10 focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+/* Dismiss Icon */
+.alert__icon {
+  @apply w-5 h-5;
+}
+
+/* Primary Variant */
+.alert--primary {
+  @apply bg-blue-50 border-blue-200 text-blue-900;
+}
+
+.alert--primary .alert__dismiss {
+  @apply text-blue-700 hover:bg-blue-100 focus:ring-blue-500;
+}
+
+/* Secondary Variant */
+.alert--secondary {
+  @apply bg-purple-50 border-purple-200 text-purple-900;
+}
+
+.alert--secondary .alert__dismiss {
+  @apply text-purple-700 hover:bg-purple-100 focus:ring-purple-500;
+}
+
+/* Success Variant */
+.alert--success {
+  @apply bg-green-50 border-green-200 text-green-900;
+}
+
+.alert--success .alert__dismiss {
+  @apply text-green-700 hover:bg-green-100 focus:ring-green-500;
+}
+
+/* Danger Variant */
+.alert--danger {
+  @apply bg-red-50 border-red-200 text-red-900;
+}
+
+.alert--danger .alert__dismiss {
+  @apply text-red-700 hover:bg-red-100 focus:ring-red-500;
+}
+
+/* Warning Variant */
+.alert--warning {
+  @apply bg-yellow-50 border-yellow-200 text-yellow-900;
+}
+
+.alert--warning .alert__dismiss {
+  @apply text-yellow-700 hover:bg-yellow-100 focus:ring-yellow-500;
+}
+
+/* Info Variant */
+.alert--info {
+  @apply bg-blue-50 border-blue-200 text-blue-900;
+}
+
+.alert--info .alert__dismiss {
+  @apply text-blue-700 hover:bg-blue-100 focus:ring-blue-500;
+}
+
+/* Light Variant */
+.alert--light {
+  @apply bg-gray-50 border-gray-200 text-gray-900;
+}
+
+.alert--light .alert__dismiss {
+  @apply text-gray-700 hover:bg-gray-100 focus:ring-gray-500;
+}
+
+/* Dark Variant */
+.alert--dark {
+  @apply bg-gray-800 border-gray-700 text-gray-100;
+}
+
+.alert--dark .alert__dismiss {
+  @apply text-gray-300 hover:bg-gray-700 focus:ring-gray-500;
+}
+
+/* Responsive - Tablet and up */
+@media (min-width: 768px) {
+  .alert {
+    @apply p-5;
+  }
+}

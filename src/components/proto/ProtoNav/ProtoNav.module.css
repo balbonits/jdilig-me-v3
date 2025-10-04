@@ -1,0 +1,65 @@
+/* ProtoNav - Navigation bar wireframe */
+@import "tailwindcss" reference;
+
+
+.proto-nav {
+  @apply w-full border-b-2 border-gray-400 bg-gray-100 px-4 py-3 relative;
+}
+
+.proto-nav--top {
+  @apply border-b-2 border-t-0;
+}
+
+.proto-nav--bottom {
+  @apply border-t-2 border-b-0;
+}
+
+/* Header with brand and menu */
+.proto-nav__header {
+  @apply flex items-center justify-between;
+}
+
+.proto-nav__brand {
+  @apply px-3 py-1 text-sm font-bold text-gray-700 bg-gray-200 rounded;
+}
+
+/* Hamburger Menu Button */
+.proto-nav__hamburger {
+  @apply block p-2 bg-transparent border-0 cursor-pointer;
+}
+
+.proto-nav__hamburger-icon {
+  @apply w-6 h-5 flex flex-col justify-between;
+}
+
+.proto-nav__hamburger-line {
+  @apply w-full h-0.5 bg-gray-600 rounded transition-all;
+}
+
+.proto-nav__hamburger:hover .proto-nav__hamburger-line {
+  @apply bg-gray-800;
+}
+
+/* Full Navigation Menu - Desktop/Tablet */
+.proto-nav__container {
+  @apply flex gap-4;
+}
+
+.proto-nav__item {
+  @apply px-3 py-1 text-sm font-medium text-gray-600 bg-gray-200 rounded;
+}
+
+/* Mobile Dropdown Menu - Fullscreen overlay within proto viewer */
+.proto-nav__mobile-menu {
+  @apply absolute top-0 left-0 w-full h-screen bg-gray-100 flex flex-col gap-2 p-4 pt-16 z-50;
+}
+
+.proto-nav__close {
+  @apply absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-2xl text-gray-600 bg-gray-200 rounded border-0 cursor-pointer hover:bg-gray-300 hover:text-gray-800;
+}
+
+.proto-nav__mobile-item {
+  @apply px-3 py-2 text-sm font-medium text-gray-600 bg-gray-200 rounded;
+}
+
+/* Force light mode for wireframes - they are design mockups */

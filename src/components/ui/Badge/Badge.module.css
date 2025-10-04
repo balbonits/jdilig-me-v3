@@ -1,0 +1,54 @@
+@import "tailwindcss" reference;
+
+/* Base badge styles */
+.badge {
+  @apply inline-block px-2 py-1 text-xs font-medium leading-tight;
+}
+
+/* Pill variant - fully rounded */
+.badge--pill {
+  @apply rounded-full;
+}
+
+/* Color variants */
+.badge--primary {
+  @apply bg-blue-500 text-white rounded;
+}
+
+.badge--secondary {
+  @apply bg-purple-500 text-white rounded;
+}
+
+.badge--success {
+  @apply bg-green-500 text-white rounded;
+}
+
+.badge--danger {
+  @apply bg-red-500 text-white rounded;
+}
+
+.badge--warning {
+  @apply bg-yellow-500 text-gray-900 rounded;
+}
+
+.badge--info {
+  @apply bg-blue-500 text-white rounded;
+}
+
+.badge--light {
+  @apply bg-gray-200 text-gray-900 rounded;
+
+  :global(.dark) & {
+    @apply bg-gray-700 text-gray-100;
+  }
+}
+
+.badge--dark {
+  @apply bg-gray-800 text-white rounded;
+}
+
+.badge--warning {
+  :global(.dark) & {
+    @apply text-gray-800;
+  }
+}

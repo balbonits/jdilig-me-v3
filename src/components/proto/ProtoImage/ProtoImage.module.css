@@ -1,0 +1,17 @@
+/* ProtoImage - Image placeholder */
+@import "tailwindcss" reference;
+
+
+.proto-image {
+  @apply border-2 border-dashed border-gray-400 bg-gray-100 flex flex-col items-center justify-center relative rounded;
+}
+
+.proto-image__icon {
+  @apply text-4xl text-gray-400;
+}
+
+.proto-image__label {
+  @apply absolute bottom-2 text-xs text-gray-500 font-mono bg-gray-100 px-2 py-1 rounded;
+}
+
+/* Force light mode for wireframes - they are design mockups */

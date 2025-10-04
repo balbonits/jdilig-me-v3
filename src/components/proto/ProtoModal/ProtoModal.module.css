@@ -1,0 +1,63 @@
+@import "tailwindcss" reference;
+
+/* Overlay backdrop */
+.modal__overlay {
+  @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50;
+}
+
+/* Modal container */
+.modal {
+  @apply bg-white rounded-lg shadow-xl overflow-hidden;
+  position: absolute;
+}
+
+.dark .modal {
+  @apply bg-gray-800;
+}
+
+/* Size variants */
+.modal--sm {
+  @apply w-80 max-w-full;
+}
+
+.modal--md {
+  @apply w-96 max-w-full;
+}
+
+.modal--lg {
+  @apply w-[32rem] max-w-full;
+}
+
+.modal--xl {
+  @apply w-[48rem] max-w-full;
+}
+
+/* Header section */
+.modal__header {
+  @apply bg-gray-200 p-4 border-b border-gray-300;
+  min-height: 3rem;
+}
+
+.dark .modal__header {
+  @apply bg-gray-700 border-gray-600;
+}
+
+/* Content area */
+.modal__content {
+  @apply p-6 border border-gray-300;
+  min-height: 8rem;
+}
+
+.dark .modal__content {
+  @apply border-gray-600;
+}
+
+/* Footer section */
+.modal__footer {
+  @apply bg-gray-200 p-4 border-t border-gray-300;
+  min-height: 3rem;
+}
+
+.dark .modal__footer {
+  @apply bg-gray-700 border-gray-600;
+}

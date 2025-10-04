@@ -1,0 +1,173 @@
+@import "tailwindcss" reference;
+
+/* Base button styles */
+.button {
+  @apply inline-flex items-center justify-center;
+  @apply font-medium rounded-lg;
+  @apply transition-colors duration-200;
+  @apply cursor-pointer;
+  @apply border border-transparent;
+}
+
+/* Size variants - mobile-first */
+.button--sm {
+  @apply px-3 py-1.5 text-sm;
+}
+
+.button--md {
+  @apply px-4 py-2 text-base;
+}
+
+.button--lg {
+  @apply px-6 py-3 text-lg;
+}
+
+/* Primary variant */
+.button--primary {
+  @apply bg-blue-600 text-white;
+  @apply hover:bg-blue-700;
+  @apply active:bg-blue-800;
+}
+
+.button--primary.button--outline {
+  @apply bg-transparent text-blue-600 border-blue-600;
+  @apply hover:bg-blue-50;
+  @apply active:bg-blue-100;
+}
+
+/* Secondary variant */
+.button--secondary {
+  @apply bg-gray-600 text-white;
+  @apply hover:bg-gray-700;
+  @apply active:bg-gray-800;
+}
+
+.button--secondary.button--outline {
+  @apply bg-transparent text-gray-600 border-gray-600;
+  @apply hover:bg-gray-50;
+  @apply active:bg-gray-100;
+}
+
+/* Success variant */
+.button--success {
+  @apply bg-green-600 text-white;
+  @apply hover:bg-green-700;
+  @apply active:bg-green-800;
+}
+
+.button--success.button--outline {
+  @apply bg-transparent text-green-600 border-green-600;
+  @apply hover:bg-green-50;
+  @apply active:bg-green-100;
+}
+
+/* Danger variant */
+.button--danger {
+  @apply bg-red-600 text-white;
+  @apply hover:bg-red-700;
+  @apply active:bg-red-800;
+}
+
+.button--danger.button--outline {
+  @apply bg-transparent text-red-600 border-red-600;
+  @apply hover:bg-red-50;
+  @apply active:bg-red-100;
+}
+
+/* Warning variant */
+.button--warning {
+  @apply bg-yellow-600 text-white;
+  @apply hover:bg-yellow-700;
+  @apply active:bg-yellow-800;
+}
+
+.button--warning.button--outline {
+  @apply bg-transparent text-yellow-600 border-yellow-600;
+  @apply hover:bg-yellow-50;
+  @apply active:bg-yellow-100;
+}
+
+/* Info variant */
+.button--info {
+  @apply bg-cyan-600 text-white;
+  @apply hover:bg-cyan-700;
+  @apply active:bg-cyan-800;
+}
+
+.button--info.button--outline {
+  @apply bg-transparent text-cyan-600 border-cyan-600;
+  @apply hover:bg-cyan-50;
+  @apply active:bg-cyan-100;
+}
+
+/* Light variant */
+.button--light {
+  /* Common styles */
+
+  :global(.light) & {
+    @apply bg-white text-gray-900 border-gray-300;
+    @apply hover:bg-gray-50;
+    @apply active:bg-gray-100;
+  }
+
+  :global(.dark) & {
+    @apply bg-gray-800 text-white border-gray-600;
+    @apply hover:bg-gray-700;
+    @apply active:bg-gray-600;
+  }
+}
+
+.button--light.button--outline {
+  @apply bg-transparent;
+
+  :global(.light) & {
+    @apply text-gray-900 border-gray-300;
+    @apply hover:bg-gray-50;
+    @apply active:bg-gray-100;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-200 border-gray-600;
+    @apply hover:bg-gray-800;
+    @apply active:bg-gray-700;
+  }
+}
+
+/* Dark variant */
+.button--dark {
+  /* Common styles */
+
+  :global(.light) & {
+    @apply bg-gray-900 text-white;
+    @apply hover:bg-gray-800;
+    @apply active:bg-gray-700;
+  }
+
+  :global(.dark) & {
+    @apply bg-gray-100 text-gray-900;
+    @apply hover:bg-gray-200;
+    @apply active:bg-gray-300;
+  }
+}
+
+.button--dark.button--outline {
+  @apply bg-transparent;
+
+  :global(.light) & {
+    @apply text-gray-900 border-gray-900;
+    @apply hover:bg-gray-50;
+    @apply active:bg-gray-100;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-100 border-gray-100;
+    @apply hover:bg-gray-800;
+    @apply active:bg-gray-700;
+  }
+}
+
+/* Disabled state */
+.button--disabled {
+  @apply opacity-50 cursor-not-allowed;
+  @apply pointer-events-none;
+}

@@ -1,0 +1,201 @@
+@import "tailwindcss" reference;
+
+/* Base section styles */
+.section {
+  @apply w-full;
+}
+
+/* Variant styles - background colors */
+.section--default {
+  @apply bg-white;
+
+  :global(.dark) & {
+    @apply bg-gray-900;
+  }
+}
+
+.section--primary {
+  @apply bg-blue-50;
+
+  :global(.dark) & {
+    @apply bg-blue-950;
+  }
+}
+
+.section--secondary {
+  @apply bg-gray-50;
+
+  :global(.dark) & {
+    @apply bg-gray-800;
+  }
+}
+
+.section--dark {
+  @apply bg-gray-900;
+
+  :global(.dark) & {
+    @apply bg-black;
+  }
+}
+
+/* Spacing variants - vertical padding */
+.section--spacing-none {
+  @apply py-0;
+}
+
+.section--spacing-sm {
+  @apply py-4;
+}
+
+@media (min-width: 768px) {
+  .section--spacing-sm {
+    @apply py-6;
+  }
+}
+
+.section--spacing-md {
+  @apply py-8;
+}
+
+@media (min-width: 768px) {
+  .section--spacing-md {
+    @apply py-12;
+  }
+}
+
+.section--spacing-lg {
+  @apply py-12;
+}
+
+@media (min-width: 768px) {
+  .section--spacing-lg {
+    @apply py-16;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section--spacing-lg {
+    @apply py-20;
+  }
+}
+
+.section--spacing-xl {
+  @apply py-16;
+}
+
+@media (min-width: 768px) {
+  .section--spacing-xl {
+    @apply py-24;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section--spacing-xl {
+    @apply py-32;
+  }
+}
+
+/* Container - max-width constraints */
+.section__container {
+  @apply mx-auto px-4;
+}
+
+@media (min-width: 640px) {
+  .section__container {
+    @apply px-6;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section__container {
+    @apply px-8;
+  }
+}
+
+.section__container--sm {
+  @apply max-w-screen-sm;
+}
+
+.section__container--md {
+  @apply max-w-screen-md;
+}
+
+.section__container--lg {
+  @apply max-w-screen-lg;
+}
+
+.section__container--xl {
+  @apply max-w-screen-xl;
+}
+
+.section__container--full {
+  @apply max-w-full;
+}
+
+/* Header area */
+.section__header {
+  @apply mb-6;
+}
+
+@media (min-width: 768px) {
+  .section__header {
+    @apply mb-8;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section__header {
+    @apply mb-12;
+  }
+}
+
+.section__header--centered {
+  @apply text-center;
+}
+
+/* Title */
+.section__title {
+  @apply text-2xl font-bold text-gray-900 mb-2;
+
+  :global(.dark) & {
+    @apply text-white;
+  }
+}
+
+@media (min-width: 768px) {
+  .section__title {
+    @apply text-3xl mb-3;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section__title {
+    @apply text-4xl mb-4;
+  }
+}
+
+/* Subtitle */
+.section__subtitle {
+  @apply text-base text-gray-600;
+
+  :global(.dark) & {
+    @apply text-gray-300;
+  }
+}
+
+@media (min-width: 768px) {
+  .section__subtitle {
+    @apply text-lg;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section__subtitle {
+    @apply text-xl;
+  }
+}
+
+/* Content area */
+.section__content {
+  @apply w-full;
+}

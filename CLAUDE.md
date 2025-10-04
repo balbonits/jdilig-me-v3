@@ -27,8 +27,8 @@ src/
 ├── pages/         # Page components (mirror route structure)
 │   └── docs/          # Docs pages (/docs routes)
 │       ├── DocsLandingPage.tsx
-│       ├── WiresLandingPage.tsx
-│       ├── WiresViewerPage.tsx
+│       ├── ProtosLandingPage.tsx
+│       ├── ProtosViewerPage.tsx
 │       └── DocsViewerPage.tsx
 ├── router/        # Route configuration
 │   └── index.tsx      # All route definitions
@@ -41,9 +41,9 @@ src/
 └── index.css      # Global styles (imports Tailwind + theme)
 
 docs/
-├── wires/         # Wireframe definitions (design assets)
+├── protos/         # Proto definitions (design assets)
 │   ├── home.tsx
-│   ├── wireframes-page.tsx
+│   ├── protos-page.tsx
 │   └── docs-content.tsx
 └── README.md      # Project documentation
 
@@ -69,22 +69,39 @@ public/            # Static assets
   - Block: `.card`
   - Element: `.card__title`
   - Modifier: `.card--featured`
-- **CSS Modules**: Use `.module.css` files for components (NOT for pages)
+- **CSS Modules**: Use `.module.css` files for ALL components AND pages
 - **BEM + @apply Pattern**: Avoid long Tailwind classes in JSX
   - ❌ Bad: `<div className="flex flex-col gap-4 md:flex-row md:gap-8 p-4 md:p-8">`
   - ✅ Good: `<div className="card">` + CSS module with `@apply flex flex-col gap-4 p-4;`
   - Keep JSX clean with BEM classnames, use `@apply` in CSS modules for Tailwind utilities
   - Better browser DevTools debugging (see `.card` instead of 15 utility classes)
-- **Pages**: Use Tailwind utility classes directly in JSX (no CSS modules)
-- **Dark Mode**: Automatic theme color adjustments via `prefers-color-scheme`
+- **Dark Mode**: Class-based theming using `.light` and `.dark` parent classes
+  - **NEVER use Tailwind's `dark:` utilities** - Tailwind v4 alpha only supports OS `prefers-color-scheme`
+  - **ALWAYS use `:global(.light)` and `:global(.dark)` in CSS modules** for theme-aware styles
+  - Pattern:
+    ```css
+    .element {
+      @apply base-styles;
+
+      :global(.light) & {
+        @apply light-theme-styles;
+      }
+
+      :global(.dark) & {
+        @apply dark-theme-styles;
+      }
+    }
+    ```
+  - Theme managed by `useTheme` hook with localStorage persistence
+  - Theme toggle in `SiteHeader` component
 
 ### Component Patterns
-- Components live in `src/components/` with co-located styles
-- Pages live in `src/pages/` without CSS modules
+- Components live in `src/components/` with co-located `.module.css` styles
+- Pages live in `src/pages/` WITH `.module.css` styles (changed from previous convention)
 - **Page Structure Mirrors Routes**: Pages in `src/pages/` follow the route structure
-  - `/docs` → `src/pages/docs/DocsLandingPage.tsx`
-  - `/docs/wires` → `src/pages/docs/WiresLandingPage.tsx`
-  - `/docs/wires/:wireframe` → `src/pages/docs/WiresViewerPage.tsx`
+  - `/docs` → `src/pages/docs/DocsLandingPage.tsx` + `DocsLandingPage.module.css`
+  - `/docs/protos` → `src/pages/docs/ProtosLandingPage.tsx` + `ProtosLandingPage.module.css`
+  - `/docs/protos/:proto` → `src/pages/docs/ProtosViewerPage.tsx` + `ProtosViewerPage.module.css`
 - Custom hooks live in `src/hooks/` for reusable logic
 - Use TypeScript interfaces for props
 - Functional components with hooks
@@ -96,28 +113,29 @@ public/            # Static assets
 - **Configuration-Based Routing**: Explicit route config (not file-based routing)
 - As routes grow, keep them organized in the router file
 
-### Wireframe Component Library
-- Located in `src/components/wireframe/`
-- Custom lightweight components for building wireframe diagrams
-- Integrates with Heroicons v2.2 for icon wireframes
+### Proto Component Library
+- Located in `src/components/proto/`
+- Custom lightweight components for building proto diagrams
+- Integrates with Heroicons v2.2 for icon protos
 - Components:
-  - `WireBox`: Containers/boxes with labels (solid/dashed/dotted variants)
-  - `WireText`: Placeholder text lines (heading/paragraph/caption)
-  - `WireButton`: Button placeholders with optional Heroicon support (primary/secondary/outline, sm/md/lg)
-  - `WireImage`: Image placeholders with icon and label
-  - `WireIcon`: Icon wireframes using Heroicons (sm/md/lg/xl sizes)
-  - `WireNav`: Navigation bar wireframes (top/bottom)
-  - `WireSidebar`: Sidebar wireframes (left/right)
-  - `WireCard`: Pre-composed card layout (image + text + optional button)
-  - `WireViewport`: Responsive viewport switcher (mobile/tablet/desktop views)
-- **Wireframe Definitions**: Stored in `docs/wires/` (design assets)
-  - `home.tsx` - Docs homepage/TOC wireframe
-  - `wireframes-page.tsx` - Wireframe viewer layout
+  - `ProtoBox`: Containers/boxes with labels (solid/dashed/dotted variants)
+  - `ProtoText`: Placeholder text lines (heading/paragraph/caption)
+  - `ProtoButton`: Button placeholders with optional Heroicon support (primary/secondary/outline, sm/md/lg)
+  - `ProtoImage`: Image placeholders with icon and label
+  - `ProtoIcon`: Icon protos using Heroicons (sm/md/lg/xl sizes)
+  - `ProtoNav`: Navigation bar protos (top/bottom)
+  - `ProtoSidebar`: Sidebar protos (left/right)
+  - `ProtoCard`: Pre-composed card layout (image + text + optional button)
+  - `ProtoViewport`: Responsive viewport switcher (mobile/tablet/desktop views)
+  - `ProtoViewer`: Proto display container with viewport controls
+- **Proto Definitions**: Stored in `docs/protos/` (design assets)
+  - `docs-home.tsx` - Docs homepage/TOC proto
+  - `protos-page.tsx` - Proto viewer layout
   - `docs-content.tsx` - Documentation content layout
-- **Wireframe Pages**: Pages in `src/pages/docs/` import and render wireframes from `docs/wires/`
-- Usage: Compose complex wireframes from primitive components
-- AI can generate wireframes from text descriptions using these components
-- **Documentation**: See `docs/WIREFRAME_LIBRARY.md` for complete usage guide
+- **Proto Pages**: Pages in `src/pages/docs/` import and render protos from `docs/protos/`
+- Usage: Compose complex protos from primitive components
+- AI can generate protos from text descriptions using these components
+- **Documentation**: See `docs/PROTO_LIBRARY.md` for complete usage guide
 
 ### Testing
 - **Vitest** for unit testing (optimized for Vite)
@@ -132,7 +150,7 @@ public/            # Static assets
 ### Import Aliases
 Path aliases configured for cleaner imports:
 - `@docs/*` → `docs/*`
-- `@docs/wires/*` → `docs/wires/*`
+- `@docs/protos/*` → `docs/protos/*`
 - `@src/*` → `src/*`
 - `@components/*` → `src/components/*`
 - `@pages/*` → `src/pages/*`
@@ -140,13 +158,38 @@ Path aliases configured for cleaner imports:
 - `@styles/*` → `src/styles/*`
 - `@router/*` → `src/router/*`
 
-Example: `import { HomeWireframe } from '@docs/wires/home';`
+Example: `import { HomeProto } from '@docs/protos/home';`
 
 ## Key Technical Details
 - React Router v7 uses `react-router` package (not `react-router-dom`)
 - Tailwind v4 requires `@import "tailwindcss"` in CSS
+- **Tailwind v4 CSS Modules**: MUST include `@import "tailwindcss" reference;` at the top of every `.module.css` file
+- **Tailwind v4 Media Queries**: Use `@media (min-width: 768px)` instead of `@screen md`
+- **Tailwind v4 Dark Mode Limitation**: Alpha version ONLY supports OS `prefers-color-scheme`, NOT class-based dark mode
+  - Solution: Custom `.light`/`.dark` parent classes with `:global()` in CSS Modules
+  - NEVER use `dark:` utilities - they won't work with class-based theming
 - Vite 6 features: Environment API, modern Sass support, enhanced performance
 - PWA configured for offline support and installability
+
+## CRITICAL: Error Resolution Protocol
+**NEVER downgrade or change major versions without explicit user permission.**
+
+When encountering build/runtime errors:
+1. **Read error messages carefully** - they often contain solution links
+2. **Check official documentation FIRST** - especially for post-2025 or beta software
+3. **My training data is outdated** - I have NO knowledge of:
+   - Tailwind v4 (released after Jan 2025)
+   - Vite 6 (released after Jan 2025)
+   - React Router v7 (released after Jan 2025)
+4. **If my proposed solution breaks project conventions or requires version changes**:
+   - STOP immediately
+   - Tell the user: "My solution would break convention by [explain issue]"
+   - Present options with pros/cons
+   - Wait for user decision
+5. **Use WebFetch to read documentation** when working with newer technologies
+6. **Never "panic" with quick fixes** like downgrading versions or disabling features
+
+The documentation is the source of truth, not my assumptions.
 
 ## Git Workflow
 - **DO NOT push** without explicit consent/permission

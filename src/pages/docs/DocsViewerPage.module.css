@@ -1,0 +1,81 @@
+@import "tailwindcss" reference;
+
+.container {
+  @apply p-8;
+}
+
+.article {
+  @apply max-w-4xl border-2 rounded-lg p-8;
+
+  :global(.light) & {
+    @apply bg-white border-gray-300;
+  }
+
+  :global(.dark) & {
+    @apply bg-gray-800 border-gray-700;
+  }
+}
+
+.title {
+  @apply text-3xl font-bold mb-6;
+
+  :global(.light) & {
+    @apply text-gray-900;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+}
+
+.prose {
+  @apply max-w-none;
+}
+
+.text {
+  @apply mb-4;
+
+  :global(.light) & {
+    @apply text-gray-600;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-400;
+  }
+}
+
+.heading {
+  @apply text-2xl font-semibold mt-8 mb-4;
+
+  :global(.light) & {
+    @apply text-gray-900;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-100;
+  }
+}
+
+.alert {
+  @apply mt-8 p-4 border-l-4 rounded;
+
+  :global(.light) & {
+    @apply bg-blue-50 border-blue-400;
+  }
+
+  :global(.dark) & {
+    @apply bg-blue-900/20 border-blue-500;
+  }
+}
+
+.alert-text {
+  @apply text-sm;
+
+  :global(.light) & {
+    @apply text-gray-700;
+  }
+
+  :global(.dark) & {
+    @apply text-gray-300;
+  }
+}

@@ -1,19 +1,22 @@
 import { BrowserRouter, Routes, Link } from 'react-router';
 import { AppRoutes } from './router';
+import { SiteHeader } from '@components/SiteHeader';
+import { useTheme } from '@hooks/useTheme';
+import styles from './App.module.css';
 
 function HomePage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Home Page</h1>
-        <div className="flex gap-4 justify-center mt-4">
-          <Link to="/about" className="text-blue-600 hover:text-blue-800 underline">
+    <div className={styles.page}>
+      <div className={styles.content}>
+        <h1 className={styles.title}>Home Page</h1>
+        <div className={styles.nav}>
+          <Link to="/about" className={styles.link}>
             About
           </Link>
-          <Link to="/docs" className="text-blue-600 hover:text-blue-800 underline">
+          <Link to="/docs" className={styles.link}>
             Docs
           </Link>
-          <Link to="/docs/wires" className="text-blue-600 hover:text-blue-800 underline">
+          <Link to="/docs/wires" className={styles.link}>
             Wireframes
           </Link>
         </div>
@@ -24,10 +27,10 @@ function HomePage() {
 
 function AboutPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">About Page</h1>
-        <Link to="/" className="text-blue-600 hover:text-blue-800 underline">
+    <div className={styles.page}>
+      <div className={styles.content}>
+        <h1 className={styles.title}>About Page</h1>
+        <Link to="/" className={styles.link}>
           Go to Home
         </Link>
       </div>
@@ -36,10 +39,13 @@ function AboutPage() {
 }
 
 function App() {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <BrowserRouter>
+      <SiteHeader theme={theme} onThemeToggle={toggleTheme} />
       <Routes>
-        <AppRoutes />
+        {AppRoutes()}
       </Routes>
     </BrowserRouter>
   );

@@ -50,11 +50,9 @@
   --color-accent: var(--color-accent-600);
 }
 
-/* Dark mode theme overrides */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-primary: var(--color-primary-400);
-    --color-secondary: var(--color-secondary-400);
-    --color-accent: var(--color-accent-400);
-  }
+/* Dark mode theme overrides - class-based */
+.dark {
+  --color-primary: var(--color-primary-400);
+  --color-secondary: var(--color-secondary-400);
+  --color-accent: var(--color-accent-400);
 }

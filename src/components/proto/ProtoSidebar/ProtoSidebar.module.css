@@ -1,0 +1,42 @@
+/* ProtoSidebar - Sidebar wireframe */
+@import "tailwindcss" reference;
+
+
+.proto-sidebar {
+  @apply w-full bg-gray-100 p-2 flex gap-2;
+  /* Mobile: horizontal scrollable tabs */
+  @apply flex-row overflow-x-auto border-b-2 border-gray-400;
+}
+
+.proto-sidebar--left {
+  @apply border-r-0 border-l-0;
+}
+
+.proto-sidebar--right {
+  @apply border-l-0 border-r-0;
+}
+
+.proto-sidebar__item {
+  @apply px-4 py-2 text-sm text-gray-600 bg-gray-200 rounded whitespace-nowrap flex-shrink-0;
+}
+
+/* Desktop: vertical sidebar */
+@media (min-width: 768px) {
+  .proto-sidebar {
+    @apply w-52 p-4 flex-col overflow-x-visible border-b-0;
+  }
+
+  .proto-sidebar--left {
+    @apply border-r-2 border-b-0;
+  }
+
+  .proto-sidebar--right {
+    @apply border-l-2 border-b-0;
+  }
+
+  .proto-sidebar__item {
+    @apply px-4 py-3 text-base whitespace-normal;
+  }
+}
+
+/* Force light mode for wireframes - they are design mockups */

@@ -1,0 +1,130 @@
+@import "tailwindcss" reference;
+
+/* List Group Container */
+.list-group {
+  @apply flex flex-col;
+  @apply border border-gray-200 rounded-lg;
+  @apply bg-white;
+  @apply overflow-hidden;
+
+  :global(.dark) & {
+    @apply bg-gray-800 border-gray-700;
+  }
+}
+
+/* Flush Variant - removes borders and rounded corners */
+.list-group--flush {
+  @apply border-0 rounded-none;
+}
+
+/* List Group Item Base */
+.list-group__item {
+  @apply flex items-center justify-between;
+  @apply px-4 py-3;
+  @apply border-b border-gray-200;
+  @apply text-gray-900;
+  @apply transition-colors duration-150;
+  @apply text-left;
+  @apply w-full;
+  @apply bg-transparent;
+
+  :global(.dark) & {
+    @apply text-gray-100 border-gray-700;
+  }
+}
+
+/* Remove border from last item */
+.list-group__item:last-child {
+  @apply border-b-0;
+}
+
+/* Interactive items (links and buttons) */
+a.list-group__item,
+button.list-group__item {
+  @apply cursor-pointer;
+}
+
+a.list-group__item:hover:not(.list-group__item--disabled):not(.list-group__item--active),
+button.list-group__item:hover:not(.list-group__item--disabled):not(.list-group__item--active) {
+  @apply bg-gray-50;
+
+  :global(.dark) & {
+    @apply bg-gray-700;
+  }
+}
+
+a.list-group__item:focus-visible,
+button.list-group__item:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+  @apply relative z-10;
+}
+
+/* Active State */
+.list-group__item--active {
+  @apply bg-blue-500 text-white;
+  @apply border-blue-500;
+
+  :global(.dark) & {
+    @apply bg-blue-600 border-blue-600;
+  }
+}
+
+.list-group__item--active:hover {
+  @apply bg-blue-600;
+
+  :global(.dark) & {
+    @apply bg-blue-700;
+  }
+}
+
+/* Disabled State */
+.list-group__item--disabled {
+  @apply opacity-50;
+  @apply cursor-not-allowed;
+  @apply pointer-events-none;
+}
+
+/* Label */
+.list-group__label {
+  @apply flex-1;
+  @apply text-sm;
+}
+
+/* Badge */
+.list-group__badge {
+  @apply ml-3;
+  @apply inline-flex items-center justify-center;
+  @apply px-2 py-1;
+  @apply text-xs font-semibold;
+  @apply rounded-full;
+  @apply bg-gray-100 text-gray-800;
+  @apply min-w-[1.5rem];
+
+  :global(.dark) & {
+    @apply bg-gray-700 text-gray-200;
+  }
+}
+
+/* Badge in active item */
+.list-group__item--active .list-group__badge {
+  @apply bg-blue-400 text-white;
+
+  :global(.dark) & {
+    @apply bg-blue-500;
+  }
+}
+
+/* Tablet and larger - increase padding and font sizes */
+@media (min-width: 768px) {
+  .list-group__item {
+    @apply px-6 py-4;
+  }
+
+  .list-group__label {
+    @apply text-base;
+  }
+
+  .list-group__badge {
+    @apply text-sm px-2.5 py-1.5;
+  }
+}

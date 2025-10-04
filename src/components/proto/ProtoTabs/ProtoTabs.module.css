@@ -1,0 +1,76 @@
+@import "tailwindcss" reference;
+
+/* Tab Container */
+.proto-tabs {
+  @apply flex gap-2;
+}
+
+/* Individual Tab */
+.proto-tabs__tab {
+  @apply px-4 py-2 cursor-pointer transition-colors;
+}
+
+/* Tab Label (gray rectangle) */
+.proto-tabs__label {
+  @apply bg-gray-400 h-4 w-16;
+}
+
+.dark .proto-tabs__label {
+  @apply bg-gray-600;
+}
+
+/* Active Tab */
+.proto-tabs__tab--active .proto-tabs__label {
+  @apply bg-gray-700;
+}
+
+.dark .proto-tabs__tab--active .proto-tabs__label {
+  @apply bg-gray-300;
+}
+
+/* Default Variant */
+.proto-tabs--default .proto-tabs__tab {
+  @apply border border-gray-400 bg-gray-100;
+}
+
+.dark .proto-tabs--default .proto-tabs__tab {
+  @apply border-gray-600 bg-gray-800;
+}
+
+.proto-tabs--default .proto-tabs__tab--active {
+  @apply border-gray-700 bg-white;
+}
+
+.dark .proto-tabs--default .proto-tabs__tab--active {
+  @apply border-gray-300 bg-gray-900;
+}
+
+/* Pills Variant */
+.proto-tabs--pills .proto-tabs__tab {
+  @apply rounded-full border border-gray-400 bg-gray-100;
+}
+
+.dark .proto-tabs--pills .proto-tabs__tab {
+  @apply border-gray-600 bg-gray-800;
+}
+
+.proto-tabs--pills .proto-tabs__tab--active {
+  @apply border-gray-700 bg-gray-200;
+}
+
+.dark .proto-tabs--pills .proto-tabs__tab--active {
+  @apply border-gray-300 bg-gray-700;
+}
+
+/* Underline Variant */
+.proto-tabs--underline .proto-tabs__tab {
+  @apply border-b-2 border-transparent bg-transparent;
+}
+
+.proto-tabs--underline .proto-tabs__tab--active {
+  @apply border-b-2 border-gray-700;
+}
+
+.dark .proto-tabs--underline .proto-tabs__tab--active {
+  @apply border-gray-300;
+}
