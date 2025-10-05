@@ -1,0 +1,79 @@
+@import "tailwindcss" reference;
+
+.proto-flex {
+  @apply flex;
+}
+
+/* Direction - mobile first, responsive */
+.proto-flex--row {
+  @apply flex-col;
+
+  @media (min-width: 768px) {
+    @apply flex-row;
+  }
+}
+
+.proto-flex--col {
+  @apply flex-col;
+}
+
+/* Alignment */
+.proto-flex--align-start {
+  @apply items-start;
+}
+
+.proto-flex--align-center {
+  @apply items-center;
+}
+
+.proto-flex--align-end {
+  @apply items-end;
+}
+
+/* Justification */
+.proto-flex--justify-start {
+  @apply justify-start;
+}
+
+.proto-flex--justify-center {
+  @apply justify-center;
+}
+
+.proto-flex--justify-end {
+  @apply justify-end;
+}
+
+.proto-flex--justify-between {
+  @apply justify-between;
+}
+
+/* Wrap */
+.proto-flex--wrap {
+  @apply flex-wrap;
+}
+
+/* Shrink */
+.proto-flex--no-shrink {
+  @apply flex-shrink-0;
+}
+
+/* Gap sizes */
+.proto-flex--gap-sm {
+  @apply gap-2;
+}
+
+.proto-flex--gap-md {
+  @apply gap-3;
+
+  @media (min-width: 768px) {
+    @apply gap-4;
+  }
+}
+
+.proto-flex--gap-lg {
+  @apply gap-4;
+
+  @media (min-width: 768px) {
+    @apply gap-6;
+  }
+}

@@ -1,0 +1,106 @@
+@import "tailwindcss" reference;
+
+.proto-section {
+  @apply w-full;
+}
+
+/* Layout variants */
+.proto-section--flex {
+  @apply flex flex-col;
+}
+
+.proto-section--center {
+  @apply flex flex-col items-center justify-center text-center;
+}
+
+.proto-section--left {
+  @apply flex flex-col items-start text-left;
+}
+
+.proto-section--right {
+  @apply flex flex-col items-end text-right;
+}
+
+.proto-section--grid {
+  @apply grid;
+}
+
+/* Alignment */
+.proto-section--align-start {
+  @apply items-start;
+}
+
+.proto-section--align-center {
+  @apply items-center;
+}
+
+.proto-section--align-end {
+  @apply items-end;
+}
+
+/* Justification */
+.proto-section--justify-start {
+  @apply justify-start;
+}
+
+.proto-section--justify-center {
+  @apply justify-center;
+}
+
+.proto-section--justify-end {
+  @apply justify-end;
+}
+
+.proto-section--justify-between {
+  @apply justify-between;
+}
+
+/* Gap sizes */
+.proto-section--gap-sm {
+  @apply gap-2;
+
+  @media (min-width: 768px) {
+    @apply gap-3;
+  }
+}
+
+.proto-section--gap-md {
+  @apply gap-4;
+
+  @media (min-width: 768px) {
+    @apply gap-6;
+  }
+}
+
+.proto-section--gap-lg {
+  @apply gap-6;
+
+  @media (min-width: 768px) {
+    @apply gap-8;
+  }
+}
+
+/* Padding sizes */
+.proto-section--padding-sm {
+  @apply p-2;
+
+  @media (min-width: 768px) {
+    @apply p-4;
+  }
+}
+
+.proto-section--padding-md {
+  @apply p-4;
+
+  @media (min-width: 768px) {
+    @apply p-8;
+  }
+}
+
+.proto-section--padding-lg {
+  @apply p-6;
+
+  @media (min-width: 768px) {
+    @apply p-12;
+  }
+}

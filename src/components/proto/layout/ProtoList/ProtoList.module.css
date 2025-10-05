@@ -1,0 +1,58 @@
+@import "tailwindcss" reference;
+
+.proto-list {
+  @apply list-none p-0 m-0;
+}
+
+/* List types */
+.proto-list--unordered {
+  /* Base unordered styling */
+}
+
+.proto-list--ordered {
+  @apply list-decimal;
+}
+
+.proto-list--plain {
+  @apply list-none;
+}
+
+/* Variants */
+.proto-list--default.proto-list--unordered {
+  @apply list-disc pl-5;
+}
+
+.proto-list--disc {
+  @apply list-disc pl-5;
+}
+
+.proto-list--decimal {
+  @apply list-decimal pl-5;
+}
+
+.proto-list--alpha {
+  list-style-type: lower-alpha;
+  @apply pl-5;
+}
+
+.proto-list--roman {
+  list-style-type: lower-roman;
+  @apply pl-5;
+}
+
+.proto-list--none {
+  @apply list-none pl-0;
+}
+
+/* Gap */
+.proto-list--gap-sm {
+  @apply space-y-1;
+}
+
+.proto-list--gap-md {
+  @apply space-y-2;
+}
+
+.proto-list--gap-lg {
+  @apply space-y-3;
+}

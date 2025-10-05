@@ -1,0 +1,83 @@
+@import "tailwindcss" reference;
+
+.proto-hero {
+  @apply w-full flex items-center justify-center relative;
+  @apply bg-gray-200 border-2 border-dashed border-gray-400;
+}
+
+.proto-hero__content {
+  @apply w-full max-w-7xl px-4;
+
+  @media (min-width: 768px) {
+    @apply px-8;
+  }
+}
+
+/* Height variants */
+.proto-hero--sm {
+  @apply min-h-64;
+}
+
+.proto-hero--md {
+  @apply min-h-96;
+}
+
+.proto-hero--lg {
+  @apply min-h-screen;
+
+  @media (max-width: 768px) {
+    @apply min-h-[500px];
+  }
+}
+
+.proto-hero--full {
+  @apply h-screen;
+}
+
+/* Background variants */
+.proto-hero--solid {
+  @apply bg-gray-200;
+}
+
+.proto-hero--gradient {
+  @apply bg-gradient-to-br from-gray-100 to-gray-300;
+}
+
+.proto-hero--image {
+  @apply bg-gray-300;
+
+  &::before {
+    content: '🖼️';
+    @apply absolute inset-0 flex items-center justify-center text-6xl opacity-30;
+  }
+}
+
+/* Alignment */
+.proto-hero--align-left .proto-hero__content {
+  @apply text-left;
+}
+
+.proto-hero--align-center .proto-hero__content {
+  @apply text-center;
+}
+
+.proto-hero--align-right .proto-hero__content {
+  @apply text-right;
+}
+
+/* Dark mode */
+:global(.dark) .proto-hero {
+  @apply bg-gray-700 border-gray-500;
+}
+
+:global(.dark) .proto-hero--solid {
+  @apply bg-gray-700;
+}
+
+:global(.dark) .proto-hero--gradient {
+  @apply from-gray-800 to-gray-600;
+}
+
+:global(.dark) .proto-hero--image {
+  @apply bg-gray-600;
+}

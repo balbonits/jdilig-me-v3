@@ -1,0 +1,40 @@
+@import "tailwindcss" reference;
+
+.proto-radio-group {
+  @apply border-0 p-0 m-0;
+}
+
+.proto-radio-group__legend {
+  @apply text-sm font-medium text-gray-700 mb-2;
+}
+
+.proto-radio-group__options {
+  @apply flex;
+}
+
+/* Direction */
+.proto-radio-group__options--row {
+  @apply flex-row;
+}
+
+.proto-radio-group__options--column {
+  @apply flex-col;
+}
+
+/* Gap */
+.proto-radio-group__options--gap-sm {
+  @apply gap-1;
+}
+
+.proto-radio-group__options--gap-md {
+  @apply gap-2;
+}
+
+.proto-radio-group__options--gap-lg {
+  @apply gap-3;
+}
+
+/* Dark mode */
+:global(.dark) .proto-radio-group__legend {
+  @apply text-gray-300;
+}

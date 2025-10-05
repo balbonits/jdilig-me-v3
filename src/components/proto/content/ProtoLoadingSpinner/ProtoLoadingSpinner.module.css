@@ -1,0 +1,122 @@
+@import "tailwindcss" reference;
+
+.proto-loading {
+  @apply inline-flex items-center justify-center;
+}
+
+.proto-loading__spinner {
+  @apply border-4 border-gray-300 border-t-blue-500 rounded-full;
+}
+
+/* Sizes */
+.proto-loading--sm .proto-loading__spinner {
+  @apply w-4 h-4;
+}
+
+.proto-loading--md .proto-loading__spinner {
+  @apply w-8 h-8;
+}
+
+.proto-loading--lg .proto-loading__spinner {
+  @apply w-12 h-12;
+}
+
+.proto-loading--xl .proto-loading__spinner {
+  @apply w-16 h-16;
+}
+
+/* Spin animation */
+.proto-loading--spin .proto-loading__spinner {
+  animation: proto-spin 1s linear infinite;
+}
+
+@keyframes proto-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse animation */
+.proto-loading--pulse .proto-loading__spinner {
+  animation: proto-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes proto-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Bounce animation */
+.proto-loading--bounce .proto-loading__spinner {
+  animation: proto-bounce 1s ease-in-out infinite;
+}
+
+@keyframes proto-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25%);
+  }
+}
+
+/* Dots animation */
+.proto-loading__dots {
+  @apply flex gap-2;
+}
+
+.proto-loading__dot {
+  @apply rounded-full bg-blue-500;
+  animation: proto-dot-bounce 1.4s ease-in-out infinite;
+}
+
+.proto-loading__dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.proto-loading__dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.proto-loading--sm .proto-loading__dot {
+  @apply w-1.5 h-1.5;
+}
+
+.proto-loading--md .proto-loading__dot {
+  @apply w-2.5 h-2.5;
+}
+
+.proto-loading--lg .proto-loading__dot {
+  @apply w-3.5 h-3.5;
+}
+
+.proto-loading--xl .proto-loading__dot {
+  @apply w-5 h-5;
+}
+
+@keyframes proto-dot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Dark mode */
+:global(.dark) .proto-loading__spinner {
+  @apply border-gray-600 border-t-blue-400;
+}
+
+:global(.dark) .proto-loading__dot {
+  @apply bg-blue-400;
+}

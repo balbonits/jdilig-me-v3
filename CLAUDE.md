@@ -137,26 +137,85 @@ public/            # Static assets
 - As routes grow, keep them organized in the router file
 
 ### Proto Component Library
+**CRITICAL: NO RAW HTML IN PROTO FILES**
+- **All proto files MUST use only Proto components - NO `<div>`, `<span>`, or any raw HTML elements**
 - Located in `src/components/proto/`
 - Custom lightweight components for building proto diagrams
 - Integrates with Heroicons v2.2 for icon protos
-- Components:
-  - `ProtoBox`: Containers/boxes with labels (solid/dashed/dotted variants)
-  - `ProtoText`: Placeholder text lines (heading/paragraph/caption)
-  - `ProtoButton`: Button placeholders with optional Heroicon support (primary/secondary/outline, sm/md/lg)
-  - `ProtoImage`: Image placeholders with icon and label
-  - `ProtoIcon`: Icon protos using Heroicons (sm/md/lg/xl sizes)
-  - `ProtoNav`: Navigation bar protos (top/bottom)
-  - `ProtoSidebar`: Sidebar protos (left/right)
-  - `ProtoCard`: Pre-composed card layout (image + text + optional button)
-  - `ProtoViewport`: Responsive viewport switcher (mobile/tablet/desktop views)
-  - `ProtoViewer`: Proto display container with viewport controls
+
+#### Proto Component Organization:
+Components organized in **`src/components/proto/`** by category:
+
+**base/** - Root container
+- `Proto`: Root container for all proto files (replaces `<div>`)
+  - Only accepts Proto* components as children
+  - Props: `direction` (column/row), `className`
+
+**layout/** - Layout & structure
+- `ProtoBox`: Labeled containers (solid/dashed/dotted variants)
+- `ProtoSection`: Flex layout sections (alignment/justification/padding/gap)
+- `ProtoGrid`: Grid layouts (1/2/3/4 cols, mobile-first responsive)
+- `ProtoFlex`: Flexbox layouts (row/col, wrap, alignment, gap)
+- `ProtoList`: List containers (unordered/ordered/plain, disc/decimal/alpha/roman)
+- `ProtoListItem`: List items
+
+**content/** - Content & form elements
+- `ProtoText`: Placeholder text lines (heading/paragraph/caption)
+- `ProtoButton`: Button placeholders with Heroicon support
+- `ProtoImage`: Image placeholders with icon and label
+- `ProtoIcon`: Icon components (sm/md/lg/xl)
+- `ProtoBadge`: Badges (primary/secondary/info/success/warning/error)
+- `ProtoAvatar`: Avatar placeholders with initials/labels
+- `ProtoMedia`: Video/audio/embed players (16:9, 4:3, 1:1, 21:9 aspect ratios)
+- `ProtoInput`: All HTML input types (text, email, password, number, tel, url, search, date, time, file, color, range, checkbox, textarea)
+- `ProtoRadio`: Radio buttons (sm/md/lg)
+- `ProtoRadioGroup`: Radio button groups with legend
+- `ProtoLoadingSpinner`: Loading states (spin/pulse/bounce/dots animations)
+
+**composed/** - Complex composed components
+- `ProtoCard`: Card layouts (image + title + description + button)
+- `ProtoHero`: Hero/media banners (sm/md/lg/full height, gradient/solid/image backgrounds)
+- `ProtoTooltip`: Tooltips (top/bottom/left/right positions)
+- `ProtoNav`: Navigation bars (top/bottom)
+- `ProtoSidebar`: Sidebars (left/right)
+- `ProtoTable`: Table wireframes
+- `ProtoForm`: Form wireframes
+- `ProtoModal`: Modal overlays
+- `ProtoTabs`: Tabbed interfaces
+- `ProtoViewport`: Responsive viewport switcher (mobile/tablet/desktop)
+- `ProtoViewer`: Proto display container with viewport controls
+
+#### className Prop Pattern:
+- All Proto components accept `className` as **string OR array of strings**
+- Uses `cn()` utility from `@src/utils` for className handling
+- Examples:
+  ```tsx
+  // String format (standard Tailwind)
+  <ProtoBox className="mt-4 bg-gray-100" />
+
+  // Array format (BEM pattern)
+  <ProtoBox className={['block', 'element', 'modifier']} />
+
+  // Mixed
+  <ProtoBox className={['base-class', 'extra-class']} />
+  ```
+
+#### Proto File Structure:
 - **Proto Definitions**: Stored in `docs/protos/` (design assets)
+  - `homepage.tsx` - Homepage proto
   - `docs-home.tsx` - Docs homepage/TOC proto
   - `protos-page.tsx` - Proto viewer layout
   - `docs-content.tsx` - Documentation content layout
 - **Proto Pages**: Pages in `src/pages/docs/` import and render protos from `docs/protos/`
-- Usage: Compose complex protos from primitive components
+- **Always wrap in `<Proto>` component** - never use raw `<div>` as root
+- **Replace ALL HTML elements** with Proto components:
+  - ❌ `<div className="flex gap-4">`
+  - ✅ `<ProtoFlex gap="md">`
+  - ❌ `<div className="grid grid-cols-3">`
+  - ✅ `<ProtoGrid cols="3">`
+
+#### Usage:
+- Compose complex protos from primitive components
 - AI can generate protos from text descriptions using these components
 - **Documentation**: See `docs/PROTO_LIBRARY.md` for complete usage guide
 

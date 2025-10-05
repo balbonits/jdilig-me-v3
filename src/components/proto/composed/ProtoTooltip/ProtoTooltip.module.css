@@ -1,0 +1,62 @@
+@import "tailwindcss" reference;
+
+.proto-tooltip {
+  @apply relative inline-flex;
+}
+
+.proto-tooltip__bubble {
+  @apply absolute z-10 px-3 py-2;
+  @apply bg-gray-800 text-white text-sm rounded;
+  @apply whitespace-nowrap;
+  @apply pointer-events-none;
+}
+
+.proto-tooltip__arrow {
+  @apply absolute w-2 h-2 bg-gray-800;
+  transform: rotate(45deg);
+}
+
+/* Position: Top */
+.proto-tooltip__bubble--top {
+  @apply bottom-full left-1/2 -translate-x-1/2 mb-2;
+}
+
+.proto-tooltip__bubble--top .proto-tooltip__arrow {
+  @apply -bottom-1 left-1/2 -translate-x-1/2;
+}
+
+/* Position: Bottom */
+.proto-tooltip__bubble--bottom {
+  @apply top-full left-1/2 -translate-x-1/2 mt-2;
+}
+
+.proto-tooltip__bubble--bottom .proto-tooltip__arrow {
+  @apply -top-1 left-1/2 -translate-x-1/2;
+}
+
+/* Position: Left */
+.proto-tooltip__bubble--left {
+  @apply right-full top-1/2 -translate-y-1/2 mr-2;
+}
+
+.proto-tooltip__bubble--left .proto-tooltip__arrow {
+  @apply -right-1 top-1/2 -translate-y-1/2;
+}
+
+/* Position: Right */
+.proto-tooltip__bubble--right {
+  @apply left-full top-1/2 -translate-y-1/2 ml-2;
+}
+
+.proto-tooltip__bubble--right .proto-tooltip__arrow {
+  @apply -left-1 top-1/2 -translate-y-1/2;
+}
+
+/* Dark mode */
+:global(.dark) .proto-tooltip__bubble {
+  @apply bg-gray-700;
+}
+
+:global(.dark) .proto-tooltip__arrow {
+  @apply bg-gray-700;
+}

@@ -1,0 +1,10 @@
+@import "tailwindcss" reference;
+
+.proto-list-item {
+  @apply text-gray-700;
+}
+
+/* Dark mode */
+:global(.dark) .proto-list-item {
+  @apply text-gray-300;
+}

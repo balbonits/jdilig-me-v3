@@ -1,0 +1,13 @@
+@import "tailwindcss" reference;
+
+.proto {
+  @apply w-full flex;
+}
+
+.proto--column {
+  @apply flex-col;
+}
+
+.proto--row {
+  @apply flex-row;
+}
