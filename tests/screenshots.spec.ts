@@ -88,7 +88,13 @@ for (const shot of SHOTS) {
     }
 
     await page.goto(shot.path, {
-      waitUntil: shot.external ? 'load' : 'domcontentloaded',
+      // For game pages we need stylesheets fully applied + the rAF loop
+      // running, so wait for the network to go quiet rather than just `load`.
+      waitUntil: shot.pressKey
+        ? 'networkidle'
+        : shot.external
+          ? 'load'
+          : 'domcontentloaded',
       timeout: 30_000,
     });
 
@@ -97,14 +103,90 @@ for (const shot of SHOTS) {
     // Give the SPA router a moment to hydrate and set document.title.
     await page.waitForTimeout(1500);
 
+    // Quick computed-styles sanity check for game pages — confirms the
+    // stylesheet actually applied (we hit a case where `load` fired before
+    // CSS painted and the screenshot showed the unstyled fallback).
     if (shot.pressKey) {
-      // Click first to give the page focus, then send the key.
-      await page.mouse.click(640, 400);
+      const computed = await page
+        .evaluate(() => {
+          const body = document.body;
+          const canvas = document.querySelector('canvas') as HTMLCanvasElement | null;
+          if (!body) return null;
+          const bs = getComputedStyle(body);
+          return {
+            bodyBg: bs.backgroundColor,
+            bodyDisplay: bs.display,
+            canvasW: canvas?.clientWidth ?? 0,
+            canvasH: canvas?.clientHeight ?? 0,
+          };
+        })
+        .catch(() => null);
+      console.log(`[${shot.slug}] computed:`, JSON.stringify(computed));
+    }
+
+    if (shot.pressKey) {
+      // Click the canvas directly (not viewport coords) so the gesture
+      // unambiguously targets the game and unlocks AudioContext.
+      const canvas = page.locator('canvas').first();
+      try {
+        await canvas.waitFor({ state: 'visible', timeout: 5000 });
+        await canvas.click({ timeout: 5000 });
+      } catch {
+        // No canvas on this page — fall through; pressKey alone may still help.
+      }
       await page.keyboard.press(shot.pressKey);
     }
 
     if (shot.extraWaitMs) {
       await page.waitForTimeout(shot.extraWaitMs);
+    }
+
+    // For game pages: verify the canvas is actually rendering (non-uniform
+    // pixel content) before screenshotting, so we don't ship a blank
+    // canvas just because the rAF loop hadn't kicked in.
+    if (shot.pressKey) {
+      const status = await page
+        .evaluate(() => {
+          const canvas = document.querySelector('canvas') as HTMLCanvasElement | null;
+          if (!canvas) return 'no-canvas' as const;
+          // WebGL canvases throw on getImageData; treat presence as enough.
+          const isWebGL = !!(
+            canvas.getContext('webgl') || canvas.getContext('webgl2')
+          );
+          if (isWebGL) return 'webgl' as const;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) return 'unknown-ctx' as const;
+          try {
+            const w = canvas.width;
+            const h = canvas.height;
+            if (!w || !h) return 'zero-size' as const;
+            const sample = ctx.getImageData(
+              Math.floor(w * 0.25),
+              Math.floor(h * 0.25),
+              Math.floor(w * 0.5),
+              Math.floor(h * 0.5),
+            ).data;
+            const first = `${sample[0]},${sample[1]},${sample[2]}`;
+            for (let i = 4; i < sample.length; i += 4) {
+              const here = `${sample[i]},${sample[i + 1]},${sample[i + 2]}`;
+              if (here !== first) return 'rendered' as const;
+            }
+            return 'blank' as const;
+          } catch {
+            return 'cors-or-error' as const;
+          }
+        })
+        .catch(() => 'eval-failed' as const);
+
+      console.log(`[${shot.slug}] canvas status: ${status}`);
+      if (status === 'blank' || status === 'no-canvas' || status === 'zero-size') {
+        // Give it one more nudge — extra wait + a re-press.
+        await page.waitForTimeout(1500);
+        if (shot.pressKey) {
+          await page.keyboard.press(shot.pressKey).catch(() => undefined);
+          await page.waitForTimeout(800);
+        }
+      }
     }
 
     // 404 guard — fail the test if the router landed on an error page.
