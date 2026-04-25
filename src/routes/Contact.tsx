@@ -6,30 +6,55 @@ import { PROFILE } from '@/data/profile';
 
 const MAX_NAME = 100;
 const MAX_MESSAGE = 2000;
+const MAX_EMAIL = 254;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 export default function Contact() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
   const [message, setMessage] = useState('');
   const [honeypot, setHoneypot] = useState('');
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<Status>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const onSubmit = (e: React.FormEvent) => {
+  const emailValid = EMAIL_RE.test(email);
+  const emailError = emailTouched && email.length > 0 && !emailValid;
+  const canSubmit =
+    emailValid && message.trim().length > 0 && status !== 'sending';
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (honeypot) return;
-    if (!email || !message) return;
+    setEmailTouched(true);
+    if (!canSubmit) return;
 
-    const subject = encodeURIComponent(
-      `Hello from ${name || 'jdilig.me visitor'}`,
-    );
-    const body = encodeURIComponent(
-      `${message}\n\n— ${name || 'Anonymous'} (${email})`,
-    );
-    window.location.href = `mailto:${PROFILE.email}?subject=${subject}&body=${body}`;
-    setSent(true);
+    setStatus('sending');
+    setErrorMsg('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message, honeypot }),
+      });
+
+      if (!res.ok) {
+        const data = (await res.json().catch(() => null)) as
+          | { error?: string }
+          | null;
+        throw new Error(data?.error || `Request failed (${res.status})`);
+      }
+
+      setStatus('sent');
+    } catch (err) {
+      setStatus('error');
+      setErrorMsg(err instanceof Error ? err.message : 'Failed to send');
+    }
   };
 
-  if (sent) {
+  if (status === 'sent') {
     return (
       <div className="mx-auto flex min-h-[500px] w-full max-w-[720px] items-center justify-center px-10 py-14">
         <div className="text-center">
@@ -70,14 +95,11 @@ export default function Contact() {
         reply within a day or two.
       </p>
 
-      <form
-        onSubmit={onSubmit}
-        className="flex flex-col gap-[18px]"
-        noValidate
-      >
+      <form onSubmit={onSubmit} className="flex flex-col gap-[18px]" noValidate>
         {/* Honeypot — hidden from humans, bots fill it */}
         <input
           type="text"
+          name="company"
           tabIndex={-1}
           autoComplete="off"
           value={honeypot}
@@ -94,20 +116,38 @@ export default function Contact() {
             placeholder="John"
             autoComplete="name"
             maxLength={MAX_NAME}
+            disabled={status === 'sending'}
           />
         </Field>
 
         <Field label="Email">
           <input
-            className="field-input"
+            className={`field-input${emailError ? ' field-input--error' : ''}`}
             type="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value.slice(0, MAX_EMAIL));
+              // Once the user has been told it's wrong, re-validate live
+              if (emailTouched && status === 'error') setStatus('idle');
+            }}
+            onBlur={() => setEmailTouched(true)}
             placeholder="you@domain.com"
             autoComplete="email"
-            maxLength={254}
+            maxLength={MAX_EMAIL}
+            disabled={status === 'sending'}
+            aria-invalid={emailError}
+            aria-describedby={emailError ? 'email-error' : undefined}
           />
+          {emailError && (
+            <div
+              id="email-error"
+              className="font-mono text-[11px]"
+              style={{ color: 'var(--danger)' }}
+            >
+              Enter a valid email (like you@domain.com).
+            </div>
+          )}
         </Field>
 
         <Field label="Message">
@@ -121,12 +161,34 @@ export default function Contact() {
             }
             placeholder="What's on your mind?"
             maxLength={MAX_MESSAGE}
+            disabled={status === 'sending'}
             style={{ minHeight: 120, fontFamily: 'var(--font-sans)' }}
           />
           <div className="mt-1 text-right font-mono text-[11px] text-fg-faint">
             {message.length} / {MAX_MESSAGE}
           </div>
         </Field>
+
+        {status === 'error' && (
+          <div
+            className="rounded-md border px-3 py-2 text-sm"
+            style={{
+              background: 'var(--danger-soft)',
+              borderColor: 'var(--danger)',
+              color: 'var(--danger)',
+            }}
+          >
+            {errorMsg}. You can also email{' '}
+            <a
+              href={`mailto:${PROFILE.email}`}
+              className="underline"
+              style={{ color: 'var(--danger)' }}
+            >
+              {PROFILE.email}
+            </a>{' '}
+            directly.
+          </div>
+        )}
 
         <div className="mt-1 flex items-center justify-between">
           <div className="font-mono text-xs text-fg-subtle">
@@ -135,8 +197,14 @@ export default function Contact() {
               {PROFILE.email}
             </a>
           </div>
-          <Button type="submit" variant="primary" size="lg">
-            Send message <Icon.ArrowRight className="h-4 w-4" />
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            disabled={!canSubmit}
+          >
+            {status === 'sending' ? 'Sending…' : 'Send message'}
+            {status !== 'sending' && <Icon.ArrowRight className="h-4 w-4" />}
           </Button>
         </div>
       </form>
@@ -155,6 +223,15 @@ export default function Contact() {
           box-shadow: var(--shadow-xs);
         }
         .field-input::placeholder { color: var(--fg-faint); }
+        .field-input:disabled { opacity: 0.6; cursor: not-allowed; }
+        .field-input--error {
+          border-color: var(--danger);
+          box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+        }
+        .field-input--error:focus-visible {
+          border-color: var(--danger) !important;
+          box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25) !important;
+        }
       `}</style>
     </div>
   );

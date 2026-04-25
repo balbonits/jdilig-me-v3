@@ -22,9 +22,18 @@ export default function Header() {
       <nav className="mx-auto flex max-w-[1280px] items-center justify-between px-10 py-4">
         <Link
           to="/"
-          className="font-mono text-[17px] font-semibold tracking-[-0.03em] text-fg-strong no-underline"
+          className="flex items-center gap-2.5 font-mono text-[17px] font-semibold tracking-[-0.03em] text-fg-strong no-underline"
         >
-          jdilig<span className="text-accent">.</span>me
+          <img
+            src="/logo.png"
+            alt=""
+            width={28}
+            height={28}
+            className="h-7 w-7 rounded-full ring-1 ring-border-DEFAULT"
+          />
+          <span>
+            jdilig<span className="text-accent">.</span>me
+          </span>
         </Link>
 
         <div className="flex items-center gap-1">
