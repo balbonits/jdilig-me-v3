@@ -70,3 +70,21 @@ Pushed to GitHub → Vercel auto-deploys. The current production deploy serves a
 
 - Detailed conventions, naming rules, and architecture notes for AI agents and contributors live in [AGENTS.md](./AGENTS.md).
 - The design system (tokens, type, motion) was sketched in Claude Design and ported to Tailwind v4 — see `src/styles/tokens.css` and the `@theme inline` block in `src/index.css`.
+
+## License
+
+The **source code** in this repository is released under the [MIT License](./LICENSE) — feel free to fork it as a starting point for your own portfolio.
+
+The following are **NOT** covered by that license and remain © John Dilig (all rights reserved):
+
+- Personal copy, bio, and resume content (`src/data/profile.ts`, `src/data/resume.ts`, route page text)
+- The resume PDF in `public/`
+- The avatar / profile photo (`public/logo.png`)
+- Project case-study text in `src/data/projects.ts`
+- Screenshots in `public/screenshots/`, including those of `squanto.app` — which depict UI co-developed during paid employment and remain property of Squanto and its operators
+
+If you fork this for your own site, please replace the personal content with your own.
+
+## Privacy
+
+The contact form posts to `/api/contact` (a Vercel Edge Function), which forwards the message to my inbox via [Resend](https://resend.com). Submissions are not stored on this site, not shared, and not used for analytics. The site itself runs no third-party trackers, no cookies, and no analytics.

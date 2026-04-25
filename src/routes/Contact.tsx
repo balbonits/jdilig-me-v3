@@ -207,6 +207,12 @@ export default function Contact() {
             {status !== 'sending' && <Icon.ArrowRight className="h-4 w-4" />}
           </Button>
         </div>
+
+        <p className="mt-3 text-[11px] leading-relaxed text-fg-faint">
+          Submissions are delivered to my inbox via Resend. I don't store
+          them on this site, share them, or use them for any kind of
+          analytics or marketing.
+        </p>
       </form>
 
       <style>{`

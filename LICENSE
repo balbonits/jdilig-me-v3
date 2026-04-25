@@ -1,0 +1,42 @@
+MIT License
+
+Copyright (c) 2026 John Dilig
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+This MIT license applies to the **source code** in this repository only.
+
+The following are NOT covered by this license and remain the exclusive
+property of John Dilig (or, where indicated, the respective rights-holder):
+
+  * Personal copy and biography (including but not limited to text in
+    src/data/profile.ts, src/data/resume.ts, and src/routes/*.tsx page
+    content)
+  * The resume PDF in public/Reuel_John_Dilig_Resume.pdf
+  * Personal photographs and avatars (public/logo.png and any portraits)
+  * Project descriptions and case-study text in src/data/projects.ts
+  * Screenshots in public/screenshots/ — including those of squanto.app,
+    which depict UI co-developed during paid employment and remain the
+    property of Squanto and its operators
+
+You may reuse the source code, build tooling, and design-system scaffolding
+under the MIT terms above. Please do not copy the personal content or the
+project descriptions verbatim; write your own.
