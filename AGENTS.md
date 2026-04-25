@@ -150,6 +150,19 @@ No unit test runner yet. When added:
 - Use Playwright for E2E (already set up for screenshots).
 - Per project rule: **don't write tests for trivial UI components.** Test data-driven components, custom hooks, utilities, and complex business logic.
 
+## BACKLOG hygiene
+
+`BACKLOG.md` at the repo root is the live work queue. **Update it whenever a push or merge to `main` completes, partially completes, or invalidates a backlog item.** The rule:
+
+| Situation | Action |
+|---|---|
+| Item shipped fully | Move to the "Recently shipped" section at the bottom (or remove if old). |
+| Item shipped partially | Update the item's scope — leave the not-yet-done bullets, prefix done bullets with strikethrough or move them to a "Shipped" sub-bullet. |
+| New work emerged mid-task | Add a new item or sub-bullet under the relevant existing item. Don't let TODOs accumulate in code or commit messages. |
+| Item turned out to be wrong / obsolete | Remove it and explain why in the commit body. |
+
+This keeps `BACKLOG.md` reflecting reality at every commit instead of drifting into a stale wishlist. See [`docs/workflow.md`](./docs/workflow.md) for more.
+
 ## What not to do
 
 - Don't reintroduce CRA, Next.js, or any other framework.

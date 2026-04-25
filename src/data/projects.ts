@@ -177,6 +177,141 @@ export const PROJECTS: Project[] = [
       },
     ],
   },
+  {
+    slug: 'running-man',
+    kind: 'GAME',
+    year: '2026',
+    title: 'Running Man',
+    accent: 'rhythm',
+    status: 'LIVE',
+    desc: 'Side-scrolling auto-runner. Time jumps to clear obstacles. PixelLab pixel art, synthesized audio.',
+    summary:
+      'A one-button auto-runner: your character runs right, you tap to jump. PixelLab generates the character, obstacles, and parallax backdrops; Web Audio synthesizes every SFX and the looping music. Variable-height jumps, mood-based obstacle pacing, a five-most-recent-runs panel inside the death overlay.',
+    tags: ['Vanilla JS', 'Canvas2D', 'PixelLab', 'Web Audio'],
+    role: 'Director — AI-built',
+    timeline: 'Apr 2026',
+    bundle: '—',
+    overview: [
+      "The first game in the AI Browser Game Demos repo. A short-session arcade runner where the player never stops running and the only verb is jump.",
+      "Built end-to-end by AI under my direction — Claude Code writes every line of game logic, PixelLab generates all the sprites via MCP, Web Audio synthesizes the audio. My role is director: pick the concept, review the build, ask for revisions until the feel is right. No hand-written code, no hand-drawn art.",
+    ],
+    highlights: [
+      "Tight collision: hitboxes measured directly from each PNG's alpha channel so the collider matches the visible art 1:1.",
+      'Variable-height jump — taps become hops, holds get the full arc — wired through `keyup` and `pointerup`.',
+      'Three obstacle "moods" (tight bursts, standard cadence, long breathers) keep the late game from feeling relentless.',
+      'Three-layer parallax — far mountains, pine forest, cloud band — built from PixelLab map-objects with per-layer scroll multipliers.',
+      'Last-20-runs persisted to localStorage; death overlay highlights the current run and the all-time best.',
+    ],
+    learned:
+      "Pixel art reads as 'wrong' or 'right' instantly — and the AI doesn't know which. Iterating on the alpha-padding values and the felt of the road took more passes than the entire game-logic rewrite.",
+    links: {
+      live: 'https://games.jdilig.me/games/running-man/index.html',
+      source:
+        'https://github.com/balbonits/ai-browser-game-demos/tree/main/games/running-man',
+    },
+    previewImage: '/screenshots/game-running-man.png',
+  },
+  {
+    slug: 'neon-tower-defense',
+    kind: 'GAME',
+    year: '2026',
+    title: 'Neon Tower Defense',
+    accent: 'geometry',
+    status: 'LIVE',
+    desc: 'Wave-based tower defense in a neon CRT aesthetic. Every visual is geometry, every sound is synthesized in code.',
+    summary:
+      'A 12-wave tower defense in a neon CRT aesthetic, plus an endless score-attack mode after wave 12. Three tower types (bolt / pulse / spike) with three upgrade tiers each, four enemy types, slow + AoE + pierce mechanics. Zero assets shipped — every visual is a Canvas2D primitive, every sound is synthesized via Web Audio.',
+    tags: ['Vanilla JS', 'Canvas2D', 'Web Audio', 'No assets'],
+    role: 'Director — AI-built',
+    timeline: 'Apr 2026',
+    bundle: '—',
+    overview: [
+      'A deliberate counterpoint to Running Man: where Running Man leans on PixelLab-generated pixel art, Neon Tower Defense ships with no asset folder at all. Every visual is a layered glow drawn from `render.js` — a soft halo via shadowBlur plus a brighter outlined core — so triangles, squares, diamonds, and hexagons read as glowing CRT-monitor neon.',
+      'Twelve hand-tuned waves with bosses on 4 / 8 / 12. After clearing the campaign the game transitions into endless mode: wave templates cycle, HP / speed / spawn count scale per wave, kill rewards scale with them, and `localStorage[neon-td:best]` tracks the highest wave reached.',
+    ],
+    highlights: [
+      'Three tower archetypes — bolt (fast single-target), pulse (AoE), spike (long-range piercing) — each with three upgrade tiers and per-tier slow / pierce mechanics.',
+      'Path is a polyline; non-buildable tiles are computed once at module load by checking each tile centroid against the path.',
+      'Endless mode tightens HP / speed / spawn count per wave but scales kill rewards with them, so the player stays solvent for upgrades.',
+      'Distinct timbres per tower fire — bolt = high square chirp, pulse = saw thump + filtered noise, spike = high square w/ steep down-bend.',
+    ],
+    learned:
+      "Shape-only games live or die on contrast. Picking palette colors that read as 'glowing' on near-black took as long as tuning the wave economy.",
+    links: {
+      live: 'https://games.jdilig.me/games/neon-tower-defense/index.html',
+      source:
+        'https://github.com/balbonits/ai-browser-game-demos/tree/main/games/neon-tower-defense',
+    },
+    previewImage: '/screenshots/game-neon-tower-defense.png',
+  },
+  {
+    slug: 'block-fps',
+    kind: 'GAME',
+    year: '2026',
+    title: 'Block Arena',
+    accent: 'polygons',
+    status: 'LIVE',
+    desc: 'First-person arena shooter — polygonal gun, 3D block enemies, Three.js via CDN, no build step.',
+    summary:
+      'A first-person arena shooter built entirely from procedural geometry. The viewmodel is a polygonal gun assembled from BoxGeometry parts; enemies are colored block meshes with EdgesGeometry outlines. Three.js loads from esm.sh at runtime via importmap — no build step, no bundler, no installed dependencies.',
+    tags: ['Three.js', 'WebGL', 'PointerLock', 'Web Audio'],
+    role: 'Director — AI-built',
+    timeline: 'Apr 2026',
+    bundle: '—',
+    overview: [
+      'A 3D counterpoint to the 2D pixel and shape pieces. The player wields a polygonal gun (eight BoxGeometry pieces parented to the camera) and defends an arena from three enemy archetypes — grunt, charger, heavy — across eight hand-tuned waves with endless scaling after.',
+      'Hitscan firing via THREE.Raycaster with a small spread. Recoil animation is a 0.07s ease-out kick. Tracers fade over 0.08s. Movement is acceleration-based with axis-by-axis AABB sliding around arena pillars so the player never gets stuck on a corner.',
+    ],
+    highlights: [
+      'Three.js loaded from esm.sh CDN via `<script type="importmap">` — no `npm install`, no bundler, no build step.',
+      'Polygonal gun viewmodel built from BoxGeometry + EdgesGeometry outlines, glued to the camera.',
+      "Pointer Lock API for FPS controls; pressing Esc releases the lock and auto-pauses the game — click to re-lock and resume.",
+      'Acceleration-based movement with `approach()`-style smoothing for a slight weighty feel; AABB sliding so you don\'t get stuck on pillars.',
+      'Eight wave templates that loop in endless mode with +20% HP and +10% count per cycle.',
+    ],
+    learned:
+      "Three.js without a bundler is more pleasant than I expected. `importmap` keeps the imports clean, and `esm.sh` resolves the addon paths so you can write `from 'three'` exactly like you would in Vite.",
+    links: {
+      live: 'https://games.jdilig.me/games/block-fps/index.html',
+      source:
+        'https://github.com/balbonits/ai-browser-game-demos/tree/main/games/block-fps',
+    },
+    previewImage: '/screenshots/game-block-fps.png',
+  },
+  {
+    slug: 'maze-runner',
+    kind: 'GAME',
+    year: '2026',
+    title: 'Maze Runner',
+    accent: 'seeds',
+    status: 'LIVE',
+    desc: 'Top-down procedural mazes seeded by a string. Race the clock, collect gems, share seeds.',
+    summary:
+      'A top-down maze game where the same seed always produces the same maze — share seeds with friends and race their times. Recursive-backtracker generation, Mulberry32 PRNG, fog of war, gem collectibles in dead-end cells, a per-difficulty top-10 scoreboard, and a soothing A-minor pentatonic ambient bed during play.',
+    tags: ['Vanilla JS', 'Canvas2D', 'Procedural', 'Web Audio'],
+    role: 'Director — AI-built',
+    timeline: 'Apr 2026',
+    bundle: '—',
+    overview: [
+      'Classic maze traversal with a racing-game urgency: the timer starts the moment you take your first step, and your best time per seed is saved. Fog of war hides cells beyond five Manhattan-distance from the player; previously seen cells dim into a darker palette. The minimap in the corner reveals explored topology at 3 px / cell.',
+      'Three difficulty sizes (Small / Medium / Large) and a seed history (last 20 runs, dedup-by-seed) accessible with `H` from the splash. Press a number key to replay any past seed at the difficulty it was first played on.',
+    ],
+    highlights: [
+      'Recursive-backtracker DFS generation — long winding corridors with relatively few dead ends, gives a "navigating, not searching blind" feel.',
+      'Mulberry32 PRNG seeded from a numeric seed or a djb2-hashed string — same seed + same dimensions → identical maze, every time.',
+      'Gems placed in dead-end cells using a separate RNG (`numericSeed + 1`) so positions are stable per seed independent of mid-run RNG calls.',
+      'Per-difficulty top-10 scoreboard persisted to localStorage; current run is highlighted in green on the win screen.',
+      'Three-layer ambient music — sustained sine pad, soft triangle melody, sparse high-octave bell pings — at 64 BPM, sits at 10% master volume under the SFX.',
+    ],
+    learned:
+      'Seeded RNG is a small idea that pays off in unexpected ways. The dual-RNG trick (gem placement seeded from `seed + 1`) keeps placements deterministic even after I reordered the gameplay code three times.',
+    links: {
+      live: 'https://games.jdilig.me/games/maze-runner/index.html',
+      source:
+        'https://github.com/balbonits/ai-browser-game-demos/tree/main/games/maze-runner',
+    },
+    previewImage: '/screenshots/game-maze-runner.png',
+  },
 ];
 
 export function getProject(slug: string): Project | undefined {
