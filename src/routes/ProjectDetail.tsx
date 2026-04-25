@@ -4,6 +4,7 @@ import { Icon, GitHubIcon } from '@/components/icons';
 import { LinkButton } from '@/components/ui/Button';
 import ProjectHeroPreview from '@/components/projects/ProjectHeroPreview';
 import ProjectGallery from '@/components/projects/ProjectGallery';
+import LighthouseScores from '@/components/projects/LighthouseScores';
 import { getAdjacent, getProject, liveLinkLabel } from '@/data/projects';
 
 export default function ProjectDetail() {
@@ -161,6 +162,11 @@ export default function ProjectDetail() {
           <Meta label="Role">{p.role}</Meta>
           <Meta label="Timeline">{p.timeline}</Meta>
           {p.bundle !== '—' && <Meta label="Bundle">{p.bundle} gzipped</Meta>}
+          {p.slug === 'jdilig-me' && (
+            <Meta label="Lighthouse">
+              <LighthouseScores />
+            </Meta>
+          )}
           {(p.links.live || p.links.source) && (
             <Meta label="Links">
               <div className="flex flex-col gap-1.5">
