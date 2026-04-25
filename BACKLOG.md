@@ -53,7 +53,17 @@ Add page-view + basic event tracking via Google Analytics 4.
 
 ---
 
-## 4. Check for mobile device support
+## 4. Operational follow-ups (do soon, not features)
+
+Loose ends from the launch session that don't fit into a feature ticket.
+
+- **Rotate the Resend API key.** The current key was pasted into a chat transcript and should be treated as exposed. Resend dashboard → API Keys → revoke the existing one + generate a new one → update `RESEND_API_KEY` in Vercel (Production + Preview) → trigger a redeploy. Don't forget to update `.env.local` if you still use `vercel dev` locally.
+- **Live-fire the contact form.** Visit `https://www.jdilig.me/contact`, send a real message, confirm it lands in `rjdofficemail@gmail.com`. We never tested production end-to-end (the API was confirmed reachable via GET → 405, but no real send was attempted, since that would email you in the middle of the build session).
+- **Archive or delete the old `jdilig-me` Vercel project.** It's orphaned now that `jdilig.me` / `www.jdilig.me` moved to `jdilig-me-v3`. Confirm v3 has been stable for a few days, then in Vercel: open the old project → Settings → bottom of page → "Delete Project" (or just leave it parked at its `*.vercel.app` URL).
+
+---
+
+## 5. Check for mobile device support
 
 Audit and fix mobile responsiveness across all routes.
 
