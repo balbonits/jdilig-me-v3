@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Icon, GitHubIcon } from '@/components/icons';
-import type { Project } from '@/data/projects';
+import { liveLinkLabel, type Project } from '@/data/projects';
 import ProjectHeroPreview from '@/components/projects/ProjectHeroPreview';
 import { LinkButton } from '@/components/ui/Button';
 
@@ -137,7 +137,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                   variant="primary"
                 >
                   <Icon.ArrowUpRight className="h-3.5 w-3.5" />
-                  Live demo
+                  {liveLinkLabel(p)}
                 </LinkButton>
               )}
             </div>

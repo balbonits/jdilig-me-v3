@@ -12,20 +12,49 @@ type Shot = {
   external?: boolean;
   /** Per-test timeout override (ms). External sites may need more. */
   timeout?: number;
+  /** Scroll to a selector before capturing (optional). */
+  scrollTo?: string;
 };
 
 const SHOTS: Shot[] = [
+  // --- jdilig.me (local dev server) ---
   { slug: 'home-light', path: '/', theme: 'light' },
   { slug: 'home-dark', path: '/', theme: 'dark' },
   { slug: 'projects-light', path: '/projects', theme: 'light' },
   { slug: 'projects-dark', path: '/projects', theme: 'dark' },
+  { slug: 'project-detail-squanto', path: '/projects/squanto', theme: 'dark' },
+  { slug: 'project-detail-jdilig-me', path: '/projects/jdilig-me', theme: 'light' },
   { slug: 'resume', path: '/resume', theme: 'light' },
   { slug: 'contact', path: '/contact', theme: 'light' },
 
-  // External project previews
+  // --- Squanto public pages ---
   {
     slug: 'squanto-home',
     path: 'https://squanto.app/',
+    external: true,
+    timeout: 60_000,
+  },
+  {
+    slug: 'squanto-audience-map',
+    path: 'https://squanto.app/audience-map',
+    external: true,
+    timeout: 60_000,
+  },
+  {
+    slug: 'squanto-about',
+    path: 'https://squanto.app/about-us',
+    external: true,
+    timeout: 60_000,
+  },
+  {
+    slug: 'squanto-faq',
+    path: 'https://squanto.app/faq',
+    external: true,
+    timeout: 60_000,
+  },
+  {
+    slug: 'squanto-contact',
+    path: 'https://squanto.app/contact-us',
     external: true,
     timeout: 60_000,
   },
@@ -54,17 +83,23 @@ for (const shot of SHOTS) {
       timeout: 30_000,
     });
 
-    // Best-effort wait for fonts; ignore if the context closes first.
     await page
       .evaluate(() => document.fonts?.ready)
       .catch(() => undefined);
 
-    // Let first paint / hero animations settle.
     await page.waitForTimeout(1500);
+
+    if (shot.scrollTo) {
+      await page
+        .locator(shot.scrollTo)
+        .first()
+        .scrollIntoViewIfNeeded()
+        .catch(() => undefined);
+      await page.waitForTimeout(400);
+    }
 
     await page.screenshot({
       path: path.join(OUT_DIR, `${shot.slug}.png`),
-      // External sites look better cropped to the viewport (no weird vh pages).
       fullPage: !shot.external,
     });
   });

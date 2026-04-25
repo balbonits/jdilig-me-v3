@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { Icon, GitHubIcon } from '@/components/icons';
 import { LinkButton } from '@/components/ui/Button';
 import ProjectHeroPreview from '@/components/projects/ProjectHeroPreview';
-import { getAdjacent, getProject } from '@/data/projects';
+import ProjectGallery from '@/components/projects/ProjectGallery';
+import { getAdjacent, getProject, liveLinkLabel } from '@/data/projects';
 
 export default function ProjectDetail() {
   const { slug = '' } = useParams();
@@ -69,7 +70,7 @@ export default function ProjectDetail() {
               variant="primary"
             >
               <Icon.ArrowUpRight className="h-3.5 w-3.5" />
-              Live demo
+              {liveLinkLabel(p)}
             </LinkButton>
           )}
           {p.links.source && (
@@ -86,35 +87,39 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      {(p.kind === 'GAME' || p.kind === 'SITE') && (
-        <div className="mb-10">
-          <div
-            className="flex items-center justify-between rounded-t-[12px] border px-3.5 py-2.5"
-            style={{
-              background: '#0c0a09',
-              borderColor: '#292524',
-              borderBottom: 'none',
-            }}
-          >
-            <div className="flex items-center gap-2.5">
-              <div className="flex gap-1.5">
-                <div className="h-2.5 w-2.5 rounded-full bg-[#44403c]" />
-                <div className="h-2.5 w-2.5 rounded-full bg-[#44403c]" />
-                <div className="h-2.5 w-2.5 rounded-full bg-[#44403c]" />
-              </div>
-              <div className="font-mono text-[11px] text-[#a8a29e]">
-                {p.slug}.jdilig.me
+      {p.gallery && p.gallery.length > 0 ? (
+        <ProjectGallery images={p.gallery} className="mb-12" />
+      ) : (
+        (p.kind === 'GAME' || p.kind === 'SITE') && (
+          <div className="mb-10">
+            <div
+              className="flex items-center justify-between rounded-t-[12px] border px-3.5 py-2.5"
+              style={{
+                background: '#0c0a09',
+                borderColor: '#292524',
+                borderBottom: 'none',
+              }}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="flex gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#44403c]" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#44403c]" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#44403c]" />
+                </div>
+                <div className="font-mono text-[11px] text-[#a8a29e]">
+                  {p.slug}.jdilig.me
+                </div>
               </div>
             </div>
+            <ProjectHeroPreview
+              height={360}
+              starCount={80}
+              image={p.previewImage}
+              alt={`${p.title} preview`}
+              className="rounded-b-[12px] border border-t-0"
+            />
           </div>
-          <ProjectHeroPreview
-            height={360}
-            starCount={80}
-            image={p.previewImage}
-            alt={`${p.title} preview`}
-            className="rounded-b-[12px] border border-t-0"
-          />
-        </div>
+        )
       )}
 
       <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_240px]">

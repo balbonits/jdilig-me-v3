@@ -20,7 +20,31 @@ export type Project = {
   links: { live?: string | null; source?: string | null };
   /** Optional path to a preview screenshot (relative to /public). */
   previewImage?: string;
+  /** Image gallery shown on the project detail page. */
+  gallery?: { src: string; alt: string }[];
+  /**
+   * Label for the "live" link (button + nav). Defaults to a kind-appropriate
+   * label — WORK / SITE → "Visit site", GAME → "Play", TOOL → "Open",
+   * EXPT → "View demo".
+   */
+  liveLabel?: string;
 };
+
+export function liveLinkLabel(project: Project): string {
+  if (project.liveLabel) return project.liveLabel;
+  switch (project.kind) {
+    case 'WORK':
+    case 'SITE':
+      return 'Visit site';
+    case 'GAME':
+      return 'Play';
+    case 'TOOL':
+      return 'Open';
+    case 'EXPT':
+    default:
+      return 'Live demo';
+  }
+}
 
 export const PROJECTS: Project[] = [
   {
@@ -63,6 +87,28 @@ export const PROJECTS: Project[] = [
       source: null,
     },
     previewImage: '/screenshots/squanto-home.png',
+    gallery: [
+      {
+        src: '/screenshots/squanto-home.png',
+        alt: 'Squanto landing page — hero with persona CTAs',
+      },
+      {
+        src: '/screenshots/squanto-audience-map.png',
+        alt: 'Audience Map — public live-entertainment discovery map',
+      },
+      {
+        src: '/screenshots/squanto-about.png',
+        alt: 'About page',
+      },
+      {
+        src: '/screenshots/squanto-faq.png',
+        alt: 'FAQ page',
+      },
+      {
+        src: '/screenshots/squanto-contact.png',
+        alt: 'Contact page',
+      },
+    ],
   },
   {
     slug: 'jdilig-me',
@@ -104,6 +150,28 @@ export const PROJECTS: Project[] = [
       source: 'https://github.com/balbonits/jdilig-me-v3',
     },
     previewImage: '/screenshots/home-dark.png',
+    gallery: [
+      {
+        src: '/screenshots/home-dark.png',
+        alt: 'Home — hero with accent period, dark mode',
+      },
+      {
+        src: '/screenshots/home-light.png',
+        alt: 'Home — light mode',
+      },
+      {
+        src: '/screenshots/projects-dark.png',
+        alt: 'Projects index with filter pills',
+      },
+      {
+        src: '/screenshots/resume.png',
+        alt: 'Resume page',
+      },
+      {
+        src: '/screenshots/contact.png',
+        alt: 'Contact form with live email validation',
+      },
+    ],
   },
 ];
 
