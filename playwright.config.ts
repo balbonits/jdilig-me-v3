@@ -1,5 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Playwright uses a dedicated port so it never collides with `npm run dev`
+// for this repo or any other project you might be running at the same time.
+const PORT = Number(process.env.PLAYWRIGHT_PORT) || 4173;
+const BASE_URL = `http://localhost:${PORT}`;
+
 export default defineConfig({
   testDir: './tests',
   timeout: 30_000,
@@ -8,7 +13,7 @@ export default defineConfig({
   workers: 1,
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:5173',
+    baseURL: BASE_URL,
     trace: 'off',
     viewport: { width: 1280, height: 800 },
     deviceScaleFactor: 2,
@@ -20,8 +25,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:5173',
+    command: `vite --port ${PORT} --strictPort`,
+    url: BASE_URL,
     reuseExistingServer: true,
     timeout: 30_000,
   },
