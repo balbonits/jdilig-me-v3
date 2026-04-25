@@ -88,6 +88,8 @@ export default function ProjectDetail() {
         </div>
       </div>
 
+      {p.slug === 'jdilig-me' && <LighthouseScores className="mb-10" />}
+
       {p.gallery && p.gallery.length > 0 ? (
         <ProjectGallery images={p.gallery} className="mb-12" />
       ) : (
@@ -162,11 +164,6 @@ export default function ProjectDetail() {
           <Meta label="Role">{p.role}</Meta>
           <Meta label="Timeline">{p.timeline}</Meta>
           {p.bundle !== '—' && <Meta label="Bundle">{p.bundle} gzipped</Meta>}
-          {p.slug === 'jdilig-me' && (
-            <Meta label="Lighthouse">
-              <LighthouseScores />
-            </Meta>
-          )}
           {(p.links.live || p.links.source) && (
             <Meta label="Links">
               <div className="flex flex-col gap-1.5">

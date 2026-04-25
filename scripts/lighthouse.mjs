@@ -11,7 +11,7 @@ import * as chromeLauncher from 'chrome-launcher';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
-const SCORE_THRESHOLD = 80;
+const SCORE_THRESHOLD = 90;
 const DEFAULT_URL = 'https://www.jdilig.me/';
 
 function parseArgs(argv) {

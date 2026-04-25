@@ -6,9 +6,9 @@ Upcoming features and tasks for jdilig.me v3. Loosely ordered by priority. Each 
 
 ---
 
-## 1. Bring Performance score above 80
+## 1. Bring Performance score above 90
 
-Lighthouse currently scores `https://www.jdilig.me/` at **74 / 100** for Performance (desktop, headless run on 2026-04-25). Below the 80 threshold we set in commit `22132f5`. Other categories are fine: Accessibility 95, Best Practices 100, SEO 83.
+Lighthouse currently scores `https://www.jdilig.me/` at **74 / 100** for Performance (desktop, headless). Below the **90** threshold (raised from 80 in commit `c5c42f9`).
 
 **Likely culprits (to investigate)**
 - **LCP** — `public/logo.png` is the hero `<img>` on the home page; not pre-loaded, not sized, served as PNG (could be SVG / WebP).
