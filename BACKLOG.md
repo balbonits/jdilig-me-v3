@@ -8,7 +8,7 @@ Upcoming features and tasks for jdilig.me v3. Loosely ordered by priority. Each 
 
 ## 1. Bring Performance score above 90
 
-Lighthouse currently scores `https://www.jdilig.me/` at **74 / 100** for Performance (desktop, headless). Below the **90** threshold (raised from 80 in commit `c5c42f9`).
+Lighthouse currently scores `https://www.jdilig.me/` at **82 / 100** for Performance (desktop, headless). Below the 90 threshold. Other categories are now passing (Accessibility 95, Best Practices 100, SEO 100).
 
 **Likely culprits (to investigate)**
 - **LCP** — `public/logo.png` is the hero `<img>` on the home page; not pre-loaded, not sized, served as PNG (could be SVG / WebP).
@@ -92,6 +92,9 @@ Audit and fix mobile responsiveness across all routes.
 
 ## Recently shipped
 
-- **Lighthouse runner + scores on the project page.** `npm run lighthouse` runs Lighthouse against production and writes scores to `src/data/lighthouse.json`. The four scores render as colored pills in the sidebar of `/projects/jdilig-me`. Threshold is 80; anything below opens a BACKLOG item. Apr 25, 2026.
+- **SEO score 83 → 100.** Added `<meta name="description">`, canonical link, full Open Graph + Twitter Card meta tags, `public/robots.txt`, and `public/sitemap.xml` covering all routes. Apr 25, 2026.
+- **Lighthouse threshold raised 80 → 90.** Anything below 90 in any category is now flagged. Apr 25, 2026.
+- **Lighthouse UI rework.** Replaced sidebar pill-style scores with proper Lighthouse-style circular gauges (SVG ring, score in center, label underneath). Moved from sidebar to a dedicated section above the project gallery. Apr 25, 2026.
+- **Lighthouse runner + scores on the project page.** `npm run lighthouse` runs Lighthouse against production and writes scores to `src/data/lighthouse.json`. The four scores render on `/projects/jdilig-me`. Apr 25, 2026.
 - **Add games to projects.** All four games from `balbonits/ai-browser-game-demos` (Running Man, Neon Tower Defense, Block Arena, Maze Runner) wired in as `Project` entries with kind `'GAME'`, screenshots in the gallery, and `liveLabel` defaulting to "Play". `games.jdilig.me` subsite linked from the footer. Apr 25, 2026.
 - **`docs/` folder + BACKLOG hygiene rule.** Created the seven-doc reference set and the rule that every push to `main` updates this file. Apr 25, 2026.
