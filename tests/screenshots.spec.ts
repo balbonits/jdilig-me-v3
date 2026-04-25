@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import path from 'node:path';
 import fs from 'node:fs';
 
@@ -12,9 +12,22 @@ type Shot = {
   external?: boolean;
   /** Per-test timeout override (ms). External sites may need more. */
   timeout?: number;
-  /** Scroll to a selector before capturing (optional). */
-  scrollTo?: string;
+  /**
+   * Page title values that should cause the test to fail (indicating the
+   * route landed on a 404 / error page). Matched as a substring.
+   */
+  failIfTitleContains?: string[];
 };
+
+// Default guard-rails for any external SPA — if the route 404s, the router
+// will set one of these titles client-side and we should reject the shot.
+const DEFAULT_404_TITLES = [
+  '404',
+  'Not Found',
+  'Page Not Found',
+  'Server Error',
+  'Unauthorized',
+];
 
 const SHOTS: Shot[] = [
   // --- jdilig.me (local dev server) ---
@@ -27,37 +40,13 @@ const SHOTS: Shot[] = [
   { slug: 'resume', path: '/resume', theme: 'light' },
   { slug: 'contact', path: '/contact', theme: 'light' },
 
-  // --- Squanto public pages ---
-  {
-    slug: 'squanto-home',
-    path: 'https://squanto.app/',
-    external: true,
-    timeout: 60_000,
-  },
-  {
-    slug: 'squanto-audience-map',
-    path: 'https://squanto.app/audience-map',
-    external: true,
-    timeout: 60_000,
-  },
-  {
-    slug: 'squanto-about',
-    path: 'https://squanto.app/about-us',
-    external: true,
-    timeout: 60_000,
-  },
-  {
-    slug: 'squanto-faq',
-    path: 'https://squanto.app/faq',
-    external: true,
-    timeout: 60_000,
-  },
-  {
-    slug: 'squanto-contact',
-    path: 'https://squanto.app/contact-us',
-    external: true,
-    timeout: 60_000,
-  },
+  // --- Squanto public pages (routes confirmed against docs/site/SITEMAP.md) ---
+  { slug: 'squanto-home', path: 'https://squanto.app/home', external: true, timeout: 60_000 },
+  { slug: 'squanto-audience-map', path: 'https://squanto.app/audience-map', external: true, timeout: 60_000 },
+  { slug: 'squanto-about', path: 'https://squanto.app/about', external: true, timeout: 60_000 },
+  { slug: 'squanto-help', path: 'https://squanto.app/help', external: true, timeout: 60_000 },
+  { slug: 'squanto-contact', path: 'https://squanto.app/contact-us', external: true, timeout: 60_000 },
+  { slug: 'squanto-demo', path: 'https://squanto.app/request-a-demo', external: true, timeout: 60_000 },
 ];
 
 test.beforeAll(() => {
@@ -83,19 +72,19 @@ for (const shot of SHOTS) {
       timeout: 30_000,
     });
 
-    await page
-      .evaluate(() => document.fonts?.ready)
-      .catch(() => undefined);
+    await page.evaluate(() => document.fonts?.ready).catch(() => undefined);
 
+    // Give the SPA router a moment to hydrate and set document.title.
     await page.waitForTimeout(1500);
 
-    if (shot.scrollTo) {
-      await page
-        .locator(shot.scrollTo)
-        .first()
-        .scrollIntoViewIfNeeded()
-        .catch(() => undefined);
-      await page.waitForTimeout(400);
+    // 404 guard — fail the test if the router landed on an error page.
+    const badTitles = shot.failIfTitleContains ?? DEFAULT_404_TITLES;
+    const title = await page.title();
+    for (const bad of badTitles) {
+      expect(
+        title.toLowerCase().includes(bad.toLowerCase()),
+        `Route ${shot.path} rendered a ${bad} page (title: "${title}")`,
+      ).toBeFalsy();
     }
 
     await page.screenshot({

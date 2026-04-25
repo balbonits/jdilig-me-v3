@@ -90,23 +90,27 @@ export const PROJECTS: Project[] = [
     gallery: [
       {
         src: '/screenshots/squanto-home.png',
-        alt: 'Squanto landing page — hero with persona CTAs',
+        alt: 'Landing page — hero with persona CTAs',
       },
       {
         src: '/screenshots/squanto-audience-map.png',
-        alt: 'Audience Map — public live-entertainment discovery map',
+        alt: 'Live Entertainment Map — public audience map',
       },
       {
         src: '/screenshots/squanto-about.png',
-        alt: 'About page',
+        alt: 'About Us',
       },
       {
-        src: '/screenshots/squanto-faq.png',
-        alt: 'FAQ page',
+        src: '/screenshots/squanto-help.png',
+        alt: 'Help / FAQ',
       },
       {
         src: '/screenshots/squanto-contact.png',
-        alt: 'Contact page',
+        alt: 'Contact Us',
+      },
+      {
+        src: '/screenshots/squanto-demo.png',
+        alt: 'Request a Demo',
       },
     ],
   },
