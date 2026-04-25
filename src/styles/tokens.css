@@ -1,0 +1,309 @@
+/* =============================================================
+   jdilig.me — Colors & Type
+   Modern Tailwind aesthetic · Warm accents · Light + Dark
+   ============================================================= */
+
+/* -------- Fonts --------
+   Inter is overused, per guidelines. Using:
+   - Geist (sans, UI)           → body, headings
+   - Fraunces is also overused; using Instrument Serif for display accents
+   - JetBrains Mono (mono)      → code, tabular, wordmark accents
+   These are loaded from Google Fonts in the root index.
+*/
+
+:root {
+  /* ---------- Type families ---------- */
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ---------- Type scale (fluid-ish, fixed here for system cards) ---------- */
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+  --text-5xl: 48px;
+  --text-6xl: 64px;
+  --text-7xl: 80px;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-widest: 0.14em;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ---------- Spacing (4px base) ---------- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ---------- Radii ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* ---------- Shadow system (soft, modern Tailwind) ---------- */
+  --shadow-xs: 0 1px 2px rgba(15, 10, 6, 0.04);
+  --shadow-sm: 0 1px 2px rgba(15, 10, 6, 0.06), 0 1px 3px rgba(15, 10, 6, 0.04);
+  --shadow-md: 0 2px 4px rgba(15, 10, 6, 0.06), 0 4px 12px rgba(15, 10, 6, 0.06);
+  --shadow-lg: 0 4px 8px rgba(15, 10, 6, 0.06), 0 12px 24px rgba(15, 10, 6, 0.08);
+  --shadow-xl: 0 12px 32px rgba(15, 10, 6, 0.10), 0 4px 12px rgba(15, 10, 6, 0.06);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  /* Focus ring — always the accent */
+  --ring: 0 0 0 3px rgba(234, 88, 12, 0.25);
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+}
+
+/* =============================================================
+   COLOR — LIGHT (default)
+   Warm palette: amber / orange accents on warm-neutral (stone) surfaces
+   ============================================================= */
+:root,
+[data-theme="light"] {
+  /* Brand accents — warm */
+  --accent: #ea580c;          /* orange-600 — primary */
+  --accent-hover: #c2410c;    /* orange-700 */
+  --accent-soft: #fff7ed;     /* orange-50 — tinted bg */
+  --accent-border: #fed7aa;   /* orange-200 */
+  --accent-fg: #7c2d12;       /* orange-900 — on soft */
+  --accent-contrast: #ffffff; /* fg on solid accent */
+
+  --amber: #d97706;           /* amber-600 — secondary warm */
+  --terracotta: #b45309;      /* amber-700 — tertiary */
+
+  /* Neutrals — warm stone */
+  --bg: #fdfcfb;              /* near-white, warm */
+  --bg-subtle: #f7f5f2;       /* stone-50ish */
+  --bg-muted: #efece7;        /* stone-100ish */
+  --surface: #ffffff;         /* cards */
+  --surface-raised: #ffffff;
+  --overlay: rgba(28, 25, 23, 0.5);
+
+  --fg: #1c1917;              /* stone-900 */
+  --fg-strong: #0c0a09;       /* stone-950 */
+  --fg-muted: #57534e;        /* stone-600 */
+  --fg-subtle: #78716c;       /* stone-500 */
+  --fg-faint: #a8a29e;        /* stone-400 */
+  --fg-on-accent: #ffffff;
+
+  --border: #e7e5e4;          /* stone-200 */
+  --border-strong: #d6d3d1;   /* stone-300 */
+  --border-faint: #f5f5f4;    /* stone-100 */
+
+  /* Semantic */
+  --success: #16a34a;
+  --success-soft: #f0fdf4;
+  --warning: #ca8a04;
+  --warning-soft: #fefce8;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --info: #0284c7;
+  --info-soft: #f0f9ff;
+
+  /* Code block surface */
+  --code-bg: #1c1917;         /* always dark, even in light mode */
+  --code-fg: #fafaf9;
+  --code-border: #292524;
+  --code-comment: #a8a29e;
+  --code-keyword: #fb923c;    /* orange-400 */
+  --code-string: #86efac;     /* green-300 */
+  --code-number: #fcd34d;     /* amber-300 */
+  --code-fn: #7dd3fc;         /* sky-300 */
+  --code-punct: #d6d3d1;
+
+  color-scheme: light;
+}
+
+/* =============================================================
+   COLOR — DARK
+   ============================================================= */
+[data-theme="dark"] {
+  --accent: #fb923c;          /* orange-400 — lighter on dark */
+  --accent-hover: #fdba74;    /* orange-300 */
+  --accent-soft: #2a1509;     /* deep warm */
+  --accent-border: #7c2d12;   /* orange-900 */
+  --accent-fg: #fed7aa;
+  --accent-contrast: #1c1917;
+
+  --amber: #fbbf24;
+  --terracotta: #f59e0b;
+
+  --bg: #0c0a09;              /* stone-950 */
+  --bg-subtle: #1c1917;       /* stone-900 */
+  --bg-muted: #292524;        /* stone-800 */
+  --surface: #1c1917;
+  --surface-raised: #292524;
+  --overlay: rgba(0, 0, 0, 0.7);
+
+  --fg: #fafaf9;              /* stone-50 */
+  --fg-strong: #ffffff;
+  --fg-muted: #d6d3d1;        /* stone-300 */
+  --fg-subtle: #a8a29e;       /* stone-400 */
+  --fg-faint: #78716c;        /* stone-500 */
+  --fg-on-accent: #1c1917;
+
+  --border: #292524;          /* stone-800 */
+  --border-strong: #44403c;   /* stone-700 */
+  --border-faint: #1c1917;
+
+  --success: #4ade80;
+  --success-soft: #052e16;
+  --warning: #facc15;
+  --warning-soft: #422006;
+  --danger: #f87171;
+  --danger-soft: #450a0a;
+  --info: #38bdf8;
+  --info-soft: #0c2a3e;
+
+  --code-bg: #000000;
+  --code-fg: #fafaf9;
+  --code-border: #1c1917;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  color-scheme: dark;
+}
+
+/* =============================================================
+   BASE / SEMANTIC TYPE
+   ============================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  font-feature-settings: "cv02", "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  color: var(--fg-strong);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--text-6xl); font-weight: var(--weight-bold); }
+h2 { font-size: var(--text-4xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-base); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--fg-muted); font-weight: var(--weight-medium); }
+
+.display {
+  font-family: var(--font-serif);
+  font-weight: var(--weight-regular);
+  letter-spacing: -0.01em;
+  font-style: italic;
+}
+
+p {
+  margin: 0;
+  color: var(--fg-muted);
+  line-height: var(--leading-relaxed);
+  text-wrap: pretty;
+}
+
+.lead {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--fg-muted);
+}
+
+small, .text-sm { font-size: var(--text-sm); }
+.text-xs { font-size: var(--text-xs); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+code, kbd, samp, pre, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+code:not(pre code) {
+  background: var(--bg-muted);
+  color: var(--fg-strong);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  font-size: 0.88em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--space-8) 0;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
