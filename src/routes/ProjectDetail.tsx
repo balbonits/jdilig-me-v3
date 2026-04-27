@@ -47,7 +47,7 @@ export default function ProjectDetail() {
         <div className="max-w-[640px]">
           <div className="mb-3 flex items-center gap-1.5 font-mono text-[11px] tracking-[0.04em] text-fg-subtle">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-            {p.year} · {p.kind} · {p.status}
+            {p.year} · {p.categories.join(' · ')} · {p.status}
           </div>
           <h1 className="mb-3.5 text-[56px] font-bold leading-[1.02] tracking-[-0.03em] text-fg-strong">
             {p.title}
@@ -100,7 +100,7 @@ export default function ProjectDetail() {
       {p.gallery && p.gallery.length > 0 ? (
         <ProjectGallery images={p.gallery} className="mb-12" />
       ) : (
-        (p.kind === 'GAME' || p.kind === 'SITE') && (
+        (p.categories.includes('GAME') || p.categories.includes('SITE')) && (
           <div className="mb-10">
             <div
               className="flex items-center justify-between rounded-t-[12px] border px-3.5 py-2.5"

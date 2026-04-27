@@ -9,7 +9,7 @@ type Props = {
 
 export default function ProjectCard({ project, onClick }: Props) {
   const [hover, setHover] = useState(false);
-  const { kind, year, title, accent, desc, tags } = project;
+  const { categories, year, title, accent, desc, tags } = project;
 
   return (
     <button
@@ -27,7 +27,7 @@ export default function ProjectCard({ project, onClick }: Props) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5 font-mono text-[11px] tracking-[0.04em] text-fg-subtle">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-          {year} · {kind}
+          {year} · {categories.join(' · ')}
         </div>
         <span
           className="inline-flex h-4 w-4 transition-all duration-200 ease-[cubic-bezier(0.2,0.8,0.2,1)]"

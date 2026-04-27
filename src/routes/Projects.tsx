@@ -2,17 +2,43 @@ import { useState } from 'react';
 import Eyebrow from '@/components/ui/Eyebrow';
 import ProjectCard from '@/components/projects/ProjectCard';
 import ProjectModal from '@/components/projects/ProjectModal';
-import { PROJECTS, type Project, type ProjectKind } from '@/data/projects';
+import {
+  PROJECTS,
+  type Project,
+  type ProjectCategory,
+  type SortOption,
+  filterProjects,
+  sortProjects,
+} from '@/data/projects';
 
-type Filter = 'All' | ProjectKind;
-const FILTERS: Filter[] = ['All', 'GAME', 'SITE', 'TOOL', 'WORK', 'EXPT'];
+const ALL_CATEGORIES: ProjectCategory[] = [
+  ...new Set(PROJECTS.flatMap((p) => p.categories)),
+] as ProjectCategory[];
+
+const SORT_LABELS: Record<SortOption, string> = {
+  'year-desc': 'Newest',
+  'year-asc': 'Oldest',
+  'title-asc': 'A-Z',
+};
 
 export default function Projects() {
-  const [filter, setFilter] = useState<Filter>('All');
+  const [active, setActive] = useState<Set<ProjectCategory>>(new Set());
+  const [sort, setSort] = useState<SortOption>('year-desc');
   const [modalProject, setModalProject] = useState<Project | null>(null);
 
-  const visible =
-    filter === 'All' ? PROJECTS : PROJECTS.filter((p) => p.kind === filter);
+  function toggleCategory(cat: ProjectCategory) {
+    setActive((prev) => {
+      const next = new Set(prev);
+      if (next.has(cat)) {
+        next.delete(cat);
+      } else {
+        next.add(cat);
+      }
+      return next;
+    });
+  }
+
+  const visible = sortProjects(filterProjects(PROJECTS, active), sort);
 
   return (
     <>
@@ -32,33 +58,56 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className="mb-6 flex flex-wrap gap-1.5">
-          {FILTERS.map((f) => {
-            const active = filter === f;
-            const count =
-              f === 'All'
-                ? PROJECTS.length
-                : PROJECTS.filter((p) => p.kind === f).length;
-            return (
-              <button
-                key={f}
-                type="button"
-                onClick={() => setFilter(f)}
-                className={`cursor-pointer rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-[120ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
-                  f === 'All' ? 'font-sans tracking-normal' : 'font-mono tracking-[0.04em]'
-                } ${
-                  active
-                    ? 'border-fg-strong bg-fg-strong text-bg'
-                    : 'border-border-DEFAULT bg-surface text-fg-muted hover:border-border-strong'
-                }`}
-              >
-                {f}
-                {f !== 'All' && (
-                  <span className="ml-1.5 text-fg-faint">{count}</span>
-                )}
-              </button>
-            );
-          })}
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-y-3 gap-x-4">
+          <div className="flex flex-wrap gap-1.5">
+            <button
+              type="button"
+              onClick={() => setActive(new Set())}
+              className={`cursor-pointer rounded-full border px-3.5 py-1.5 font-sans text-xs font-medium tracking-normal transition-all duration-[120ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
+                active.size === 0
+                  ? 'border-fg-strong bg-fg-strong text-bg'
+                  : 'border-border-DEFAULT bg-surface text-fg-muted hover:border-border-strong'
+              }`}
+            >
+              All
+            </button>
+            {ALL_CATEGORIES.map((cat) => {
+              const isActive = active.has(cat);
+              const count = PROJECTS.filter((p) =>
+                p.categories.includes(cat),
+              ).length;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => toggleCategory(cat)}
+                  className={`cursor-pointer rounded-full border px-3.5 py-1.5 font-mono text-xs font-medium tracking-[0.04em] transition-all duration-[120ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
+                    isActive
+                      ? 'border-fg-strong bg-fg-strong text-bg'
+                      : 'border-border-DEFAULT bg-surface text-fg-muted hover:border-border-strong'
+                  }`}
+                >
+                  {cat}
+                  <span className={`ml-1.5 ${isActive ? 'text-bg/60' : 'text-fg-faint'}`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <select
+            aria-label="Sort projects"
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortOption)}
+            className="cursor-pointer rounded-full border border-border-DEFAULT bg-surface px-3.5 py-1.5 font-mono text-xs font-medium tracking-[0.04em] text-fg-muted transition-colors duration-[120ms] hover:border-border-strong focus:outline-none"
+          >
+            {(Object.keys(SORT_LABELS) as SortOption[]).map((opt) => (
+              <option key={opt} value={opt}>
+                {SORT_LABELS[opt]}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2">

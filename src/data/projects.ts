@@ -1,9 +1,10 @@
-export type ProjectKind = 'GAME' | 'SITE' | 'TOOL' | 'WORK' | 'EXPT';
+export type ProjectCategory = 'GAME' | 'SITE' | 'TOOL' | 'WORK' | 'EXPT';
 export type ProjectStatus = 'LIVE' | 'SHIPPED' | 'ARCHIVED' | 'WIP';
+export type SortOption = 'year-desc' | 'year-asc' | 'title-asc';
 
 export type Project = {
   slug: string;
-  kind: ProjectKind;
+  categories: ProjectCategory[];
   year: string;
   title: string;
   accent?: string;
@@ -23,7 +24,7 @@ export type Project = {
   /** Image gallery shown on the project detail page. */
   gallery?: { src: string; alt: string }[];
   /**
-   * Label for the "live" link (button + nav). Defaults to a kind-appropriate
+   * Label for the "live" link (button + nav). Defaults to a category-appropriate
    * label — WORK / SITE → "Visit site", GAME → "Play", TOOL → "Open",
    * EXPT → "View demo".
    */
@@ -32,7 +33,7 @@ export type Project = {
 
 export function liveLinkLabel(project: Project): string {
   if (project.liveLabel) return project.liveLabel;
-  switch (project.kind) {
+  switch (project.categories[0]) {
     case 'WORK':
     case 'SITE':
       return 'Visit site';
@@ -46,10 +47,31 @@ export function liveLinkLabel(project: Project): string {
   }
 }
 
+export function filterProjects(
+  projects: Project[],
+  active: Set<ProjectCategory>,
+): Project[] {
+  if (active.size === 0) return projects;
+  return projects.filter((p) => p.categories.some((c) => active.has(c)));
+}
+
+export function sortProjects(projects: Project[], sort: SortOption): Project[] {
+  return [...projects].sort((a, b) => {
+    switch (sort) {
+      case 'year-desc':
+        return b.year.localeCompare(a.year);
+      case 'year-asc':
+        return a.year.localeCompare(b.year);
+      case 'title-asc':
+        return a.title.localeCompare(b.title);
+    }
+  });
+}
+
 export const PROJECTS: Project[] = [
   {
     slug: 'squanto',
-    kind: 'WORK',
+    categories: ['WORK'],
     year: '2026',
     title: 'Squanto',
     accent: 'marketplace',
@@ -116,7 +138,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'jdilig-me',
-    kind: 'SITE',
+    categories: ['SITE'],
     year: '2026',
     title: 'jdilig.me',
     accent: 'refresh',
@@ -179,7 +201,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'running-man',
-    kind: 'GAME',
+    categories: ['GAME', 'EXPT'],
     year: '2026',
     title: 'Running Man',
     accent: 'rhythm',
@@ -213,7 +235,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'neon-tower-defense',
-    kind: 'GAME',
+    categories: ['GAME', 'EXPT'],
     year: '2026',
     title: 'Neon Tower Defense',
     accent: 'geometry',
@@ -246,7 +268,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'block-fps',
-    kind: 'GAME',
+    categories: ['GAME', 'EXPT'],
     year: '2026',
     title: 'Block Arena',
     accent: 'polygons',
@@ -280,7 +302,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'coding-interview-reviewer',
-    kind: 'TOOL',
+    categories: ['TOOL', 'EXPT'],
     year: '2026',
     title: 'Coding Interview Reviewer',
     accent: 'prep',
@@ -331,7 +353,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'maze-runner',
-    kind: 'GAME',
+    categories: ['GAME', 'EXPT'],
     year: '2026',
     title: 'Maze Runner',
     accent: 'seeds',

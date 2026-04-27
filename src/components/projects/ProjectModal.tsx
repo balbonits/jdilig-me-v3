@@ -72,7 +72,7 @@ export default function ProjectModal({ project, onClose }: Props) {
         <div className="px-6 pb-[22px] pt-5">
           <div className="mb-2.5 flex items-center gap-1.5 font-mono text-[11px] tracking-[0.04em] text-fg-subtle">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-            {p.year} · {p.kind} · {p.status}
+            {p.year} · {p.categories.join(' · ')} · {p.status}
           </div>
           <h2 className="mb-2.5 text-[28px] font-bold tracking-[-0.02em] text-fg-strong">
             {p.title}
