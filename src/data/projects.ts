@@ -319,6 +319,15 @@ export const PROJECTS: Project[] = [
       live: null,
       source: 'https://github.com/balbonits/coding-interview-reviewer',
     },
+    previewImage: '/screenshots/cir-exercises.png',
+    gallery: [
+      { src: '/screenshots/cir-exercises.png', alt: 'Exercises — live Sandpack editor with auto-graded tests' },
+      { src: '/screenshots/cir-notes.png', alt: 'Notes — MDX library with tag filtering' },
+      { src: '/screenshots/cir-interview.png', alt: 'Interview — streaming AI mock interviewer' },
+      { src: '/screenshots/cir-review.png', alt: 'Review — SM-2 spaced repetition queue' },
+      { src: '/screenshots/cir-news.png', alt: 'News — RSS feed with AI summarization' },
+      { src: '/screenshots/cir-capture.png', alt: 'Capture — quick snippet / URL capture form' },
+    ],
   },
   {
     slug: 'maze-runner',
