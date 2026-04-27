@@ -319,7 +319,6 @@ export const PROJECTS: Project[] = [
       live: null,
       source: 'https://github.com/balbonits/coding-interview-reviewer',
     },
-    previewImage: '/screenshots/coding-interview-reviewer.png',
   },
   {
     slug: 'maze-runner',
