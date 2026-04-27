@@ -6,6 +6,8 @@ import ProjectHeroPreview from '@/components/projects/ProjectHeroPreview';
 import ProjectGallery from '@/components/projects/ProjectGallery';
 import LighthouseScores from '@/components/projects/LighthouseScores';
 import { getAdjacent, getProject, liveLinkLabel } from '@/data/projects';
+import jdiligLighthouse from '@/data/lighthouse.json';
+import squantoLighthouse from '@/data/squanto-lighthouse.json';
 
 export default function ProjectDetail() {
   const { slug = '' } = useParams();
@@ -88,7 +90,12 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      {p.slug === 'jdilig-me' && <LighthouseScores className="mb-10" />}
+      {p.slug === 'jdilig-me' && (
+        <LighthouseScores data={jdiligLighthouse} className="mb-10" />
+      )}
+      {p.slug === 'squanto' && (
+        <LighthouseScores data={squantoLighthouse} className="mb-10" />
+      )}
 
       {p.gallery && p.gallery.length > 0 ? (
         <ProjectGallery images={p.gallery} className="mb-12" />

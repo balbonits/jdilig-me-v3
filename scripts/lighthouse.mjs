@@ -15,16 +15,17 @@ const SCORE_THRESHOLD = 90;
 const DEFAULT_URL = 'https://www.jdilig.me/';
 
 function parseArgs(argv) {
-  const args = { url: DEFAULT_URL, formFactor: 'desktop' };
+  const args = { url: DEFAULT_URL, formFactor: 'desktop', out: null };
   for (const a of argv.slice(2)) {
     if (a.startsWith('--url=')) args.url = a.slice('--url='.length);
+    else if (a.startsWith('--out=')) args.out = a.slice('--out='.length);
     else if (a === '--mobile') args.formFactor = 'mobile';
     else if (a === '--desktop') args.formFactor = 'desktop';
   }
   return args;
 }
 
-const { url, formFactor } = parseArgs(process.argv);
+const { url, formFactor, out } = parseArgs(process.argv);
 
 const isMobile = formFactor === 'mobile';
 const screenEmulation = isMobile
@@ -68,7 +69,9 @@ try {
     scores,
   };
 
-  const outPath = join(process.cwd(), 'src', 'data', 'lighthouse.json');
+  const outPath = out
+    ? join(process.cwd(), out)
+    : join(process.cwd(), 'src', 'data', 'lighthouse.json');
   mkdirSync(dirname(outPath), { recursive: true });
   writeFileSync(outPath, JSON.stringify(result, null, 2) + '\n');
 

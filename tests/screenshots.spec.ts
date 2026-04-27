@@ -67,6 +67,9 @@ const SHOTS: Shot[] = [
   { slug: 'game-neon-tower-defense', path: 'https://games.jdilig.me/games/neon-tower-defense/index.html', external: true, timeout: 60_000, pressKey: '1', extraWaitMs: 1500 },
   { slug: 'game-block-fps', path: 'https://games.jdilig.me/games/block-fps/index.html', external: true, timeout: 60_000, extraWaitMs: 2500 },
   { slug: 'game-maze-runner', path: 'https://games.jdilig.me/games/maze-runner/index.html', external: true, timeout: 60_000, pressKey: 'Space', extraWaitMs: 1500 },
+
+  // --- Coding Interview Reviewer (local-only, must be running on :3000) ---
+  { slug: 'coding-interview-reviewer', path: 'http://localhost:3000/exercises', external: true, timeout: 30_000, extraWaitMs: 1500 },
 ];
 
 test.beforeAll(() => {

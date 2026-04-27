@@ -19,7 +19,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "screenshots": "playwright test",
-    "lighthouse": "node scripts/lighthouse.mjs"
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "lighthouse:squanto": "node scripts/lighthouse.mjs --url=https://squanto.app --out=src/data/squanto-lighthouse.json"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",

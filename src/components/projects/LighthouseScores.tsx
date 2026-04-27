@@ -1,6 +1,12 @@
-import lighthouse from '@/data/lighthouse.json';
-
 type CategoryKey = 'performance' | 'accessibility' | 'bestPractices' | 'seo';
+
+type LighthouseData = {
+  url: string;
+  measuredAt: string;
+  formFactor: string;
+  lighthouseVersion: string;
+  scores: Record<CategoryKey, number>;
+};
 
 const LABELS: Record<CategoryKey, string> = {
   performance: 'Performance',
@@ -93,12 +99,14 @@ function Gauge({ score, label }: { score: number; label: string }) {
 }
 
 export default function LighthouseScores({
+  data,
   className = '',
 }: {
+  data: LighthouseData;
   className?: string;
 }) {
-  const scores = lighthouse.scores as Record<CategoryKey, number>;
-  const measured = new Date(lighthouse.measuredAt);
+  const scores = data.scores;
+  const measured = new Date(data.measuredAt);
 
   return (
     <section
@@ -126,8 +134,8 @@ export default function LighthouseScores({
       </div>
 
       <div className="mt-6 text-center font-mono text-[10px] text-fg-faint">
-        Lighthouse {lighthouse.lighthouseVersion} ·{' '}
-        <span className="capitalize">{lighthouse.formFactor}</span> · measured{' '}
+        Lighthouse {data.lighthouseVersion} ·{' '}
+        <span className="capitalize">{data.formFactor}</span> · measured{' '}
         {measured.toLocaleDateString('en-US', {
           month: 'short',
           day: 'numeric',
