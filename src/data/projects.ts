@@ -29,7 +29,17 @@ export type Project = {
    * EXPT → "View demo".
    */
   liveLabel?: string;
+  /** When true, the project is pulled out of the grid and rendered as the hero. */
+  featured?: boolean;
 };
+
+export function getFeaturedProject(projects: Project[] = PROJECTS): Project | undefined {
+  return projects.find((p) => p.featured);
+}
+
+export function getNonFeaturedProjects(projects: Project[] = PROJECTS): Project[] {
+  return projects.filter((p) => !p.featured);
+}
 
 export function liveLinkLabel(project: Project): string {
   if (project.liveLabel) return project.liveLabel;
@@ -69,6 +79,51 @@ export function sortProjects(projects: Project[], sort: SortOption): Project[] {
 }
 
 export const PROJECTS: Project[] = [
+  {
+    slug: 'city-app-framework',
+    categories: ['TOOL', 'EXPT'],
+    year: '2026',
+    title: 'City App Framework',
+    accent: 'an OS for AI-driven dev',
+    status: 'LIVE',
+    desc: 'A personal "operating system" for building apps and games with AI coding agents — universal rules, per-project conventions, and a Sponsor / AI-Council operating model.',
+    summary:
+      'AI agents are stateless: every project is "first prompt" forever. City App Framework is the answer — a universal AGENTS.md plus per-project AGENTS.md files that bake in how I want code structured, named, tested, and reviewed. Two layers, a Sponsor / AI-Council operating model, and templates I can drop into any new repo so Claude, Grok, and friends start aligned instead of drifting.',
+    tags: [
+      'AGENTS.md',
+      'Claude Code',
+      'Grok',
+      'Spec-driven',
+      'Conventions',
+      'Templates',
+      'Anti-overengineering',
+    ],
+    role: 'Author / Sponsor',
+    timeline: 'Aug 2025 — Present',
+    bundle: '—',
+    featured: true,
+    overview: [
+      'City App Framework is a personal development framework for building apps and games with AI coding agents (Claude, Grok, others). It exists to solve one specific problem: AI agents are stateless, so without a baked-in answer to "how does John want code structured, named, tested, and reviewed," every new project burns tokens on the same arbitrary choices and drifts from how I actually build.',
+      'The architecture has two layers. The universal layer (this repo) holds rules and patterns that apply across all my projects — anti-overengineering, escalation triggers, decision patterns, communication norms. The per-project layer is each project\'s own AGENTS.md — stack, commands, file layout, naming, footguns. When an agent opens a project, it reads the project\'s AGENTS.md first, then falls back to the universal rules.',
+      'The operating model treats the relationship as Sponsor + AI Council, not democracy. I set vision and boundaries; the agents execute autonomously inside them, escalate only when human judgment is genuinely required, and propose improvements after significant work. It\'s the slim, operational descendant of an earlier "City 2.0" design exercise that framed development as autonomous city governance — same metaphor, less ceremony.',
+    ],
+    highlights: [
+      'Two-layer architecture — universal AGENTS.md + per-project AGENTS.md — so an agent always has fallback rules without the universal layer overriding project-specific intent.',
+      'Sponsor / AI-Council operating model with explicit escalation triggers (new dependency, scope change, architecture choice, irreversible operation) — agents act autonomously inside the boundary and only ask when they should.',
+      'Drop-in templates (project-AGENTS.md, project-CLAUDE.md, project-GROK.md, project-README.md) so a new repo is wired into the framework with one copy/paste.',
+      'Codified conventions/ and decision-patterns/ folders capturing operational rules (anti-overengineering, escalation, communication norms) and recurring tradeoffs with guidance — extracted from real `AGENTS.md` files in jdilig-me-v3, coding-interview-reviewer, and ai-browser-game-demos.',
+      'Earlier "City 2.0" philosophy-first design preserved in docs/design-notes/ — 8 Constitutional Principles, 22 docs — kept for thinking, not loaded into daily execution.',
+      'Demo / whitepaper site deployed on Vercel from examples/website/ as the framework\'s public face.',
+    ],
+    learned:
+      'The win wasn\'t a clever prompt — it was treating AGENTS.md as the single source of truth for how the agent works. Once the rules live in a file the agent always reads, the first prompt of every project gets dramatically shorter and the drift between projects collapses. The framework is doing the work the system prompt should have done all along.',
+    links: {
+      live: 'https://website-pi-one-3ymijizbxt.vercel.app',
+      source: 'https://github.com/balbonits/city-app-framework',
+    },
+    liveLabel: 'View whitepaper',
+    previewImage: '/screenshots/city-app-framework.png',
+  },
   {
     slug: 'squanto',
     categories: ['WORK'],

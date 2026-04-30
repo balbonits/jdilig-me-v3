@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Eyebrow from '@/components/ui/Eyebrow';
 import ProjectCard from '@/components/projects/ProjectCard';
+import FeaturedProjectCard from '@/components/projects/FeaturedProjectCard';
 import ProjectModal from '@/components/projects/ProjectModal';
 import {
   PROJECTS,
@@ -9,10 +10,15 @@ import {
   type SortOption,
   filterProjects,
   sortProjects,
+  getFeaturedProject,
+  getNonFeaturedProjects,
 } from '@/data/projects';
 
+const FEATURED = getFeaturedProject(PROJECTS);
+const GRID_PROJECTS = getNonFeaturedProjects(PROJECTS);
+
 const ALL_CATEGORIES: ProjectCategory[] = [
-  ...new Set(PROJECTS.flatMap((p) => p.categories)),
+  ...new Set(GRID_PROJECTS.flatMap((p) => p.categories)),
 ] as ProjectCategory[];
 
 const SORT_LABELS: Record<SortOption, string> = {
@@ -38,7 +44,7 @@ export default function Projects() {
     });
   }
 
-  const visible = sortProjects(filterProjects(PROJECTS, active), sort);
+  const visible = sortProjects(filterProjects(GRID_PROJECTS, active), sort);
 
   return (
     <>
@@ -58,6 +64,15 @@ export default function Projects() {
           </p>
         </div>
 
+        {FEATURED && (
+          <div className="mb-10">
+            <FeaturedProjectCard
+              project={FEATURED}
+              onClick={() => setModalProject(FEATURED)}
+            />
+          </div>
+        )}
+
         <div className="mb-6 flex flex-wrap items-center justify-between gap-y-3 gap-x-4">
           <div className="flex flex-wrap gap-1.5">
             <button
@@ -73,7 +88,7 @@ export default function Projects() {
             </button>
             {ALL_CATEGORIES.map((cat) => {
               const isActive = active.has(cat);
-              const count = PROJECTS.filter((p) =>
+              const count = GRID_PROJECTS.filter((p) =>
                 p.categories.includes(cat),
               ).length;
               return (

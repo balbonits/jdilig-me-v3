@@ -58,6 +58,9 @@ const SHOTS: Shot[] = [
   { slug: 'squanto-contact', path: 'https://squanto.app/contact-us', external: true, timeout: 60_000 },
   { slug: 'squanto-demo', path: 'https://squanto.app/request-a-demo', external: true, timeout: 60_000 },
 
+  // --- city-app-framework whitepaper site ---
+  { slug: 'city-app-framework', path: 'https://website-pi-one-3ymijizbxt.vercel.app/', external: true, timeout: 60_000 },
+
   // --- AI Browser Game Demos (games.jdilig.me) ---
   // Games gate their first canvas paint on a user gesture (AudioContext
   // policy). We send a Space keypress before screenshotting so the canvas
