@@ -13,7 +13,8 @@ How the v3 portfolio site is organized and why.
 | Styling | **Tailwind CSS v4** via `@tailwindcss/vite` | Tokens-first via `@theme inline`; `@custom-variant dark`. |
 | Hosting | **Vercel** | Auto-deploys from `balbonits/jdilig-me-v3` on push to `main`. |
 | Mail | **Resend** + **Vercel Edge Function** | `/api/contact.ts` runs on Edge runtime; Resend SDK calls fetch under the hood. |
-| Test / capture | **Playwright** | Site screenshots for project gallery; 404 guard catches bad route URLs. |
+| Unit tests | **Vitest** | Project helpers, contact API + validation, sitemap coverage. Matches the Vite toolchain. |
+| Capture | **Playwright** | Site screenshots for the project gallery (404 guard catches bad URLs) and the resume PDF. |
 
 ## Source layout
 
@@ -29,27 +30,38 @@ src/
     tokens.css                   # design system CSS variables (colors, type, motion, shadows)
 
   hooks/
-    useTheme.ts                  # localStorage-persisted light/dark theme
+    useTheme.ts                  # light/dark theme; index.html applies it before first paint
 
   data/
     profile.ts                   # name, email, links, location
     projects.ts                  # Project type + PROJECTS seed + helpers (getProject, liveLinkLabel)
-    resume.ts                    # SKILLS, EXPERIENCE, EDUCATION, SUMMARY
+    resume.ts                    # SKILLS, EXPERIENCE, EDUCATION, SUMMARY (also feeds the PDF)
+    lighthouse.json              # scores from `npm run lighthouse`
     # data files are lowercase — they're modules, not components
 
+  lib/
+    contact.ts                   # contact-form limits + email check, shared with api/contact.ts
+    url.ts                       # displayUrl() — "https://www.x.com/a/" → "x.com/a"
+
   layouts/
-    SiteLayout.tsx               # header + <Outlet /> + footer
+    SiteLayout.tsx               # skip link + header + <Outlet /> + footer; scrolls new pages to top
 
   components/
     icons.tsx                    # heroicons + GitHub/LinkedIn marks (lowercase: multi-export module)
     site/Header.tsx              # logo + auto-generated nav + theme toggle
     site/Footer.tsx              # copyright + sub-site link
-    ui/Button.tsx                # <Button> + <LinkButton> with primary/secondary/ghost variants
+    ui/Button.tsx                # <Button> + <LinkButton> (`to` → router Link, `href` → <a>)
+    ui/Container.tsx             # page column + responsive gutters
     ui/Eyebrow.tsx               # § accent label
-    projects/ProjectCard.tsx     # grid card with hover lift
-    projects/ProjectModal.tsx    # Esc-closable preview overlay
+    ui/Modal.tsx                 # native <dialog> wrapper (focus trap, Esc, scroll lock)
+    ui/RichText.tsx              # `backtick` spans → <code>
+    projects/ProjectCard.tsx     # grid card with CSS hover lift
+    projects/FeaturedProjectCard.tsx  # hero card on /projects
+    projects/ProjectModal.tsx    # quick-look dialog
     projects/ProjectGallery.tsx  # thumbnail grid + lightbox with arrow-key nav
     projects/ProjectHeroPreview.tsx  # screenshot or starfield fallback
+    projects/{ProjectMeta,ProjectTitle,TagList}.tsx  # shared card pieces
+    projects/LighthouseScores.tsx    # score gauges
 
   routes/
     Home.tsx                     # hero + selected work strip
@@ -61,7 +73,7 @@ src/
 
 api/
   contact.ts                     # Vercel Edge Function (export const config = { runtime: 'edge' })
-  tsconfig.json                  # local tsconfig with @types/node so process.env type-checks
+  tsconfig.json                  # @types/node so process.env type-checks; referenced by the root tsconfig
 
 public/
   logo.png                       # GitHub avatar — header logo + favicon
@@ -70,6 +82,7 @@ public/
 
 tests/
   screenshots.spec.ts            # Playwright spec — captures site + external project sites
+  resume-pdf.spec.ts             # Playwright spec — renders public/Reuel_John_Dilig_Resume.pdf
 
 playwright.config.ts             # chromium project; auto-starts vite via webServer
 index.html                       # Vite HTML entry; data-theme="light" default
@@ -99,12 +112,15 @@ export const routeTree: RouteObject[] = [
 
 `App.tsx` is just `<BrowserRouter><AppRoutes /></BrowserRouter>` where `AppRoutes` calls `useRoutes(routeTree)`.
 
+`SiteLayout` scrolls to the top on every new navigation (PUSH/REPLACE) and leaves Back/Forward (POP) alone so the browser restores the old position. We stay on `<BrowserRouter>` on purpose: switching to `createBrowserRouter` just for `<ScrollRestoration>` added ~18 KB gzipped.
+
 ## Theme system
 
 `useTheme()` returns `[theme, toggle]`:
 
-- **First load:** reads `localStorage.theme`, falls back to `window.matchMedia('(prefers-color-scheme: dark)')`.
-- **On change:** writes `localStorage.theme` and sets `document.documentElement.dataset.theme = theme`.
+- **Before first paint:** an inline script in `index.html` reads `localStorage.theme`, falls back to `prefers-color-scheme`, and sets `data-theme` — so dark-mode visitors never see a light flash.
+- **First render:** `useTheme` starts from that `data-theme` value.
+- **On toggle:** sets `data-theme` and saves `localStorage.theme`. Until the first toggle nothing is saved, so the OS setting keeps winning.
 
 The dark variant is wired into Tailwind utilities via `@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));` in `src/index.css`. So `dark:bg-bg-muted` works without any provider.
 
@@ -136,7 +152,7 @@ If a new file default-exports a React component, name it after that component in
 
 ```
 npm run build
-  ├─ tsc -b           # type-check (strict; api/ checked via api/tsconfig.json)
+  ├─ tsc -b           # type-check src/, vite.config.ts, and api/ (strict)
   └─ vite build       # bundle to dist/
 ```
 
@@ -147,7 +163,7 @@ Type errors fail the build. Vercel's auto-deploy runs the same `npm run build`.
 - **No Next.js / SSR.** This is a personal SPA — no need for server components or ISR.
 - **No CSS-in-JS.** Tailwind + tokens cover everything.
 - **No state library.** Routes manage their own state; useTheme is the only cross-cutting concern.
-- **No test runner yet.** Playwright handles screenshots; unit tests aren't worth the overhead for a portfolio. Add Vitest only when something genuinely needs it.
+- **No modal library.** `ui/Modal.tsx` wraps the native `<dialog>`; Headless UI's `Dialog` did the same job for +15 KB gzipped.
 
 ## Related docs
 

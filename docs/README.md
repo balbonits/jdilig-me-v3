@@ -32,4 +32,4 @@ If you're picking the project up cold, read in this order:
 - Don't duplicate `AGENTS.md` content here — link to it. Same with `README.md`.
 - Each doc should answer a specific question. If a doc grows beyond ~300 lines or starts answering more than one big question, split it.
 
-**Last reviewed:** April 2026.
+**Last reviewed:** September 2026.

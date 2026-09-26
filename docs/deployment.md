@@ -17,7 +17,7 @@ Vercel + GoDaddy DNS + GitHub auto-deploy.
 | Framework preset | Vite (auto-detected) |
 | Build command | `npm run build` (default) |
 | Output directory | `dist` (default) |
-| Node version | 22.x |
+| Node version | 24.x |
 | GitHub repo | `balbonits/jdilig-me-v3` (connected April 2026) |
 
 Connection lives in the Vercel Settings → Git tab. Once connected, every push to `main` triggers a production build; every PR triggers a preview build with the PR head as `git ref`.

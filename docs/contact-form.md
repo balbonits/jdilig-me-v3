@@ -20,7 +20,7 @@ Success state                                  rjdofficemail@gmail.com
 
 ## Why Edge runtime
 
-`api/contact.ts` declares `export const config = { runtime: 'edge' }` so Vercel routes the request to its Edge runtime, where the function is invoked with Web API semantics (`Request → Response`). On the default Node runtime Vercel passes Express-style `(req, res)` args, which made `await req.json()` blow up silently and the request hung forever — see commit `dee3727` post-mortem in CHANGELOG.
+`api/contact.ts` declares `export const config = { runtime: 'edge' }` so Vercel routes the request to its Edge runtime, where the function is invoked with Web API semantics (`Request → Response`). On the default Node runtime Vercel passes Express-style `(req, res)` args, which made `await req.json()` blow up silently and the request hung forever — see commit `dee3727`.
 
 The Resend SDK uses `fetch` under the hood, which works on Edge.
 
@@ -29,16 +29,16 @@ The Resend SDK uses `fetch` under the hood, which works on Edge.
 Located in `api/contact.ts`. Order of checks:
 
 1. **Method gate** — only `POST`. Anything else returns `405`.
-2. **Env gate** — if `RESEND_API_KEY` is missing, returns `500 { error: 'Email service is not configured' }`. (Locally without `vercel dev`, the form will get this; that's fine, the mailto fallback is right there in the UI.)
-3. **JSON parse** — `400` if the body isn't JSON.
+2. **JSON parse** — `400` if the body isn't JSON.
+3. **Shape check** — `400` unless the body is a JSON object whose `name` / `email` / `message` / `honeypot` fields are strings (or absent). Before this, `null` or a number field crashed the function with a 500.
 4. **Honeypot** — if the `honeypot` field is non-empty, return `200 { ok: true }` to fake success. Bots see "great, sent!" and don't retry. No real email is sent.
-5. **Required fields** — `email` and `message` must be present.
-6. **Email format** — same `EMAIL_RE` regex used client-side: `/^[^\s@]+@[^\s@]+\.[^\s@]+$/`.
-7. **Length caps** — `name ≤ 100`, `email ≤ 254`, `message ≤ 2000`.
-8. **Header sanitization** — strip `\r\n` from `name` and `email` before they go into the From / Reply-To headers (prevents header injection).
+5. **Required fields** — `email` and a non-blank `message` must be present.
+6. **Email + length caps** — `isValidEmail()` and `CONTACT_LIMITS` (`name ≤ 100`, `email ≤ 254`, `message ≤ 2000`) from `src/lib/contact.ts`.
+7. **Env gate** — if `RESEND_API_KEY` is missing, returns `500 { error: 'Email service is not configured' }`. (Locally without `vercel dev`, the form will get this; that's fine, the mailto fallback is right there in the UI.)
+8. **Header sanitization** — strip `\r\n` from `name` and `email` before they go into the Subject / Reply-To headers (prevents header injection).
 9. **HTML escape** — message content gets `&`, `<`, `>`, `"`, `'` escaped before being interpolated into the HTML body.
 
-The same regex is mirrored client-side in `Contact.tsx` so live validation gives a consistent error message before submit.
+`src/lib/contact.ts` is imported by both `Contact.tsx` and `api/contact.ts`, so live validation and the server can't drift. `src/lib/contact.test.ts` covers every branch above (with Resend mocked).
 
 ## Resend setup
 
@@ -58,11 +58,7 @@ A `.env.example` at the repo root shows the same shape for local dev. `.env.loca
 
 ## Client-side validation
 
-`src/routes/Contact.tsx` mirrors the server's regex:
-
-```ts
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-```
+`src/routes/Contact.tsx` uses the same `isValidEmail()` and `CONTACT_LIMITS` as the server.
 
 UX rules:
 - The email field is `type="email"` for mobile keyboard hints and autofill.
@@ -70,7 +66,8 @@ UX rules:
 - The error only renders **after** the field has been touched (`onBlur`) — no shouting at users while they're typing.
 - Once an error is showing, it updates **live** on every keystroke and disappears the moment the address becomes valid.
 - Submit button is disabled until email is valid AND message has non-whitespace content.
-- Error messages are server-driven for failures past validation (Resend errors, etc.).
+- Error messages are server-driven for failures past validation (Resend errors, etc.) and announced with `role="alert"`.
+- Each field has a real `<label for>`; error and counter text sit outside the label and are linked with `aria-describedby`.
 
 ## Honeypot
 
@@ -83,7 +80,7 @@ Single line under the form:
 > Submissions are delivered to my inbox via Resend. I don't store them on this site, share them, or use them for any kind of analytics or marketing.
 
 Backed up by:
-- No analytics on the site (no GA, no Plausible, no Pixel — see BACKLOG #3 for the GA4 plan that'll change this).
+- Only cookieless Vercel Web Analytics + Speed Insights on the site (no GA, no Plausible, no Pixel — see BACKLOG #3 for the GA4 plan that'll change this). Neither sees form contents.
 - Resend stores delivery records on its end (delivery + bounce metadata) — that's their normal product.
 - The Edge function logs errors via `console.error()` (visible in Vercel logs) but doesn't log message content.
 
@@ -91,9 +88,10 @@ Backed up by:
 
 Server first, then client:
 
-1. Add the rule to `api/contact.ts` (the source of truth — clients can be bypassed).
-2. Mirror in `Contact.tsx` if it benefits live UX.
+1. Put shared rules (limits, formats) in `src/lib/contact.ts`; server-only checks go in `api/contact.ts` (the source of truth — clients can be bypassed).
+2. Use the shared rule in `Contact.tsx` if it benefits live UX.
 3. Pick error messages that match — the form will display whatever the server returns in `res.body.error` if the server rejects.
+4. Add a case to `src/lib/contact.test.ts`. (Keep tests out of `api/` — Vercel would deploy them as functions.)
 
 ## Local testing
 
