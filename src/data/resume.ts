@@ -115,7 +115,7 @@ export const EXPERIENCE: Job[] = [
     location: 'Seattle, WA (Remote)',
     when: 'Jul 2022 — May 2023',
     bullets: [
-      "Built and maintained React, Redux, and TypeScript UI components for Amazon QuickSight, AWS's business-intelligence platform — including data visualizations such as line charts and word clouds.",
+      "Built and maintained React, Redux, and TypeScript UI components for AWS QuickSight, AWS's business-intelligence platform — including data visualizations such as line charts and word clouds.",
       'Shipped production components under strict testing standards and helped prototype new features with cross-functional teams.',
     ],
   },
