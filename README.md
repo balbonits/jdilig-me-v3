@@ -10,8 +10,8 @@ Personal portfolio site for **John Dilig** — front-end developer.
 - **Tailwind CSS v4** (via `@tailwindcss/vite`, with `@theme inline` token bridge)
 - **React Router v7** (library mode, with auto-generated nav from route metadata)
 - **Resend** + **Vercel Edge Functions** (contact form)
-- **Playwright** (project screenshots + 404 guard)
-- **Vercel** (hosting, auto-deploy on push to `main`)
+- **Vitest** (unit tests) + **Playwright** (project screenshots, resume PDF)
+- **Vercel** (hosting, auto-deploy on push to `main`, Web Analytics + Speed Insights)
 
 ## Quick start
 
@@ -28,7 +28,12 @@ npm run dev          # http://localhost:5173
 | `npm run build`        | Type-check (`tsc -b`) and build for production|
 | `npm run preview`      | Preview the production build locally          |
 | `npm run lint`         | Run ESLint                                    |
+| `npm test`             | Run the Vitest unit tests                     |
 | `npm run screenshots`  | Capture site + project previews via Playwright|
+| `npm run resume:pdf`   | Render `public/Reuel_John_Dilig_Resume.pdf` from `src/data/resume.ts` |
+| `npm run lighthouse`   | Score the live site; writes `src/data/lighthouse.json` |
+
+Playwright uses its own Chromium (`npx playwright install chromium`), or set `CHROMIUM_PATH` to use one you already have.
 
 ## Project layout
 
@@ -38,16 +43,18 @@ src/
   index.css, styles/tokens.css        # Tailwind v4 + design tokens
   hooks/useTheme.ts                   # light/dark with localStorage
   data/                               # profile, projects, resume content
+  lib/                                # shared helpers (contact rules, URLs)
   layouts/SiteLayout.tsx              # header + <Outlet /> + footer
   components/
     site/{Header,Footer}.tsx
-    ui/{Button,Eyebrow}.tsx
-    projects/{ProjectCard,ProjectModal,ProjectGallery,ProjectHeroPreview}.tsx
+    ui/{Button,Container,Eyebrow,Modal,RichText}.tsx
+    projects/                         # cards, modal, gallery, meta/title/tag bits
     icons.tsx                         # heroicons + GitHub/LinkedIn marks
   routes/{Home,Projects,ProjectDetail,Resume,Contact,NotFound}.tsx
 api/contact.ts                        # Vercel Edge Function (Resend)
 public/screenshots/                   # Playwright-captured previews
 tests/screenshots.spec.ts             # Playwright spec (with 404 guard)
+tests/resume-pdf.spec.ts              # renders the resume PDF
 ```
 
 ## Contact form
@@ -60,7 +67,7 @@ CONTACT_TO_EMAIL=you@example.com
 CONTACT_FROM_EMAIL=onboarding@resend.dev
 ```
 
-Server-side validation: honeypot, length caps, regex email check, header-injection sanitization. Client-side mirrors the same regex for live validation. See `.env.example`.
+Server-side validation: type checks, honeypot, length caps, email check, header-injection sanitization. The limits and email check live in `src/lib/contact.ts`, shared by the form and the function. See `.env.example`.
 
 ## Deployment
 
@@ -87,4 +94,6 @@ If you fork this for your own site, please replace the personal content with you
 
 ## Privacy
 
-The contact form posts to `/api/contact` (a Vercel Edge Function), which forwards the message to my inbox via [Resend](https://resend.com). Submissions are not stored on this site, not shared, and not used for analytics. The site itself runs no third-party trackers, no cookies, and no analytics.
+The contact form posts to `/api/contact` (a Vercel Edge Function), which forwards the message to my inbox via [Resend](https://resend.com). Submissions are not stored on this site, not shared, and not used for analytics.
+
+The site uses [Vercel Web Analytics](https://vercel.com/docs/analytics/privacy-policy) and Speed Insights for anonymous page-view and performance stats. They set no cookies and don't track visitors across sites. Fonts load from Google Fonts. There are no ad or social trackers.

@@ -13,14 +13,17 @@ The tokens file came from a Claude Design handoff. Editing tokens is fine; restr
 `src/index.css` declares this layer order at the top:
 
 ```css
-@layer tokens, theme, base, components, utilities;
+@layer theme, tokens, base, components, utilities;
 @import "./styles/tokens.css" layer(tokens);
 @import "tailwindcss";
 ```
 
-This puts `tokens.css`'s base rules (like `a { color: var(--accent) }`) into a *lower-priority* layer than Tailwind utilities. Without it, the un-layered `a {}` rule would win against `text-accent-contrast` and primary buttons would render orange-on-orange (we hit this exact bug — see commit `dee3727`).
+Two rules fall out of it:
 
-**Don't** import `tokens.css` outside its layer or this regression returns.
+1. **`tokens` beats Tailwind's `theme` layer.** Tailwind emits its theme variables into `@layer theme` (e.g. `--font-sans`, `--shadow-xs`). Our `@theme inline` block registers the same names as `--font-sans: var(--font-sans)` so utilities read the token at runtime. If `theme` came after `tokens`, that self-reference would win the cascade, become a cycle, and resolve to nothing — which is exactly what happened from launch until Sept 2026: every font fell back to Times New Roman and every `shadow-*` utility was empty.
+2. **utilities beat `tokens`.** tokens.css' element rules (like `a { color: var(--accent) }`) sit below `base`, `components`, and `utilities`, so a utility such as `text-accent-contrast` always wins. Without the layer, primary buttons rendered orange-on-orange (commit `dee3727`).
+
+**Don't** import `tokens.css` outside its layer, and don't move `tokens` below `theme`.
 
 ## Token → Tailwind utility bridge
 
@@ -29,17 +32,16 @@ This puts `tokens.css`'s base rules (like `a { color: var(--accent) }`) into a *
 ```css
 @theme inline {
   --color-bg: var(--bg);
-  --color-bg-muted: var(--bg-muted);
-  --color-fg: var(--fg);
   --color-fg-strong: var(--fg-strong);
   --color-accent: var(--accent);
-  --color-accent-contrast: var(--accent-contrast);
   --color-border-DEFAULT: var(--border);
   /* etc. */
 
+  /* Same name on both sides: registers the utility, tokens.css owns the value. */
   --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
-  --font-mono: var(--font-mono);
+  --radius-md: var(--radius-md);
+  --shadow-xs: var(--shadow-xs);
+  --ease-out: var(--ease-out);
 }
 ```
 
@@ -79,7 +81,7 @@ Note that **accent flips with the theme** — orange-600 on light backgrounds, o
 | Serif | `--font-serif` → `Instrument Serif` | Display accents — italic single-word emphasis (`I build`, `marketplace`, `seeds`) |
 | Mono | `--font-mono` → `JetBrains Mono` | Eyebrows, code, kbd, meta lines, footer |
 
-Fonts load from Google Fonts — see the `<link>` in `index.html`. Heading sizes are mostly fixed (e.g. `text-[72px]` on the hero) rather than fluid; we'll revisit when adding mobile support (BACKLOG #5).
+Fonts load from Google Fonts — see the `<link>` in `index.html`. Headings step down at breakpoints (e.g. the hero is `text-[44px] sm:text-[60px] md:text-[72px]`).
 
 ## Motion
 
@@ -90,7 +92,7 @@ Fonts load from Google Fonts — see the `<link>` in `index.html`. Heading sizes
 --dur-slow: 320ms;
 ```
 
-Hover transitions are 120ms, layout transitions are 200ms, page reveals are 320ms. **No bounces, no overshoot.** Cards translate `-2px` on hover. Arrows translate `(2px, -2px)`. That's the whole vocabulary.
+Hover transitions are 120ms, layout transitions are 200ms, page reveals are 320ms. **No bounces, no overshoot.** Cards translate `-2px` on hover. Arrows translate `(2px, -2px)`. That's the whole vocabulary. Use the `ease-out` utility (it maps to the token) rather than an arbitrary `ease-[cubic-bezier(...)]`. `prefers-reduced-motion` turns animations and transitions off site-wide (`src/index.css`).
 
 ## Spacing
 
@@ -106,8 +108,9 @@ The token layer drives a small reusable kit in `src/components/ui/` and `src/com
 
 - **`Button` / `LinkButton`** — three variants (primary, secondary, ghost), two sizes (md, lg). Accent color comes from tokens; hover transforms come from motion tokens.
 - **`Eyebrow`** — `§ EYEBROW TEXT` mono-uppercase accent label.
-- **`ProjectCard`** — grid card with hover lift; uses `--shadow-xs` → `--shadow-lg` transition.
-- **`ProjectGallery`** — thumbnail grid + lightbox. Lightbox keys: Esc / ←  / →.
+- **`Container`** — the page column: `max-w-[1120px]` (wide) or `max-w-[720px]` (narrow) with `px-5 sm:px-10` gutters.
+- **`ProjectCard`** — `<article>` with a stretched title button; CSS-only hover lift (`shadow-xs` → `shadow-lg`), so it never sticks on touch screens.
+- **`Modal`** — native `<dialog>`; used by `ProjectModal` and the `ProjectGallery` lightbox. Lightbox keys: Esc / ← / →.
 
 ## Adding a new token
 

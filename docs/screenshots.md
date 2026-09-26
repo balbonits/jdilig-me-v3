@@ -61,7 +61,9 @@ const SHOTS: Shot[] = [
 ];
 ```
 
-Then `npm run screenshots` to write the file.
+Then `npm run screenshots` to write the file. (The script runs only `tests/screenshots.spec.ts`; the resume PDF has its own `npm run resume:pdf`.)
+
+Set `CHROMIUM_PATH=/path/to/chromium` to use an already-installed browser instead of `npx playwright install chromium`.
 
 ## Wiring a screenshot into a project's gallery
 

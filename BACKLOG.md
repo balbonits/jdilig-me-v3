@@ -8,13 +8,14 @@ Upcoming features and tasks for jdilig.me v3. Loosely ordered by priority. Each 
 
 ## 1. Bring Performance score above 90
 
-Lighthouse currently scores `https://www.jdilig.me/` at **82 / 100** for Performance (desktop, headless). Below the 90 threshold. Other categories are now passing (Accessibility 95, Best Practices 100, SEO 100).
+Lighthouse last scored `https://www.jdilig.me/` at **82 / 100** for Performance (desktop, headless, Apr 2026). Below the 90 threshold. Other categories pass (Accessibility 95, Best Practices 100, SEO 100).
+
+**Re-measure first.** Until Sept 2026 a CSS layer bug meant the web fonts were never actually used (everything rendered in Times New Roman), so the browser never downloaded them. Now it does — run `npm run lighthouse` after the next deploy for a fresh baseline.
 
 **Likely culprits (to investigate)**
-- **LCP** — `public/logo.png` is the hero `<img>` on the home page; not pre-loaded, not sized, served as PNG (could be SVG / WebP).
-- **Render-blocking CSS** — Google Fonts (`Geist`, `Instrument Serif`, `JetBrains Mono`) are loaded via `<link rel="stylesheet">` from `fonts.googleapis.com`. `display=swap` is set, which helps with FOIT but can still flash. Consider self-hosting via `@fontsource/*` or moving the link to `rel="preload"` + `media="print"` swap trick.
-- **JavaScript bundle** — currently 291 kB minified / 92 kB gzip. Acceptable but not great for a static portfolio. React + ReactDOM + react-router-dom + headlessui together account for most of it. Probably not the LCP killer but worth a tree-shake check.
-- **No image optimization** — `logo.png` and the screenshots in `public/screenshots/` are committed at 2× retina resolution, served as PNG. Vercel auto-converts on the edge for Next.js but not for plain Vite. Consider running them through `oxipng` / `pngquant` once.
+- **Render-blocking CSS** — Google Fonts (`Geist`, `Instrument Serif`, `JetBrains Mono`) are loaded via `<link rel="stylesheet">` from `fonts.googleapis.com`. `display=swap` is set, which helps with FOIT but can still flash. Consider self-hosting via `@fontsource/*` (also removes the third-party connection).
+- **JavaScript bundle** — 309 kB minified / 99 kB gzip (Sept 2026). React DOM is ~55 kB of that. Keep new dependencies out of the main bundle: the Sept 2026 cleanup rejected Headless UI `Dialog` (+15 kB) and React Router's data router (+18 kB) for this reason.
+- **No image optimization** — the screenshots in `public/screenshots/` are committed at 2× retina resolution, served as PNG (~190 KB each). Vercel doesn't auto-convert for plain Vite. Converting to WebP/AVIF (or running `oxipng` / `pngquant`) would cut most of that.
 
 **How to investigate**
 ```sh
@@ -64,33 +65,33 @@ Loose ends from the launch session that don't fit into a feature ticket.
 - **Rotate the Resend API key.** The current key was pasted into a chat transcript and should be treated as exposed. Resend dashboard → API Keys → revoke the existing one + generate a new one → update `RESEND_API_KEY` in Vercel (Production + Preview) → trigger a redeploy. Don't forget to update `.env.local` if you still use `vercel dev` locally.
 - **Live-fire the contact form.** Visit `https://www.jdilig.me/contact`, send a real message, confirm it lands in `rjdofficemail@gmail.com`. We never tested production end-to-end (the API was confirmed reachable via GET → 405, but no real send was attempted, since that would email the user in the middle of the build session).
 - **Archive or delete the old `jdilig-me` Vercel project.** It's orphaned now that `jdilig.me` / `www.jdilig.me` moved to `jdilig-me-v3`. Confirm v3 has been stable for a few days, then in Vercel: open the old project → Settings → bottom of page → "Delete Project" (or just leave it parked at its `*.vercel.app` URL).
+- **Re-capture the jdilig.me screenshots.** `home-*`, `projects-*`, `project-detail-*`, `resume`, and `contact` in `public/screenshots/` predate the Sept 2026 font fix (they show Times New Roman) and the resume update. Run `npx playwright test tests/screenshots.spec.ts -g "home-|projects-|project-detail|resume|contact"` on a machine that can reach Google Fonts, then commit.
+- **Consider rate-limiting `/api/contact`.** The honeypot stops naive bots, but nothing stops a scripted flood from filling the inbox or burning Resend quota. A Vercel Firewall rate-limit rule on `/api/contact` (e.g. 5 requests / 10 min / IP) would cover it without code.
+- **Upgrade Vitest to v5.** `npm audit` still flags `@vitest/mocker` (GHSA-82fw-gwwq-j7x9, dev-only) and `ws` via `lighthouse` (dev-only). The Vitest fix is a major-version bump; check the migration guide first.
 - **Improve game canvas screenshots.** Per-game previews still capture only the HUD overlay. The capture spec now clicks the canvas, sends a key, waits for `networkidle`, and probes computed styles. Diagnostic shows `bodyBg: "rgba(0, 0, 0, 0)"` and `bodyDisplay: "block"` for game pages — the games' `style.css` isn't applying in Playwright (computed body bg should be `#0f1116`). CSS file itself is reachable (`HTTP 200`, `content-type: text/css`) — likely a service-worker or HTTP cache issue specific to headless Chromium. Investigate by adding `bypassCSP: true` to the Playwright context and/or sending `Cache-Control: no-cache` headers on the navigation. Until resolved, hand-grabbed PNGs would be a fine workaround.
 
 ---
 
-## 5. Check for mobile device support
+## 5. Mobile device support — remaining bits
 
-Audit and fix mobile responsiveness across all routes.
+The Sept 2026 responsive pass shipped the core fixes (see "Recently shipped"). Every route now fits a 375px screen with no horizontal scroll. Left to do:
 
-**Scope**
-- Walk every route at common viewports (375 × 812 iPhone SE/12, 390 × 844 iPhone 14, 412 × 915 Pixel 7, 768 × 1024 iPad).
-- Things to specifically check:
-  - Home hero: 72px headline likely overflows narrow screens — needs fluid type or a smaller mobile size.
-  - Header nav: currently a flat row of links — needs a hamburger / drawer at `< md`.
-  - Project cards grid: already `grid-cols-1 md:grid-cols-2`, looks OK; verify card hover effects don't get stuck on touch.
-  - Project detail two-column layout (`md:grid-cols-[1fr_240px]`): sidebar collapses on mobile — verify ordering still makes sense.
-  - Project gallery lightbox: confirm Esc / arrow-keys aren't the only navigation; add swipe gestures or visible tap zones.
-  - Contact form: ensure the field-input styles look OK on iOS Safari (no zoom-on-focus from font-size < 16px).
-  - Resume page max-width: 720px → already narrow, mostly OK; verify the header/buttons row stacks gracefully.
 - Extend `tests/screenshots.spec.ts` to capture each route at one mobile viewport — gives a regression baseline.
-
-**Notes**
-- Tailwind breakpoints in use: `md:` (768) and that's it. May need to introduce `sm:` (640) tweaks for some layouts.
-- The hamburger menu is the most likely net-new component this introduces. Headless UI's `Menu` or `Disclosure` is fine.
+- Gallery lightbox: add swipe gestures (tap targets for prev / next already exist).
+- Spot-check on a real iPhone (Safari) and Android (Chrome) — everything so far was verified in desktop Chromium's mobile emulation.
+- The header hides the `jdilig.me` wordmark below 640px so the three nav links fit. If the nav grows past three links, switch to a menu (Headless UI's `Disclosure` is installed but unused — mind the bundle cost).
 
 ---
 
 ## Recently shipped
+
+- **Sept 2026 review + cleanup.**
+  - **Fonts and shadows fixed.** The CSS layer order let Tailwind's `--font-sans: var(--font-sans)` override the tokens, so every font fell back to Times New Roman and every `shadow-*` was empty since launch. Now `@layer theme, tokens, …` (see docs/design-system.md).
+  - **Resume updated.** Added the Fox Corporation contract (Jul 2026 – present), closed out Squanto (Jun 2026), rewrote the content, and replaced the 2.3 MB image-only PDF with a 2-page text PDF generated from `src/data/resume.ts` (`npm run resume:pdf`).
+  - **Bugs.** Home CTAs did full page reloads (`<a href>` for internal routes); dark-mode visitors saw a light flash on load; scroll position carried over between pages; the contact API returned 500 on non-string fields; game detail pages showed fake URLs (`running-man.jdilig.me`); raw backticks showed on case studies; the sitemap was missing two projects (now guarded by a test); README claimed "no analytics".
+  - **Accessibility.** Native `<dialog>` modals (focus trap, Esc, focus return, scroll lock), real `<label for>` on the contact form, input focus rings, skip link, `aria-pressed` filter pills, reduced-motion support.
+  - **Mobile.** Responsive gutters and headings, header fits at 375px, one-column cards, stacked resume/contact layouts, 16px inputs (no iOS zoom), CSS-only hover (no sticky lift on touch).
+  - **Cleanup.** Shared `Container`, `Modal`, `TagList`, `ProjectTitle`, `ProjectMeta`, and contact rules (client + API); removed JS hover state, inline `<style>`, unused icons, `'—'`/`null` placeholders; `tsc -b` now type-checks `api/`; security updates for React Router, Resend, Vite, and Vitest.
 
 - **SEO score 83 → 100.** Added `<meta name="description">`, canonical link, full Open Graph + Twitter Card meta tags, `public/robots.txt`, and `public/sitemap.xml` covering all routes. Apr 25, 2026.
 - **Lighthouse threshold raised 80 → 90.** Anything below 90 in any category is now flagged. Apr 25, 2026.
