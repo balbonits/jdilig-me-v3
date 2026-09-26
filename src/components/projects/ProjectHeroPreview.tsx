@@ -1,29 +1,30 @@
 type Props = {
-  height?: number;
-  starCount?: number;
   image?: string;
   alt?: string;
+  starCount?: number;
+  /** Load eagerly at high priority — for previews above the fold. */
+  priority?: boolean;
+  /** Size the preview with height utilities, e.g. `h-[160px] sm:h-[240px]`. */
   className?: string;
 };
 
 export default function ProjectHeroPreview({
-  height = 160,
-  starCount = 50,
   image,
   alt = '',
+  starCount = 50,
+  priority = false,
   className = '',
 }: Props) {
   if (image) {
     return (
-      <div
-        className={`relative overflow-hidden bg-bg-muted ${className}`}
-        style={{ height }}
-      >
+      <div className={`relative overflow-hidden bg-bg-muted ${className}`}>
         <img
           src={image}
           alt={alt}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
+          decoding="async"
           className="h-full w-full object-cover object-top"
-          loading="lazy"
         />
       </div>
     );
@@ -33,7 +34,6 @@ export default function ProjectHeroPreview({
     <div
       className={`relative overflow-hidden ${className}`}
       style={{
-        height,
         background:
           'radial-gradient(ellipse at 30% 40%, #1c1917 0%, #0c0a09 70%)',
       }}

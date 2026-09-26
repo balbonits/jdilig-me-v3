@@ -1,16 +1,27 @@
+import type { ReactNode } from 'react';
 import { Icon } from '@/components/icons';
 import { LinkButton } from '@/components/ui/Button';
+import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { PROFILE } from '@/data/profile';
-import { EDUCATION, EXPERIENCE, SKILLS, SUMMARY } from '@/data/resume';
+import {
+  EDUCATION,
+  EXPERIENCE,
+  SKILLS,
+  SUMMARY,
+  type Job,
+} from '@/data/resume';
+import { displayUrl } from '@/lib/url';
+
+const profileLink = 'text-fg-muted hover:text-fg-strong';
 
 export default function Resume() {
   return (
-    <div className="mx-auto w-full max-w-[720px] px-10 pb-24 pt-14">
-      <div className="mb-8 flex items-baseline justify-between gap-6">
+    <Container size="narrow" className="pb-24 pt-10 sm:pt-14">
+      <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div>
           <Eyebrow>Resume</Eyebrow>
-          <h1 className="mt-3 text-[40px] font-bold tracking-[-0.03em] text-fg-strong">
+          <h1 className="mt-3 text-[34px] font-bold tracking-[-0.03em] text-fg-strong sm:text-[40px]">
             {PROFILE.fullName}
           </h1>
           <p className="mt-2 font-mono text-[13px] leading-[1.7] text-fg-muted">
@@ -25,27 +36,26 @@ export default function Resume() {
               href={PROFILE.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="text-fg-muted hover:text-fg-strong"
+              className={profileLink}
             >
-              linkedin.com/in/rjdilig
+              {displayUrl(PROFILE.linkedin)}
             </a>{' '}
             ·{' '}
             <a
               href={PROFILE.github}
               target="_blank"
               rel="noreferrer"
-              className="text-fg-muted hover:text-fg-strong"
+              className={profileLink}
             >
-              github.com/balbonits
+              {displayUrl(PROFILE.github)}
             </a>
           </p>
         </div>
         <LinkButton
           href={PROFILE.resumePdf}
           download
-          target="_blank"
-          rel="noreferrer"
           variant="secondary"
+          className="shrink-0 self-start"
         >
           <Icon.Document className="h-3.5 w-3.5" /> Download PDF
         </LinkButton>
@@ -59,56 +69,48 @@ export default function Resume() {
         <div className="flex flex-col gap-3">
           {SKILLS.map((cat) => (
             <div key={cat.label}>
-              <div className="mb-1.5 text-[13px] font-semibold text-fg-strong">
+              <h3 className="mb-1.5 text-[13px] font-semibold text-fg-strong">
                 {cat.label}
-              </div>
-              <div className="flex flex-wrap gap-1.5">
+              </h3>
+              <ul className="flex flex-wrap gap-1.5">
                 {cat.items.map((item) => (
-                  <span
+                  <li
                     key={item}
                     className="rounded-md border border-border-DEFAULT bg-bg-muted px-[9px] py-[3px] font-mono text-[11.5px] text-fg-strong"
                   >
                     {item}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           ))}
         </div>
       </Section>
 
       <Section title="Experience">
-        {EXPERIENCE.map((job, i) => (
-          <JobEntry key={i} job={job} />
+        {EXPERIENCE.map((job) => (
+          <JobEntry key={`${job.company}-${job.when}`} job={job} />
         ))}
       </Section>
 
       <Section title="Education">
-        <div>
-          <div className="mb-[3px] flex items-baseline justify-between gap-3">
-            <div className="text-[15px] font-semibold text-fg-strong">
-              {EDUCATION.school}
-            </div>
-            <div className="whitespace-nowrap font-mono text-xs text-fg-subtle">
-              {EDUCATION.when}
-            </div>
-          </div>
-          <div className="text-[13.5px] text-fg-muted">
-            {EDUCATION.degree} · {EDUCATION.location}
+        <div className="mb-[3px] flex flex-wrap items-baseline justify-between gap-x-3">
+          <h3 className="text-[15px] font-semibold text-fg-strong">
+            {EDUCATION.school}
+          </h3>
+          <div className="whitespace-nowrap font-mono text-xs text-fg-subtle">
+            {EDUCATION.when}
           </div>
         </div>
+        <div className="text-[13.5px] text-fg-muted">
+          {EDUCATION.degree} · {EDUCATION.location}
+        </div>
       </Section>
-    </div>
+    </Container>
   );
 }
 
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mb-9">
       <h2 className="mb-4 border-b border-border-DEFAULT pb-2.5 font-mono text-[13px] font-medium uppercase tracking-[0.14em] text-fg-subtle">
@@ -119,13 +121,13 @@ function Section({
   );
 }
 
-function JobEntry({ job }: { job: import('@/data/resume').Job }) {
+function JobEntry({ job }: { job: Job }) {
   return (
-    <div className="mb-6">
-      <div className="mb-[3px] flex items-baseline justify-between gap-3">
-        <div className="text-[15px] font-semibold text-fg-strong">
+    <article className="mb-6">
+      <div className="mb-[3px] flex flex-wrap items-baseline justify-between gap-x-3">
+        <h3 className="text-[15px] font-semibold text-fg-strong">
           {job.company}
-        </div>
+        </h3>
         <div className="whitespace-nowrap font-mono text-xs text-fg-subtle">
           {job.when}
         </div>
@@ -134,8 +136,8 @@ function JobEntry({ job }: { job: import('@/data/resume').Job }) {
         {job.role} · {job.location}
       </div>
       <ul className="m-0 mb-2 flex list-disc flex-col gap-[5px] pl-[18px] text-sm leading-[1.6] text-fg-muted">
-        {job.bullets.map((b, i) => (
-          <li key={i}>{b}</li>
+        {job.bullets.map((b) => (
+          <li key={b}>{b}</li>
         ))}
       </ul>
       {job.link && (
@@ -149,6 +151,6 @@ function JobEntry({ job }: { job: import('@/data/resume').Job }) {
           {job.link.label}
         </a>
       )}
-    </div>
+    </article>
   );
 }

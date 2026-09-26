@@ -1,10 +1,27 @@
-@layer tokens, theme, base, components, utilities;
+/*
+ * Layer order matters:
+ * - `tokens` sits ABOVE Tailwind's `theme` layer so the design tokens win
+ *   whenever both define the same custom property (--font-sans, --shadow-xs,
+ *   --radius-md, ...). With `tokens` below `theme`, Tailwind's
+ *   `--font-sans: var(--font-sans)` won the cascade, became a self-reference,
+ *   and every font and shadow token silently resolved to nothing.
+ * - `tokens` still sits BELOW base / components / utilities, so utilities
+ *   always beat tokens.css' element rules (e.g. `a { color: var(--accent) }`).
+ */
+@layer theme, tokens, base, components, utilities;
 
 @import "./styles/tokens.css" layer(tokens);
 @import "tailwindcss";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+/*
+ * Bridge tokens → Tailwind utilities. `inline` makes utilities read the token
+ * at runtime (e.g. `.shadow-xs { --tw-shadow: var(--shadow-xs) }`), so dark
+ * mode only has to swap token values. Entries with the same name on both
+ * sides (fonts, radii, shadows, easing) just register the utility; tokens.css
+ * supplies the value.
+ */
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-subtle: var(--bg-subtle);
@@ -42,12 +59,12 @@
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
 
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 20px;
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
 
   --shadow-xs: var(--shadow-xs);
   --shadow-sm: var(--shadow-sm);
@@ -55,36 +72,93 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
 
-  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out: var(--ease-out);
 }
 
 @layer base {
-  html,
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-sans);
-  }
-
   *:focus-visible {
     outline: none;
     box-shadow: var(--ring);
     border-color: var(--accent);
   }
 
-  ::selection {
-    background: var(--accent);
-    color: var(--accent-contrast);
+  /* Lock page scroll while a modal <dialog> is open (see ui/Modal.tsx). */
+  html:has(dialog:modal) {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-@keyframes modalIn {
+@keyframes modal-in {
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: none;
+  }
+}
+
+@layer components {
+  /* Text inputs + textareas on the contact form. */
+  .field-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    /* 16px keeps iOS Safari from zooming the page on focus. */
+    font-size: 16px;
+    box-shadow: var(--shadow-xs);
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .field-input::placeholder {
+    color: var(--fg-faint);
+  }
+  .field-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  /* Restate the focus ring: this layer outranks the base `*:focus-visible`. */
+  .field-input:focus-visible {
+    border-color: var(--accent);
+    box-shadow: var(--ring);
+  }
+  .field-input[aria-invalid="true"] {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 15%, transparent);
+  }
+  .field-input[aria-invalid="true"]:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 30%, transparent);
+  }
+
+  /* Round translucent buttons laid over images (modal + lightbox controls). */
+  .overlay-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid rgb(255 255 255 / 0.08);
+    background: rgb(28 25 23 / 0.6);
+    color: #fafaf9;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+  .overlay-button:hover {
+    background: rgb(28 25 23 / 0.85);
   }
 }

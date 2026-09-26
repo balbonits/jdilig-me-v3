@@ -1,13 +1,18 @@
-import { forwardRef, type ButtonHTMLAttributes, type AnchorHTMLAttributes } from 'react';
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  ReactNode,
+} from 'react';
+import { Link, type LinkProps } from 'react-router';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 export type ButtonSize = 'md' | 'lg';
 
-type CommonProps = {
+type StyleProps = {
   variant?: ButtonVariant;
   size?: ButtonSize;
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -25,40 +30,43 @@ const sizeClasses: Record<ButtonSize, string> = {
 };
 
 const base =
-  'inline-flex items-center justify-center font-sans font-medium tracking-[-0.01em] border transition-all duration-150 ease-[cubic-bezier(0.2,0.8,0.2,1)] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
+  'inline-flex items-center justify-center font-sans font-medium tracking-[-0.01em] border transition-all duration-150 ease-out cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
 
-export const Button = forwardRef<
-  HTMLButtonElement,
-  ButtonHTMLAttributes<HTMLButtonElement> & CommonProps
->(function Button(
-  { variant = 'primary', size = 'md', className = '', children, ...rest },
-  ref,
+function buttonClass(
+  variant: ButtonVariant = 'primary',
+  size: ButtonSize = 'md',
+  className = '',
 ) {
-  return (
-    <button
-      ref={ref}
-      className={`${base} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
-});
+  return `${base} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
+}
 
-export const LinkButton = forwardRef<
-  HTMLAnchorElement,
-  AnchorHTMLAttributes<HTMLAnchorElement> & CommonProps
->(function LinkButton(
-  { variant = 'primary', size = 'md', className = '', children, ...rest },
-  ref,
-) {
-  return (
-    <a
-      ref={ref}
-      className={`${base} ${sizeClasses[size]} ${variantClasses[variant]} no-underline ${className}`}
-      {...rest}
-    >
-      {children}
-    </a>
+export function Button({
+  variant,
+  size,
+  className,
+  ...rest
+}: ButtonHTMLAttributes<HTMLButtonElement> & StyleProps) {
+  return <button className={buttonClass(variant, size, className)} {...rest} />;
+}
+
+type LinkButtonProps = StyleProps &
+  (
+    | ({ to: LinkProps['to'] } & Omit<LinkProps, 'className'>)
+    | ({ to?: never } & AnchorHTMLAttributes<HTMLAnchorElement>)
   );
-});
+
+/**
+ * A link styled as a button. Pass `to` for in-app routes (renders a router
+ * `<Link>`, so navigation stays client-side) or `href` for external URLs
+ * and files (renders a plain `<a>`).
+ */
+export function LinkButton({
+  variant,
+  size,
+  className = '',
+  ...rest
+}: LinkButtonProps) {
+  const classes = buttonClass(variant, size, `no-underline ${className}`);
+  if (rest.to !== undefined) return <Link className={classes} {...rest} />;
+  return <a className={classes} {...rest} />;
+}
