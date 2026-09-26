@@ -1,14 +1,18 @@
 import { Link } from 'react-router';
+import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex min-h-[500px] w-full max-w-[720px] items-center justify-center px-10 py-14">
+    <Container
+      size="narrow"
+      className="flex min-h-[500px] items-center justify-center py-14"
+    >
       <div className="text-center">
         <Eyebrow>404</Eyebrow>
-        <h1 className="mt-3 mb-3.5 text-[56px] font-bold tracking-[-0.03em] text-fg-strong">
+        <h1 className="mt-3 mb-3.5 text-[44px] font-bold tracking-[-0.03em] text-fg-strong sm:text-[56px]">
           Nothing{' '}
-          <span className="font-serif text-accent italic font-normal">
+          <span className="font-serif font-normal text-accent italic">
             here
           </span>
           .
@@ -20,6 +24,6 @@ export default function NotFound() {
           ← Go home
         </Link>
       </div>
-    </div>
+    </Container>
   );
 }

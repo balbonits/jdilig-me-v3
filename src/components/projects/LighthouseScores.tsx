@@ -1,12 +1,6 @@
-type CategoryKey = 'performance' | 'accessibility' | 'bestPractices' | 'seo';
+import type { LighthouseData } from '@/data/projects';
 
-type LighthouseData = {
-  url: string;
-  measuredAt: string;
-  formFactor: string;
-  lighthouseVersion: string;
-  scores: Record<CategoryKey, number>;
-};
+type CategoryKey = keyof LighthouseData['scores'];
 
 const LABELS: Record<CategoryKey, string> = {
   performance: 'Performance',

@@ -1,6 +1,21 @@
+import jdiligLighthouse from './lighthouse.json';
+import squantoLighthouse from './squanto-lighthouse.json';
+
 export type ProjectCategory = 'GAME' | 'SITE' | 'TOOL' | 'WORK' | 'EXPT';
 export type ProjectStatus = 'LIVE' | 'SHIPPED' | 'ARCHIVED' | 'WIP';
 export type SortOption = 'year-desc' | 'year-asc' | 'title-asc';
+
+/** Output of `npm run lighthouse` (see scripts/lighthouse.mjs). */
+export type LighthouseData = {
+  url: string;
+  measuredAt: string;
+  formFactor: string;
+  lighthouseVersion: string;
+  scores: Record<
+    'performance' | 'accessibility' | 'bestPractices' | 'seo',
+    number
+  >;
+};
 
 export type Project = {
   slug: string;
@@ -14,11 +29,12 @@ export type Project = {
   tags: string[];
   role: string;
   timeline: string;
-  bundle: string;
+  /** Gzipped JS bundle size, when it's worth showing. */
+  bundle?: string;
   overview: string[];
   highlights: string[];
   learned?: string;
-  links: { live?: string | null; source?: string | null };
+  links: { live?: string; source?: string };
   /** Optional path to a preview screenshot (relative to /public). */
   previewImage?: string;
   /** Image gallery shown on the project detail page. */
@@ -26,11 +42,13 @@ export type Project = {
   /**
    * Label for the "live" link (button + nav). Defaults to a category-appropriate
    * label — WORK / SITE → "Visit site", GAME → "Play", TOOL → "Open",
-   * EXPT → "View demo".
+   * EXPT → "Live demo".
    */
   liveLabel?: string;
   /** When true, the project is pulled out of the grid and rendered as the hero. */
   featured?: boolean;
+  /** Lighthouse scores shown as gauges on the detail page. */
+  lighthouse?: LighthouseData;
 };
 
 export function getFeaturedProject(projects: Project[] = PROJECTS): Project | undefined {
@@ -100,7 +118,6 @@ export const PROJECTS: Project[] = [
     ],
     role: 'Author / Sponsor',
     timeline: 'Aug 2025 — Present',
-    bundle: '—',
     featured: true,
     overview: [
       'City App Framework is a personal development framework for building apps and games with AI coding agents (Claude, Grok, others). It exists to solve one specific problem: AI agents are stateless, so without a baked-in answer to "how does John want code structured, named, tested, and reviewed," every new project burns tokens on the same arbitrary choices and drifts from how I actually build.',
@@ -133,7 +150,7 @@ export const PROJECTS: Project[] = [
     status: 'LIVE',
     desc: 'Sole front-end engineer on squanto.app — a live-entertainment marketplace for event hosts, performers, and audiences.',
     summary:
-      'Squanto is a live-entertainment marketplace connecting event hosts, performers, and audiences. I lead the entire web UI as sole front-end engineer, partnering with the CEO and systems architect on spec-driven delivery from early build through soft launch.',
+      'Squanto is a live-entertainment marketplace connecting event hosts, performers, and audiences. As sole front-end engineer I led the entire web UI, partnering with the CEO and systems architect on spec-driven delivery from early build through soft launch.',
     tags: [
       'React 19',
       'TypeScript',
@@ -144,11 +161,10 @@ export const PROJECTS: Project[] = [
       'PWA / Cordova',
     ],
     role: 'Sole Front-End Engineer',
-    timeline: 'Oct 2025 — Present',
-    bundle: '—',
+    timeline: 'Oct 2025 — Jun 2026',
     overview: [
       'Squanto is a two-sided marketplace where event hosts and performers discover each other, negotiate gigs, and finalize bookings. The UI spans an authenticated dashboard for both sides, an interactive map of events, a rich application / counter-offer flow, and a public brochure experience for venues, performers, and events.',
-      'I own the frontend end-to-end — routing conventions, component architecture, design tokens, forms, analytics, maps, mock data, and tests — leveraging Claude Code for agentic generation, documentation, and test coverage.',
+      'I owned the frontend end-to-end — routing conventions, component architecture, design tokens, forms, analytics, maps, mock data, and tests — leveraging Claude Code for agentic generation, documentation, and test coverage.',
     ],
     highlights: [
       'Built the interactive map system (react-leaflet) with pixel-based overlap cycling, light/dark tile inversion, and dual public/authenticated map pages sharing one core component.',
@@ -161,8 +177,8 @@ export const PROJECTS: Project[] = [
       'A spec-driven feedback loop with an LLM only works when you invest in the spec. Most of the wins came from clean mock data, typed API contracts, and documentation that the model can actually consume — not from clever prompts.',
     links: {
       live: 'https://squanto.app/',
-      source: null,
     },
+    lighthouse: squantoLighthouse,
     previewImage: '/screenshots/squanto-home.png',
     gallery: [
       {
@@ -212,7 +228,7 @@ export const PROJECTS: Project[] = [
     ],
     role: 'Solo',
     timeline: 'Apr 2026',
-    bundle: '87 KB gz',
+    bundle: '99 KB gzipped',
     overview: [
       "I rebuilt jdilig.me from the ground up as a showcase of the patterns I use day-to-day — tokens-first styling, a router that generates its own nav metadata, component composition with a small reusable kit, and a contact form that's actually secure.",
       "Every component and token here was designed in Claude Design first, then ported to a real Vite + React + Tailwind v4 project. The site is the kit.",
@@ -221,7 +237,7 @@ export const PROJECTS: Project[] = [
       'Tokens-first: every color, radius, shadow, and motion curve lives in one CSS file, bridged to Tailwind v4 via `@theme inline`.',
       "Dark mode that flips ink and accent (orange-600 → orange-400) — not just background — driven by a `data-theme` attribute with a `@custom-variant dark` bridge.",
       "Header nav is auto-generated from the router table via a `handle: { showInNav }` convention — adding a route to the nav is a one-line change.",
-      "Contact form runs on a Vercel Edge Function backed by Resend, with honeypot + length caps + server-side email validation. Local validation uses the same regex as the server for consistency.",
+      'Contact form runs on a Vercel Edge Function backed by Resend, with type checks, a honeypot, length caps, and server-side email validation. The form and the function import one shared rules module, so they can never disagree.',
       'Playwright captures both site themes and the live Squanto app, writing directly to `/public/screenshots` for use as project previews.',
     ],
     learned:
@@ -230,6 +246,7 @@ export const PROJECTS: Project[] = [
       live: 'https://jdilig.me',
       source: 'https://github.com/balbonits/jdilig-me-v3',
     },
+    lighthouse: jdiligLighthouse,
     previewImage: '/screenshots/home-dark.png',
     gallery: [
       {
@@ -267,7 +284,6 @@ export const PROJECTS: Project[] = [
     tags: ['Vanilla JS', 'Canvas2D', 'PixelLab', 'Web Audio'],
     role: 'Director — AI-built',
     timeline: 'Apr 2026',
-    bundle: '—',
     overview: [
       "The first game in the AI Browser Game Demos repo. A short-session arcade runner where the player never stops running and the only verb is jump.",
       "Built end-to-end by AI under my direction — Claude Code writes every line of game logic, PixelLab generates all the sprites via MCP, Web Audio synthesizes the audio. My role is director: pick the concept, review the build, ask for revisions until the feel is right. No hand-written code, no hand-drawn art.",
@@ -301,7 +317,6 @@ export const PROJECTS: Project[] = [
     tags: ['Vanilla JS', 'Canvas2D', 'Web Audio', 'No assets'],
     role: 'Director — AI-built',
     timeline: 'Apr 2026',
-    bundle: '—',
     overview: [
       'A deliberate counterpoint to Running Man: where Running Man leans on PixelLab-generated pixel art, Neon Tower Defense ships with no asset folder at all. Every visual is a layered glow drawn from `render.js` — a soft halo via shadowBlur plus a brighter outlined core — so triangles, squares, diamonds, and hexagons read as glowing CRT-monitor neon.',
       'Twelve hand-tuned waves with bosses on 4 / 8 / 12. After clearing the campaign the game transitions into endless mode: wave templates cycle, HP / speed / spawn count scale per wave, kill rewards scale with them, and `localStorage[neon-td:best]` tracks the highest wave reached.',
@@ -334,7 +349,6 @@ export const PROJECTS: Project[] = [
     tags: ['Three.js', 'WebGL', 'PointerLock', 'Web Audio'],
     role: 'Director — AI-built',
     timeline: 'Apr 2026',
-    bundle: '—',
     overview: [
       'A 3D counterpoint to the 2D pixel and shape pieces. The player wields a polygonal gun (eight BoxGeometry pieces parented to the camera) and defends an arena from three enemy archetypes — grunt, charger, heavy — across eight hand-tuned waves with endless scaling after.',
       'Hitscan firing via THREE.Raycaster with a small spread. Recoil animation is a 0.07s ease-out kick. Tracers fade over 0.08s. Movement is acceleration-based with axis-by-axis AABB sliding around arena pillars so the player never gets stuck on a corner.',
@@ -381,7 +395,6 @@ export const PROJECTS: Project[] = [
     ],
     role: 'Solo — AI-built',
     timeline: 'Apr 2026 — Present',
-    bundle: '—',
     overview: [
       'A personal study tool for front-end interview prep, built entirely in conversation with Claude Code. Nine routes cover the full prep loop: /exercises runs live Sandpack sandboxes with auto-graded tests and an AI hint/review/explain panel; /notes is a 21-entry MDX library with sort, tag filter, and a saved-notes scroll frame; /courses bundles notes and exercises into multi-step learning paths (15 of them — DSA, React, TypeScript, APIs, testing, databases, microservices, and more) with progress tracking; /quiz generates validated multiple-choice quizzes from any topic; /interview streams a mock interviewer from a local Ollama LLM with Web Speech voice input and Mermaid diagram rendering; /review drives an SM-2 spaced repetition queue auto-seeded from completed course steps; /news aggregates RSS from four front-end publications with per-item AI summaries; /capture turns any snippet or URL into an MDX-ready note. A floating study-assistant chat is available on every page, with session history, Markdown table rendering, TTS playback, line-numbered code blocks, and on-demand web search via local SearXNG (the LLM decides when to call the search tool).',
       'The architecture is intentionally offline — no SaaS subscriptions, no API keys, no cloud database. Ollama serves the LLM on-device, MongoDB runs locally, SearXNG runs in Docker, and Sandpack executes code in the browser without a backend. `npm run dev:local` checks and starts every service before `next dev`.',
@@ -398,7 +411,6 @@ export const PROJECTS: Project[] = [
     learned:
       'Offline-first architecture is a forcing function for simplicity. Without a cloud database, managed LLM, or hosted search, every integration becomes a direct dependency you can inspect and debug. Adding tool-calling (web search) and a global floating assistant on top of that base felt easy precisely because every layer was already running on localhost — no auth dance, no rate limits, no surprise bills.',
     links: {
-      live: null,
       source: 'https://github.com/balbonits/coding-interview-reviewer',
     },
     previewImage: '/screenshots/cir-exercises.png',
@@ -424,7 +436,6 @@ export const PROJECTS: Project[] = [
     tags: ['Vanilla JS', 'Canvas2D', 'Procedural', 'Web Audio'],
     role: 'Director — AI-built',
     timeline: 'Apr 2026',
-    bundle: '—',
     overview: [
       'Classic maze traversal with a racing-game urgency: the timer starts the moment you take your first step, and your best time per seed is saved. Fog of war hides cells beyond five Manhattan-distance from the player; previously seen cells dim into a darker palette. The minimap in the corner reveals explored topology at 3 px / cell.',
       'Three difficulty sizes (Small / Medium / Large) and a seed history (last 20 runs, dedup-by-seed) accessible with `H` from the splash. Press a number key to replay any past seed at the difficulty it was first played on.',

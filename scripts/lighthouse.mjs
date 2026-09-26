@@ -87,7 +87,6 @@ try {
     console.log(
       `\n  ${lows.length} categor${lows.length === 1 ? 'y' : 'ies'} below ${SCORE_THRESHOLD} — log to BACKLOG.md.`,
     );
-    process.exitCode = 0;
   }
 } finally {
   await chrome.kill();

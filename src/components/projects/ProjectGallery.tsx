@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState, type KeyboardEvent } from 'react';
 import { Icon } from '@/components/icons';
+import Modal from '@/components/ui/Modal';
 
 export type GalleryImage = { src: string; alt: string };
 
@@ -9,32 +10,19 @@ type Props = {
 };
 
 export default function ProjectGallery({ images, className = '' }: Props) {
-  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
+  const [index, setIndex] = useState(0);
+  const count = images.length;
+  if (count === 0) return null;
 
-  const close = useCallback(() => setOpenIdx(null), []);
+  const current = images[index];
+  const step = (delta: number) => setIndex((i) => (i + delta + count) % count);
 
-  const next = useCallback(() => {
-    setOpenIdx((i) => (i === null ? null : (i + 1) % images.length));
-  }, [images.length]);
-
-  const prev = useCallback(() => {
-    setOpenIdx((i) =>
-      i === null ? null : (i - 1 + images.length) % images.length,
-    );
-  }, [images.length]);
-
-  useEffect(() => {
-    if (openIdx === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowRight') next();
-      else if (e.key === 'ArrowLeft') prev();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [openIdx, close, next, prev]);
-
-  if (images.length === 0) return null;
+  // Esc is handled by the <dialog>; arrows page through the images.
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowRight') step(1);
+    else if (e.key === 'ArrowLeft') step(-1);
+  };
 
   return (
     <div className={className}>
@@ -43,94 +31,77 @@ export default function ProjectGallery({ images, className = '' }: Props) {
           <button
             key={img.src}
             type="button"
-            onClick={() => setOpenIdx(i)}
-            className="group relative overflow-hidden rounded-[10px] border border-border-DEFAULT bg-bg-muted transition-all duration-200 ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:border-border-strong"
-            style={{ aspectRatio: '16 / 10' }}
+            onClick={() => {
+              setIndex(i);
+              setOpen(true);
+            }}
+            className="group relative aspect-[16/10] cursor-pointer overflow-hidden rounded-[10px] border border-border-DEFAULT bg-bg-muted transition-colors duration-200 ease-out hover:border-border-strong"
           >
             <img
               src={img.src}
               alt={img.alt}
               loading="lazy"
-              className="h-full w-full object-cover object-top transition-transform duration-[320ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.03]"
+              decoding="async"
+              className="h-full w-full object-cover object-top transition-transform duration-[320ms] ease-out group-hover:scale-[1.03]"
             />
           </button>
         ))}
       </div>
 
-      {openIdx !== null && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${images[openIdx].alt} — image ${openIdx + 1} of ${images.length}`}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-10"
-        >
-          <div
-            onClick={close}
-            className="absolute inset-0"
-            style={{
-              background: 'rgba(12, 10, 9, 0.88)',
-              backdropFilter: 'blur(6px)',
-              WebkitBackdropFilter: 'blur(6px)',
-            }}
-          />
-
-          <div className="relative flex max-h-full max-w-[1200px] flex-col">
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        label={`${current.alt} — image ${index + 1} of ${count}`}
+        className="h-full max-h-none w-full max-w-none bg-transparent p-4 open:flex open:items-center open:justify-center backdrop:bg-[rgb(12_10_9/0.88)] backdrop:backdrop-blur-[6px] sm:p-10"
+      >
+        {/* The dialog fills the screen; its empty area acts as the backdrop. */}
+        <div onKeyDown={onKeyDown} className="contents">
+          <figure className="relative flex max-h-full max-w-[1200px] flex-col">
             <img
-              src={images[openIdx].src}
-              alt={images[openIdx].alt}
-              className="max-h-[82vh] w-auto rounded-[12px] border border-border-DEFAULT object-contain shadow-xl"
+              src={current.src}
+              alt={current.alt}
+              loading="lazy"
+              className="max-h-[78vh] w-auto rounded-[12px] border border-white/10 object-contain shadow-xl"
             />
-            <div className="mt-3 flex items-center justify-between font-mono text-[11px] text-fg-faint">
-              <span>{images[openIdx].alt}</span>
-              <span>
-                {openIdx + 1} / {images.length}
+            <figcaption className="mt-3 flex items-center justify-between gap-4 font-mono text-[11px] text-stone-400">
+              <span>{current.alt}</span>
+              <span className="shrink-0">
+                {index + 1} / {count}
               </span>
-            </div>
-          </div>
+            </figcaption>
+          </figure>
 
           <button
             type="button"
-            onClick={close}
+            onClick={() => setOpen(false)}
             aria-label="Close gallery"
-            className="absolute right-4 top-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-slate-100 transition hover:bg-white/10"
-            style={{
-              background: 'rgba(28, 25, 23, 0.6)',
-              border: '1px solid rgba(255,255,255,0.08)',
-            }}
+            className="overlay-button absolute right-4 top-4 h-10 w-10"
           >
             <Icon.Close className="h-5 w-5" />
           </button>
 
-          {images.length > 1 && (
+          {count > 1 && (
             <>
               <button
                 type="button"
-                onClick={prev}
+                onClick={() => step(-1)}
                 aria-label="Previous image"
-                className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-slate-100 transition hover:bg-white/10"
-                style={{
-                  background: 'rgba(28, 25, 23, 0.6)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                }}
+                className="overlay-button absolute left-2 top-1/2 h-10 w-10 -translate-y-1/2 sm:left-4"
               >
                 <Icon.ArrowRight className="h-5 w-5 rotate-180" />
               </button>
               <button
                 type="button"
-                onClick={next}
+                onClick={() => step(1)}
                 aria-label="Next image"
-                className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-slate-100 transition hover:bg-white/10"
-                style={{
-                  background: 'rgba(28, 25, 23, 0.6)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                }}
+                className="overlay-button absolute right-2 top-1/2 h-10 w-10 -translate-y-1/2 sm:right-4"
               >
                 <Icon.ArrowRight className="h-5 w-5" />
               </button>
             </>
           )}
         </div>
-      )}
+      </Modal>
     </div>
   );
 }

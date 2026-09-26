@@ -4,22 +4,20 @@ import {
   ArrowUpRightIcon,
   ArrowRightIcon,
   EnvelopeIcon,
-  CodeBracketIcon,
   DocumentIcon,
-  ClipboardIcon,
   CheckIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 
+// A static map of icon components; it never needs granular hot reloading.
+// eslint-disable-next-line react-refresh/only-export-components
 export const Icon = {
   Sun: SunIcon,
   Moon: MoonIcon,
   ArrowUpRight: ArrowUpRightIcon,
   ArrowRight: ArrowRightIcon,
   Mail: EnvelopeIcon,
-  Code: CodeBracketIcon,
   Document: DocumentIcon,
-  Copy: ClipboardIcon,
   Check: CheckIcon,
   Close: XMarkIcon,
 };

@@ -1,13 +1,10 @@
-import { useState } from 'react';
+import { useId, useState, type FormEvent, type ReactNode } from 'react';
 import { Icon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
+import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { PROFILE } from '@/data/profile';
-
-const MAX_NAME = 100;
-const MAX_MESSAGE = 2000;
-const MAX_EMAIL = 254;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { CONTACT_LIMITS, isValidEmail } from '@/lib/contact';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -19,13 +16,14 @@ export default function Contact() {
   const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const id = useId();
 
-  const emailValid = EMAIL_RE.test(email);
+  const sending = status === 'sending';
+  const emailValid = isValidEmail(email);
   const emailError = emailTouched && email.length > 0 && !emailValid;
-  const canSubmit =
-    emailValid && message.trim().length > 0 && status !== 'sending';
+  const canSubmit = emailValid && message.trim().length > 0 && !sending;
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setEmailTouched(true);
     if (!canSubmit) return;
@@ -56,38 +54,35 @@ export default function Contact() {
 
   if (status === 'sent') {
     return (
-      <div className="mx-auto flex min-h-[500px] w-full max-w-[720px] items-center justify-center px-10 py-14">
-        <div className="text-center">
-          <div
-            className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[16px] border text-accent"
-            style={{
-              background: 'var(--accent-soft)',
-              borderColor: 'var(--accent-border)',
-            }}
-          >
+      <Container
+        size="narrow"
+        className="flex min-h-[500px] items-center justify-center py-14"
+      >
+        <div className="text-center" role="status">
+          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[16px] border border-accent-border bg-accent-soft text-accent">
             <Icon.Check className="h-6 w-6" />
           </div>
           <h1 className="mb-2.5 text-[32px] font-bold tracking-[-0.02em] text-fg-strong">
             Message{' '}
-            <span className="font-serif text-accent italic font-normal">
+            <span className="font-serif font-normal text-accent italic">
               sent
             </span>
             .
           </h1>
           <p className="text-[15px] text-fg-muted">
-            Thanks, {name || 'friend'}. I'll reply within a day or two.
+            Thanks, {name.trim() || 'friend'}. I'll reply within a day or two.
           </p>
         </div>
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div className="mx-auto w-full max-w-[720px] px-10 pb-24 pt-14">
+    <Container size="narrow" className="pb-24 pt-10 sm:pt-14">
       <Eyebrow>Contact</Eyebrow>
-      <h1 className="mt-3 mb-3.5 text-[44px] font-bold tracking-[-0.03em] text-fg-strong">
+      <h1 className="mt-3 mb-3.5 text-[40px] font-bold tracking-[-0.03em] text-fg-strong sm:text-[44px]">
         Say{' '}
-        <span className="font-serif text-accent italic font-normal">hello</span>
+        <span className="font-serif font-normal text-accent italic">hello</span>
         .
       </h1>
       <p className="mb-9 max-w-[520px] text-[16px] text-fg-muted">
@@ -108,89 +103,74 @@ export default function Contact() {
           aria-hidden
         />
 
-        <Field label="Name">
+        <Field id={`${id}-name`} label="Name">
           <input
+            id={`${id}-name`}
             className="field-input"
             value={name}
-            onChange={(e) => setName(e.target.value.slice(0, MAX_NAME))}
-            placeholder="John"
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
             autoComplete="name"
-            maxLength={MAX_NAME}
-            disabled={status === 'sending'}
+            maxLength={CONTACT_LIMITS.name}
+            disabled={sending}
           />
         </Field>
 
-        <Field label="Email">
+        <Field
+          id={`${id}-email`}
+          label="Email"
+          error={emailError ? 'Enter a valid email (like you@domain.com).' : undefined}
+        >
           <input
-            className={`field-input${emailError ? ' field-input--error' : ''}`}
+            id={`${id}-email`}
+            className="field-input"
             type="email"
             required
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value.slice(0, MAX_EMAIL));
-              // Once the user has been told it's wrong, re-validate live
-              if (emailTouched && status === 'error') setStatus('idle');
-            }}
+            onChange={(e) => setEmail(e.target.value)}
             onBlur={() => setEmailTouched(true)}
             placeholder="you@domain.com"
             autoComplete="email"
-            maxLength={MAX_EMAIL}
-            disabled={status === 'sending'}
+            maxLength={CONTACT_LIMITS.email}
+            disabled={sending}
             aria-invalid={emailError}
-            aria-describedby={emailError ? 'email-error' : undefined}
+            aria-describedby={emailError ? `${id}-email-error` : undefined}
           />
-          {emailError && (
-            <div
-              id="email-error"
-              className="font-mono text-[11px]"
-              style={{ color: 'var(--danger)' }}
-            >
-              Enter a valid email (like you@domain.com).
-            </div>
-          )}
         </Field>
 
-        <Field label="Message">
+        <Field
+          id={`${id}-message`}
+          label="Message"
+          hint={`${message.length} / ${CONTACT_LIMITS.message}`}
+        >
           <textarea
-            className="field-input resize-y"
+            id={`${id}-message`}
+            className="field-input min-h-[120px] resize-y"
             rows={6}
             required
             value={message}
-            onChange={(e) =>
-              setMessage(e.target.value.slice(0, MAX_MESSAGE))
-            }
+            onChange={(e) => setMessage(e.target.value)}
             placeholder="What's on your mind?"
-            maxLength={MAX_MESSAGE}
-            disabled={status === 'sending'}
-            style={{ minHeight: 120, fontFamily: 'var(--font-sans)' }}
+            maxLength={CONTACT_LIMITS.message}
+            disabled={sending}
+            aria-describedby={`${id}-message-hint`}
           />
-          <div className="mt-1 text-right font-mono text-[11px] text-fg-faint">
-            {message.length} / {MAX_MESSAGE}
-          </div>
         </Field>
 
         {status === 'error' && (
           <div
-            className="rounded-md border px-3 py-2 text-sm"
-            style={{
-              background: 'var(--danger-soft)',
-              borderColor: 'var(--danger)',
-              color: 'var(--danger)',
-            }}
+            role="alert"
+            className="rounded-md border border-danger bg-danger-soft px-3 py-2 text-sm text-danger"
           >
             {errorMsg}. You can also email{' '}
-            <a
-              href={`mailto:${PROFILE.email}`}
-              className="underline"
-              style={{ color: 'var(--danger)' }}
-            >
+            <a href={`mailto:${PROFILE.email}`} className="text-danger underline">
               {PROFILE.email}
             </a>{' '}
             directly.
           </div>
         )}
 
-        <div className="mt-1 flex items-center justify-between">
+        <div className="mt-1 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="font-mono text-xs text-fg-subtle">
             Or email directly:{' '}
             <a href={`mailto:${PROFILE.email}`} className="text-accent">
@@ -202,9 +182,10 @@ export default function Contact() {
             variant="primary"
             size="lg"
             disabled={!canSubmit}
+            className="w-full sm:w-auto"
           >
-            {status === 'sending' ? 'Sending…' : 'Send message'}
-            {status !== 'sending' && <Icon.ArrowRight className="h-4 w-4" />}
+            {sending ? 'Sending…' : 'Send message'}
+            {!sending && <Icon.ArrowRight className="h-4 w-4" />}
           </Button>
         </div>
 
@@ -214,46 +195,42 @@ export default function Contact() {
           analytics or marketing.
         </p>
       </form>
-
-      <style>{`
-        .field-input {
-          font-family: var(--font-sans);
-          font-size: 15px;
-          padding: 10px 14px;
-          border-radius: 10px;
-          border: 1px solid var(--border);
-          background: var(--surface);
-          color: var(--fg);
-          transition: all 120ms var(--ease-out);
-          width: 100%;
-          box-shadow: var(--shadow-xs);
-        }
-        .field-input::placeholder { color: var(--fg-faint); }
-        .field-input:disabled { opacity: 0.6; cursor: not-allowed; }
-        .field-input--error {
-          border-color: var(--danger);
-          box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
-        }
-        .field-input--error:focus-visible {
-          border-color: var(--danger) !important;
-          box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25) !important;
-        }
-      `}</style>
-    </div>
+    </Container>
   );
 }
 
 function Field({
+  id,
   label,
+  hint,
+  error,
   children,
 }: {
+  id: string;
   label: string;
-  children: React.ReactNode;
+  hint?: string;
+  error?: string;
+  children: ReactNode;
 }) {
   return (
-    <label className="flex flex-col gap-[7px]">
-      <span className="text-[13px] font-medium text-fg">{label}</span>
+    <div className="flex flex-col gap-[7px]">
+      <label htmlFor={id} className="text-[13px] font-medium text-fg">
+        {label}
+      </label>
       {children}
-    </label>
+      {error && (
+        <div id={`${id}-error`} className="font-mono text-[11px] text-danger">
+          {error}
+        </div>
+      )}
+      {hint && (
+        <div
+          id={`${id}-hint`}
+          className="mt-1 text-right font-mono text-[11px] text-fg-faint"
+        >
+          {hint}
+        </div>
+      )}
+    </div>
   );
 }
