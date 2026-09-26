@@ -17,6 +17,11 @@ export default defineConfig({
     trace: 'off',
     viewport: { width: 1280, height: 800 },
     deviceScaleFactor: 2,
+    // Optional: point at an already-installed Chromium instead of the one
+    // `npx playwright install` downloads (handy in CI and sandboxes).
+    launchOptions: process.env.CHROMIUM_PATH
+      ? { executablePath: process.env.CHROMIUM_PATH }
+      : {},
   },
   projects: [
     {

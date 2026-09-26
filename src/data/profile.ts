@@ -7,5 +7,6 @@ export const PROFILE = {
   phone: '(909) 997-1393',
   linkedin: 'https://www.linkedin.com/in/rjdilig/',
   github: 'https://github.com/balbonits',
+  website: 'https://www.jdilig.me',
   resumePdf: '/Reuel_John_Dilig_Resume.pdf',
 } as const;
