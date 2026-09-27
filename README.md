@@ -31,6 +31,7 @@ npm run dev          # http://localhost:5173
 | `npm run screenshots`  | Capture site + project previews via Playwright|
 | `npm run thumbnails`   | Make the 720 px screenshot thumbnails in `public/screenshots/thumbs/` |
 | `npm run resume:pdf`   | Render `public/Reuel_John_Dilig_Resume.pdf` from `src/data/resume.ts` |
+| `npm run og:image`     | Render `public/og-image.png`, the link-preview image, from `src/data/profile.ts` |
 | `npm run lighthouse`   | Score the live site; writes `src/data/lighthouse.json` |
 
 To score the live site without running anything locally, use the **Lighthouse** workflow on GitHub (Actions tab → Lighthouse → Run workflow). It also runs on any push that changes `scripts/lighthouse.mjs` or the workflow file. It prints the updated JSON file and attaches it to the run.
