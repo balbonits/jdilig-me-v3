@@ -12,11 +12,13 @@ type Props = {
 
 /**
  * A native <dialog> opened with showModal(). The browser provides the top
- * layer, an inert background (focus can't escape), Esc to close, and focus
- * return to the trigger — no library needed. Clicking the backdrop closes it.
+ * layer, an inert page behind it (Tab never lands there), Esc to close, and
+ * focus return to the trigger — no library needed. Clicking the backdrop
+ * closes it.
  *
- * Keep `children` rendered while closed (the dialog hides them): unmounting
- * them first would drop focus and the browser couldn't restore it.
+ * `children` stay rendered while closed (the dialog hides them), so focus is
+ * still inside the dialog when close() runs. In Chromium, focus also returned
+ * to the trigger when the content unmounted first; other browsers are untested.
  */
 export default function Modal({
   open,

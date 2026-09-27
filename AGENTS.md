@@ -72,7 +72,7 @@ src/
       Button.tsx                 # <Button> + <LinkButton> (`to` = route, `href` = URL)
       Container.tsx              # page column with responsive gutters
       Eyebrow.tsx                # § accent label
-      Modal.tsx                  # native <dialog> (focus trap, Esc, scroll lock)
+      Modal.tsx                  # native <dialog> (Esc, focus return, scroll lock)
       RichText.tsx               # renders `backtick` spans as <code>
     projects/
       ProjectCard.tsx            # grid card (stretched button, CSS hover lift)
@@ -178,7 +178,7 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 
 ## Modals
 
-Use `components/ui/Modal.tsx` (a native `<dialog>` opened with `showModal()`). It provides focus trapping, Esc, focus return, and scroll lock with zero dependencies. Keep the dialog's content rendered while it closes — see the comment in the component.
+Use `components/ui/Modal.tsx` (a native `<dialog>` opened with `showModal()`). With zero dependencies, Tab never reaches the page behind it, Esc closes it, focus returns to the trigger, and page scroll is locked. Its content stays rendered after closing (see the comment in the component).
 
 ## BACKLOG hygiene
 

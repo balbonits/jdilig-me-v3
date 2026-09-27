@@ -96,4 +96,4 @@ If you fork this for your own site, please replace the personal content with you
 
 The contact form posts to `/api/contact` (a Vercel Edge Function), which forwards the message to my inbox via [Resend](https://resend.com). Submissions are not stored on this site, not shared, and not used for analytics.
 
-The site uses [Vercel Web Analytics](https://vercel.com/docs/analytics/privacy-policy) and Speed Insights for anonymous page-view and performance stats. They set no cookies and don't track visitors across sites. Fonts load from Google Fonts. There are no ad or social trackers.
+The site uses Vercel Web Analytics (page views) and Vercel Speed Insights (performance). Per [Vercel's Web Analytics privacy page](https://vercel.com/docs/analytics/privacy-policy), Web Analytics uses no cookies and can't track visitors across days or websites; see the [Speed Insights privacy page](https://vercel.com/docs/concepts/analytics/privacy) for what it collects. Fonts load from Google Fonts. There are no ad or social trackers.

@@ -16,7 +16,7 @@ type Props = {
 
 export default function ProjectModal({ project, onClose }: Props) {
   const titleId = useId();
-  // Keep the last project rendered while the dialog closes (see Modal).
+  // Keep the last project rendered after the dialog closes (see Modal).
   const [shown, setShown] = useState(project);
   if (project && project !== shown) setShown(project);
   const p = project ?? shown;
