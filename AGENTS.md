@@ -164,9 +164,13 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 - Projects in `src/data/projects.ts` can reference a screenshot via `previewImage: '/screenshots/...webp'`. `ProjectHeroPreview` uses the image when provided and falls back to a starfield placeholder.
 - Gallery tiles, the featured card, and the project pop-up load 720 px-wide copies from `public/screenshots/thumbs/` through `srcset` when that's enough for the screen (`npm run thumbnails` makes them; the capture spec writes each one after its capture). The lightbox and the project-page hero load the original.
 
+## Link preview
+
+- `npm run og:image` renders `public/og-image.png` (1200×630, dark theme, the site's fonts) from `src/data/profile.ts` with Playwright. `index.html`'s `og:image` / `twitter:image` tags point at it. Re-run it if the name, role, or location changes.
+
 ## Testing
 
-- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers, `displayUrl` / `telHref`, a guard that `public/sitemap.xml` lists every visible project and no hidden one, and a guard that every project screenshot exists, is at least 1280 px wide, and has its thumbnail.
+- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers, `displayUrl` / `telHref`, a guard that `public/sitemap.xml` lists every visible project and no hidden one, a guard that every project screenshot exists, is at least 1280 px wide, and has its thumbnail, and a guard that the link-preview image in `index.html` exists at the size its tags claim.
 - **Playwright** handles screenshots and the resume PDF. Set `CHROMIUM_PATH` to use an existing Chromium instead of `npx playwright install`.
 - Per project rule: **don't write tests for trivial UI components.** Test data-driven components, custom hooks, utilities, and complex business logic.
 
