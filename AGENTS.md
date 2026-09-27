@@ -157,9 +157,9 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 
 ## Screenshots
 
-- `npm run screenshots` runs `tests/screenshots.spec.ts`, which walks a list of routes in both themes and writes `public/screenshots/<slug>.png`.
-- Playwright will auto-start `npm run dev` if nothing is listening on `:5173`.
-- Projects in `src/data/projects.ts` can reference a screenshot via `previewImage: '/screenshots/...png'`. `ProjectHeroPreview` uses the image when provided and falls back to a starfield placeholder.
+- `npm run screenshots` runs `tests/screenshots.spec.ts`, which walks a list of routes in both themes and writes `public/screenshots/<slug>.webp` (converted from Playwright's PNG with sharp).
+- Playwright auto-starts its own dev server (`vite --port 4173 --strictPort`, so it never collides with `npm run dev` on `:5173`) unless something is already listening on `:4173`.
+- Projects in `src/data/projects.ts` can reference a screenshot via `previewImage: '/screenshots/...webp'`. `ProjectHeroPreview` uses the image when provided and falls back to a starfield placeholder.
 
 ## Testing
 

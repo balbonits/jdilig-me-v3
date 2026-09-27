@@ -139,7 +139,7 @@ export const PROJECTS: Project[] = [
       source: 'https://github.com/balbonits/city-app-framework',
     },
     liveLabel: 'View whitepaper',
-    previewImage: '/screenshots/city-app-framework.png',
+    previewImage: '/screenshots/city-app-framework.webp',
   },
   {
     slug: 'squanto',
@@ -179,30 +179,30 @@ export const PROJECTS: Project[] = [
       live: 'https://squanto.app/',
     },
     lighthouse: squantoLighthouse,
-    previewImage: '/screenshots/squanto-home.png',
+    previewImage: '/screenshots/squanto-home.webp',
     gallery: [
       {
-        src: '/screenshots/squanto-home.png',
+        src: '/screenshots/squanto-home.webp',
         alt: 'Landing page — hero with persona CTAs',
       },
       {
-        src: '/screenshots/squanto-audience-map.png',
+        src: '/screenshots/squanto-audience-map.webp',
         alt: 'Live Entertainment Map — public audience map',
       },
       {
-        src: '/screenshots/squanto-about.png',
+        src: '/screenshots/squanto-about.webp',
         alt: 'About Us',
       },
       {
-        src: '/screenshots/squanto-help.png',
+        src: '/screenshots/squanto-help.webp',
         alt: 'Help / FAQ',
       },
       {
-        src: '/screenshots/squanto-contact.png',
+        src: '/screenshots/squanto-contact.webp',
         alt: 'Contact Us',
       },
       {
-        src: '/screenshots/squanto-demo.png',
+        src: '/screenshots/squanto-demo.webp',
         alt: 'Request a Demo',
       },
     ],
@@ -246,26 +246,26 @@ export const PROJECTS: Project[] = [
       source: 'https://github.com/balbonits/jdilig-me-v3',
     },
     lighthouse: jdiligLighthouse,
-    previewImage: '/screenshots/home-dark.png',
+    previewImage: '/screenshots/home-dark.webp',
     gallery: [
       {
-        src: '/screenshots/home-dark.png',
+        src: '/screenshots/home-dark.webp',
         alt: 'Home — hero with accent period, dark mode',
       },
       {
-        src: '/screenshots/home-light.png',
+        src: '/screenshots/home-light.webp',
         alt: 'Home — light mode',
       },
       {
-        src: '/screenshots/projects-dark.png',
+        src: '/screenshots/projects-dark.webp',
         alt: 'Projects index with filter pills',
       },
       {
-        src: '/screenshots/resume.png',
+        src: '/screenshots/resume.webp',
         alt: 'Resume page',
       },
       {
-        src: '/screenshots/contact.png',
+        src: '/screenshots/contact.webp',
         alt: 'Contact card',
       },
     ],
@@ -301,7 +301,7 @@ export const PROJECTS: Project[] = [
       source:
         'https://github.com/balbonits/ai-browser-game-demos/tree/main/games/running-man',
     },
-    previewImage: '/screenshots/game-running-man.png',
+    previewImage: '/screenshots/game-running-man.webp',
   },
   {
     slug: 'neon-tower-defense',
@@ -333,7 +333,7 @@ export const PROJECTS: Project[] = [
       source:
         'https://github.com/balbonits/ai-browser-game-demos/tree/main/games/neon-tower-defense',
     },
-    previewImage: '/screenshots/game-neon-tower-defense.png',
+    previewImage: '/screenshots/game-neon-tower-defense.webp',
   },
   {
     slug: 'block-fps',
@@ -366,7 +366,7 @@ export const PROJECTS: Project[] = [
       source:
         'https://github.com/balbonits/ai-browser-game-demos/tree/main/games/block-fps',
     },
-    previewImage: '/screenshots/game-block-fps.png',
+    previewImage: '/screenshots/game-block-fps.webp',
   },
   {
     slug: 'coding-interview-reviewer',
@@ -412,14 +412,14 @@ export const PROJECTS: Project[] = [
     links: {
       source: 'https://github.com/balbonits/coding-interview-reviewer',
     },
-    previewImage: '/screenshots/cir-exercises.png',
+    previewImage: '/screenshots/cir-exercises.webp',
     gallery: [
-      { src: '/screenshots/cir-exercises.png', alt: 'Exercises — live Sandpack editor with auto-graded tests' },
-      { src: '/screenshots/cir-notes.png', alt: 'Notes — MDX library with tag filtering' },
-      { src: '/screenshots/cir-interview.png', alt: 'Interview — streaming AI mock interviewer' },
-      { src: '/screenshots/cir-review.png', alt: 'Review — SM-2 spaced repetition queue' },
-      { src: '/screenshots/cir-news.png', alt: 'News — RSS feed with AI summarization' },
-      { src: '/screenshots/cir-capture.png', alt: 'Capture — quick snippet / URL capture form' },
+      { src: '/screenshots/cir-exercises.webp', alt: 'Exercises — live Sandpack editor with auto-graded tests' },
+      { src: '/screenshots/cir-notes.webp', alt: 'Notes — MDX library with tag filtering' },
+      { src: '/screenshots/cir-interview.webp', alt: 'Interview — streaming AI mock interviewer' },
+      { src: '/screenshots/cir-review.webp', alt: 'Review — SM-2 spaced repetition queue' },
+      { src: '/screenshots/cir-news.webp', alt: 'News — RSS feed with AI summarization' },
+      { src: '/screenshots/cir-capture.webp', alt: 'Capture — quick snippet / URL capture form' },
     ],
   },
   {
@@ -453,7 +453,7 @@ export const PROJECTS: Project[] = [
       source:
         'https://github.com/balbonits/ai-browser-game-demos/tree/main/games/maze-runner',
     },
-    previewImage: '/screenshots/game-maze-runner.png',
+    previewImage: '/screenshots/game-maze-runner.webp',
   },
 ];
 
