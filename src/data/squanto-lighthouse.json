@@ -1,12 +1,12 @@
 {
   "url": "https://squanto.app/home",
-  "measuredAt": "2026-04-27T00:00:14.168Z",
+  "measuredAt": "2026-09-27T01:04:42.455Z",
   "formFactor": "desktop",
-  "lighthouseVersion": "13.1.0",
+  "lighthouseVersion": "13.5.0",
   "scores": {
-    "performance": 16,
-    "accessibility": 100,
-    "bestPractices": 81,
+    "performance": 70,
+    "accessibility": 93,
+    "bestPractices": 77,
     "seo": 92
   }
 }

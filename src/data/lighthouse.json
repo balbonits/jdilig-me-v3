@@ -1,11 +1,11 @@
 {
   "url": "https://www.jdilig.me/",
-  "measuredAt": "2026-04-25T16:10:18.147Z",
+  "measuredAt": "2026-09-27T01:04:29.872Z",
   "formFactor": "desktop",
-  "lighthouseVersion": "13.1.0",
+  "lighthouseVersion": "13.5.0",
   "scores": {
-    "performance": 82,
-    "accessibility": 95,
+    "performance": 100,
+    "accessibility": 100,
     "bestPractices": 100,
     "seo": 100
   }

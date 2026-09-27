@@ -6,20 +6,28 @@ Upcoming features and tasks for jdilig.me v3. Loosely ordered by priority. Each 
 
 ---
 
-## 1. Refresh the Lighthouse scores on the site
+## 1. Lighthouse follow-ups
 
-The scores shown on `/projects/jdilig-me` (Performance 82) and `/projects/squanto` (Performance 16) are from April 2026, and they weren't real desktop scores. Until Sept 2026, `npm run lighthouse` set `formFactor: 'desktop'` without Lighthouse's desktop preset. So it tested at phone speed (4× slower CPU, 1.6 Mbps, 150 ms latency, phone user agent) and then graded the result against the stricter desktop thresholds. On the same local build, the old settings scored Performance 82 and the desktop preset scored 100.
+**Production scores** (Sept 27, 2026 — desktop, Lighthouse 13.5.0, measured by the **Lighthouse** workflow). April 2026 scores in parentheses.
 
-**Fixed in Sept 2026.** Measured on a local production build with the desktop preset (Lighthouse 13.5.0):
+| Site | Performance | Accessibility | Best Practices | SEO |
+|---|---|---|---|---|
+| `www.jdilig.me` | 100 (82) | 100 (95) | 100 (100) | 100 (100) |
+| `squanto.app` | 70 (16) | 93 (100) | 77 (81) | 92 (92) |
+
+Squanto's code isn't in this repo, so its scores are shown as measured.
+
+**Why the April scores were low.** Until Sept 2026, `npm run lighthouse` set `formFactor: 'desktop'` without Lighthouse's desktop preset. So it tested at phone speed (4× slower CPU, 1.6 Mbps, 150 ms latency, phone user agent) and then graded the result against the stricter desktop thresholds. On the same local build, the old settings scored Performance 82 and the desktop preset scored 100.
+
+**Fixed in Sept 2026**
 - **Fonts** are self-hosted (Fontsource), so there's no render-blocking Google Fonts stylesheet.
 - **Screenshots** are WebP: 5.0 MB → 1.3 MB for the set. Images on the Squanto project page went from 2.3 MB to 0.2 MB.
-- **Color contrast.** The light-mode accent is now orange-700, and informational text no longer uses `--fg-faint`. Accessibility went from 95 to 100, and axe reports 0 issues on every route in both themes.
-- **Result** on `/`, `/projects`, `/projects/squanto`, `/projects/jdilig-me`, `/resume`, and `/contact`: Performance 100, Accessibility 100, SEO 100. Best Practices is 96 locally only because Vercel's analytics scripts (`/_vercel/...`) 404 outside Vercel.
+- **Color contrast.** The light-mode accent is now orange-700, and informational text no longer uses `--fg-faint`. axe reports 0 issues on every route in both themes.
 
-**Still to do**
-- Re-measure production: run the **Lighthouse** workflow (Actions tab), then commit the two JSON files it prints. The Sept 2026 sandbox couldn't reach either site.
-- Optional: smaller gallery thumbnails. Thumbnails load the full 1280 px WebP; Lighthouse estimates 50–350 KB of savings per project page from `srcset` variants. It doesn't affect the score.
-- Optional: about 45 KB of the JS bundle goes unused on any given page, because the whole app ships as one file. Route-level code splitting would fix that, but Total Blocking Time is already 0 ms on desktop.
+**Optional next steps**
+- Smaller gallery thumbnails. Thumbnails load the full 1280 px WebP; Lighthouse estimates 50–350 KB of savings per project page from `srcset` variants. It doesn't affect the score.
+- About 45 KB of the JS bundle goes unused on any given page, because the whole app ships as one file. Route-level code splitting would fix that, but Total Blocking Time is already 0 ms on desktop.
+- Move the workflow's `actions/checkout`, `actions/setup-node` and `actions/upload-artifact` past `@v4`. GitHub warns that v4 targets Node 20 and forces it onto Node 24; the run still passes.
 
 ---
 
@@ -73,7 +81,7 @@ The Sept 2026 responsive pass shipped the core fixes (see "Recently shipped"). H
 
 ## Recently shipped
 
-- **Lighthouse fixes (Sept 2026).** `npm run lighthouse` now uses Lighthouse's desktop preset (it had been testing at phone speed). Fonts are self-hosted instead of loaded from Google Fonts. Screenshots are WebP (5.0 MB → 1.3 MB for the set), and the 8 site screenshots were re-captured with the real fonts and the contact card. The light-mode accent went from orange-600 to orange-700 for 4.5:1 contrast. Added the manual **Lighthouse** workflow.
+- **Lighthouse fixes (Sept 2026).** `npm run lighthouse` now uses Lighthouse's desktop preset (it had been testing at phone speed). Fonts are self-hosted instead of loaded from Google Fonts. Screenshots are WebP (5.0 MB → 1.3 MB for the set), and the 8 site screenshots were re-captured with the real fonts and the contact card. The light-mode accent went from orange-600 to orange-700 for 4.5:1 contrast. Added the **Lighthouse** workflow. Production now scores 100 in all four categories (Sept 27, 2026).
 - **Vitest 5 (Sept 2026).** Also patched `ws` inside Lighthouse (7.5.10 → 7.5.13); `npm audit` reports 0 vulnerabilities.
 - **Contact form → contact card (Sept 2026).** John never received emails from the form, so `/contact` now shows a contact card (email, phone, LinkedIn, GitHub, resume download) from `src/data/profile.ts`. Removed `/api/contact`, the shared validation rules and their tests, the `resend` package, `.env.example`, and `docs/contact-form.md`.
 - **Sept 2026 review + cleanup.**
