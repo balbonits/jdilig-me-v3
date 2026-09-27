@@ -53,7 +53,7 @@ src/
     ui/Button.tsx                # <Button> + <LinkButton> (`to` → router Link, `href` → <a>)
     ui/Container.tsx             # page column + responsive gutters
     ui/Eyebrow.tsx               # § accent label
-    ui/Modal.tsx                 # native <dialog> wrapper (focus trap, Esc, scroll lock)
+    ui/Modal.tsx                 # native <dialog> wrapper (Esc, focus return, scroll lock)
     ui/RichText.tsx              # `backtick` spans → <code>
     projects/ProjectCard.tsx     # grid card with CSS hover lift
     projects/FeaturedProjectCard.tsx  # hero card on /projects

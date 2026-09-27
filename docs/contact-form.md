@@ -30,7 +30,7 @@ Located in `api/contact.ts`. Order of checks:
 
 1. **Method gate** — only `POST`. Anything else returns `405`.
 2. **JSON parse** — `400` if the body isn't JSON.
-3. **Shape check** — `400` unless the body is a JSON object whose `name` / `email` / `message` / `honeypot` fields are strings (or absent). Before this, `null` or a number field crashed the function with a 500.
+3. **Shape check** — `400` unless the body is a JSON object whose `name` / `email` / `message` / `honeypot` fields are strings (or absent). Before this, a `null` body or a number field crashed the function.
 4. **Honeypot** — if the `honeypot` field is non-empty, return `200 { ok: true }` to fake success. Bots see "great, sent!" and don't retry. No real email is sent.
 5. **Required fields** — `email` and a non-blank `message` must be present.
 6. **Email + length caps** — `isValidEmail()` and `CONTACT_LIMITS` (`name ≤ 100`, `email ≤ 254`, `message ≤ 2000`) from `src/lib/contact.ts`.
@@ -80,7 +80,7 @@ Single line under the form:
 > Submissions are delivered to my inbox via Resend. I don't store them on this site, share them, or use them for any kind of analytics or marketing.
 
 Backed up by:
-- Only cookieless Vercel Web Analytics + Speed Insights on the site (no GA, no Plausible, no Pixel — see BACKLOG #3 for the GA4 plan that'll change this). Neither sees form contents.
+- Only Vercel Web Analytics (no cookies, per [Vercel's privacy page](https://vercel.com/docs/analytics/privacy-policy)) and Speed Insights run on the site — no GA, no Plausible, no Pixel (see BACKLOG #3 for the GA4 plan that'll change this).
 - Resend stores delivery records on its end (delivery + bounce metadata) — that's their normal product.
 - The Edge function logs errors via `console.error()` (visible in Vercel logs) but doesn't log message content.
 

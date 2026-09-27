@@ -92,7 +92,7 @@ Fonts load from Google Fonts — see the `<link>` in `index.html`. Headings step
 --dur-slow: 320ms;
 ```
 
-Hover transitions are 120ms, layout transitions are 200ms, page reveals are 320ms. **No bounces, no overshoot.** Cards translate `-2px` on hover. Arrows translate `(2px, -2px)`. That's the whole vocabulary. Use the `ease-out` utility (it maps to the token) rather than an arbitrary `ease-[cubic-bezier(...)]`. `prefers-reduced-motion` turns animations and transitions off site-wide (`src/index.css`).
+Hover transitions are 120ms, layout transitions are 200ms, page reveals are 320ms. **No bounces, no overshoot.** Cards translate `-2px` on hover. Arrows translate `(2px, -2px)`. That's the whole vocabulary. Use the `ease-out` utility (it maps to the token) rather than an arbitrary `ease-[cubic-bezier(...)]`. With `prefers-reduced-motion` on, animation and transition durations drop to near zero site-wide (`src/index.css`).
 
 ## Spacing
 
@@ -109,7 +109,7 @@ The token layer drives a small reusable kit in `src/components/ui/` and `src/com
 - **`Button` / `LinkButton`** — three variants (primary, secondary, ghost), two sizes (md, lg). Accent color comes from tokens; hover transforms come from motion tokens.
 - **`Eyebrow`** — `§ EYEBROW TEXT` mono-uppercase accent label.
 - **`Container`** — the page column: `max-w-[1120px]` (wide) or `max-w-[720px]` (narrow) with `px-5 sm:px-10` gutters.
-- **`ProjectCard`** — `<article>` with a stretched title button; CSS-only hover lift (`shadow-xs` → `shadow-lg`), so it never sticks on touch screens.
+- **`ProjectCard`** — `<article>` with a stretched title button; CSS-only hover lift (`shadow-xs` → `shadow-lg`), wrapped in `@media (hover: hover)` so it only applies on devices that can hover.
 - **`Modal`** — native `<dialog>`; used by `ProjectModal` and the `ProjectGallery` lightbox. Lightbox keys: Esc / ← / →.
 
 ## Adding a new token
