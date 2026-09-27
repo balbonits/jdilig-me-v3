@@ -4,7 +4,7 @@ How the project gallery is built and refreshed.
 
 ## What gets captured
 
-`tests/screenshots.spec.ts` walks a `Shot[]` list and writes each capture to `public/screenshots/<slug>.png`.
+`tests/screenshots.spec.ts` walks a `Shot[]` list and writes each capture to `public/screenshots/<slug>.webp`. Playwright can only screenshot to PNG or JPEG, so the spec converts each capture with [sharp](https://sharp.pixelplumbing.com/) (WebP, quality 80). That's about a quarter of the PNG size: the full set went from 5.0 MB to 1.3 MB in Sept 2026.
 
 Three flavors of shots:
 
@@ -26,7 +26,7 @@ npm run screenshots
        │    5. (optional) press a key to kick canvas-based games
        │    6. (optional) extra wait
        │    7. 404 guard — fail if document.title contains '404' / 'Not Found' / 'Server Error' / 'Unauthorized'
-       │    8. screenshot to public/screenshots/<slug>.png
+       │    8. screenshot (PNG in memory) → sharp → public/screenshots/<slug>.webp
        └─ exit 0 if all pass
 ```
 
@@ -50,7 +50,7 @@ Override the bad-title list per shot via `failIfTitleContains: ['custom']` if a 
 const SHOTS: Shot[] = [
   // ... existing entries
   {
-    slug: 'my-new-shot',                 // becomes <slug>.png
+    slug: 'my-new-shot',                 // becomes <slug>.webp
     path: '/some/route',                 // local path or absolute URL
     theme: 'dark',                       // local only
     external: true,                      // for absolute URLs
@@ -80,10 +80,10 @@ Both expect paths under `/screenshots/`. Example:
 {
   slug: 'jdilig-me',
   // ...
-  previewImage: '/screenshots/home-dark.png',
+  previewImage: '/screenshots/home-dark.webp',
   gallery: [
-    { src: '/screenshots/home-dark.png',     alt: 'Home — dark mode' },
-    { src: '/screenshots/projects-dark.png', alt: 'Projects index' },
+    { src: '/screenshots/home-dark.webp',     alt: 'Home — dark mode' },
+    { src: '/screenshots/projects-dark.webp', alt: 'Projects index' },
   ],
 }
 ```
@@ -114,11 +114,12 @@ Pattern in the spec:
 }
 ```
 
-The `pressKey` step does `page.mouse.click(640, 400)` first to focus the page, then `page.keyboard.press(key)`. This is enough for keyboard-driven games like Running Man and Maze Runner. Click-driven games (Block Arena, Neon Tower Defense) may still capture before gameplay kicks in — acceptable for a thumbnail preview.
+The `pressKey` step clicks the first `<canvas>` to focus the game, then calls `page.keyboard.press(key)`. This is enough for keyboard-driven games like Running Man and Maze Runner. Click-driven games (Block Arena, Neon Tower Defense) may still capture before gameplay kicks in — acceptable for a thumbnail preview.
 
 ## Where the captures live
 
-- `public/screenshots/*.png` — committed to the repo. Sized 1280×800 @ 2× device scale (so they look sharp on retina).
+- `public/screenshots/*.webp` — committed to the repo. Captured with Playwright's Desktop Chrome preset (1280×720 viewport at 1×), so most are 1280 px wide; full-page shots are taller. `city-app-framework.webp` is the exception at 2560×1440.
+- Got a PNG from somewhere else (like the `cir-*` shots)? Convert it the same way: `node -e "require('sharp')('in.png').webp({ quality: 80, smartSubsample: true }).toFile('public/screenshots/out.webp')"`.
 - `test-results/` — Playwright run artifacts. Gitignored.
 - `playwright-report/` — HTML report. Gitignored.
 
@@ -130,7 +131,7 @@ Anytime UI changes that visitors might want to see:
 npm run screenshots
 ```
 
-The run is fast (~30–50s for the full set) and idempotent — same input → same output. Commit the regenerated PNGs if they meaningfully differ.
+The run is fast (~30–50s for the full set) and idempotent — same input → same output. Commit the regenerated WebPs if they meaningfully differ.
 
 For just the games or just one slug:
 

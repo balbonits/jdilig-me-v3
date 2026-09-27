@@ -15,8 +15,6 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
     trace: 'off',
-    viewport: { width: 1280, height: 800 },
-    deviceScaleFactor: 2,
     // Optional: point at an already-installed Chromium instead of the one
     // `npx playwright install` downloads (handy in CI and sandboxes).
     launchOptions: process.env.CHROMIUM_PATH
@@ -26,6 +24,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      // Sets the viewport to 1280×720 at 1× (screenshots are 1280 px wide).
       use: { ...devices['Desktop Chrome'] },
     },
   ],

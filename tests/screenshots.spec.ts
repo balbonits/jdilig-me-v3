@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import path from 'node:path';
 import fs from 'node:fs';
+import sharp from 'sharp';
 
 const OUT_DIR = path.join(process.cwd(), 'public', 'screenshots');
 
@@ -203,9 +204,12 @@ for (const shot of SHOTS) {
       ).toBeFalsy();
     }
 
-    await page.screenshot({
-      path: path.join(OUT_DIR, `${shot.slug}.png`),
-      fullPage: !shot.external,
-    });
+    // Playwright only writes PNG or JPEG. WebP at quality 80 is about a
+    // quarter of the PNG's size for these screenshots; smartSubsample keeps
+    // small colored text from bleeding.
+    const png = await page.screenshot({ fullPage: !shot.external });
+    await sharp(png)
+      .webp({ quality: 80, smartSubsample: true })
+      .toFile(path.join(OUT_DIR, `${shot.slug}.webp`));
   });
 }
