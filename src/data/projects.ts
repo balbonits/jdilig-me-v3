@@ -243,7 +243,7 @@ export const ALL_PROJECTS: Project[] = [
     ],
     highlights: [
       'Tokens-first: every color, radius, shadow, and motion curve lives in one CSS file, bridged to Tailwind v4 via `@theme inline`.',
-      "Dark mode that flips ink and accent (orange-600 → orange-400) — not just background — driven by a `data-theme` attribute with a `@custom-variant dark` bridge.",
+      "Dark mode that flips ink and accent (orange-700 → orange-400) — not just background — driven by a `data-theme` attribute with a `@custom-variant dark` bridge.",
       "Header nav is auto-generated from the router table via a `handle: { showInNav }` convention — adding a route to the nav is a one-line change.",
       'The resume page and the downloadable PDF both render from `src/data/resume.ts`; `npm run resume:pdf` regenerates the PDF with Playwright, so the two never drift.',
       'Playwright captures both site themes and the live Squanto app, writing directly to `/public/screenshots` for use as project previews.',

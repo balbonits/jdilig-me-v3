@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import path from 'node:path';
 import fs from 'node:fs';
 import sharp from 'sharp';
-import { makeThumbnails } from '../scripts/thumbnails.mjs';
+import { writeThumbnail } from '../scripts/thumbnails.mjs';
 
 const OUT_DIR = path.join(process.cwd(), 'public', 'screenshots');
 
@@ -47,10 +47,11 @@ const SHOTS: Shot[] = [
   { slug: 'home-dark', path: '/', theme: 'dark' },
   { slug: 'projects-light', path: '/projects', theme: 'light' },
   { slug: 'projects-dark', path: '/projects', theme: 'dark' },
-  { slug: 'project-detail-squanto', path: '/projects/squanto', theme: 'dark' },
-  { slug: 'project-detail-jdilig-me', path: '/projects/jdilig-me', theme: 'light' },
   { slug: 'resume', path: '/resume', theme: 'light' },
   { slug: 'contact', path: '/contact', theme: 'light' },
+  // Last: these pages show thumbnails of the shots above.
+  { slug: 'project-detail-squanto', path: '/projects/squanto', theme: 'dark' },
+  { slug: 'project-detail-jdilig-me', path: '/projects/jdilig-me', theme: 'light' },
 
   // --- Squanto public pages (routes confirmed against docs/site/SITEMAP.md) ---
   { slug: 'squanto-home', path: 'https://squanto.app/home', external: true, timeout: 60_000 },
@@ -77,12 +78,6 @@ const SHOTS: Shot[] = [
 
 test.beforeAll(() => {
   fs.mkdirSync(OUT_DIR, { recursive: true });
-});
-
-// Refresh the gallery thumbnails (public/screenshots/thumbs/) from whatever
-// this run captured.
-test.afterAll(async () => {
-  await makeThumbnails();
 });
 
 for (const shot of SHOTS) {
@@ -218,5 +213,7 @@ for (const shot of SHOTS) {
     await sharp(png)
       .webp({ quality: 80, smartSubsample: true })
       .toFile(path.join(OUT_DIR, `${shot.slug}.webp`));
+    // Right away, so pages captured later in this run show the new thumbnail.
+    await writeThumbnail(`${shot.slug}.webp`);
   });
 }

@@ -60,9 +60,8 @@ Add page-view + basic event tracking via Google Analytics 4.
 
 Loose ends from the launch session that don't fit into a feature ticket.
 
-- **Bring City App Framework back when it's redone.** It was hidden on Sept 27, 2026 while it's being redone. In `src/data/projects.ts`, delete its `hidden: true` line, then re-add its `<url>` to `public/sitemap.xml` (the sitemap test fails until you do). It was the featured project on `/projects`; Squanto is featured in its place. When City App Framework is back, delete Squanto's `featured: true` too (a test allows only one featured project). The jdilig.me gallery screenshots (`home-*`, `projects-*`) still show it, since they're pictures of the site.
-- **Clean up the old contact form's Resend setup.** The form and `/api/contact` were removed in Sept 2026, so the Resend key is no longer needed. Revoke it in the Resend dashboard (API Keys). If `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, and `CONTACT_FROM_EMAIL` are still set in Vercel (Settings → Environment Variables), delete them. Whether they're still set is unverified: the token used in Sept 2026 couldn't list env vars.
-- **Archive or delete the old `jdilig-me` Vercel project.** It's orphaned now that `jdilig.me` / `www.jdilig.me` moved to `jdilig-me-v3`. Confirm v3 has been stable for a few days, then in Vercel: open the old project → Settings → bottom of page → "Delete Project" (or just leave it parked at its `*.vercel.app` URL).
+- **Bring City App Framework back when it's redone.** It was hidden on Sept 27, 2026 while it's being redone. In `src/data/projects.ts`, delete its `hidden: true` line, then re-add its `<url>` to `public/sitemap.xml` (the sitemap test fails until you do). It was the featured project on `/projects`; Squanto is featured in its place. When City App Framework is back, delete Squanto's `featured: true` too (a test allows only one featured project), then retake the site screenshots (`npm run screenshots`) so they show it again.
+- **On hold / not doing (John's call, Sept 27, 2026):** revoking the old Resend key and deleting its Vercel env vars (the form is gone and the Resend account isn't paid); deleting the old `jdilig-me` Vercel project; spot-checking on real phones. Don't re-suggest these.
 - **Improve game canvas screenshots.** Per-game previews still capture only the HUD overlay. The capture spec now clicks the canvas, sends a key, waits for `networkidle`, and probes computed styles. Diagnostic shows `bodyBg: "rgba(0, 0, 0, 0)"` and `bodyDisplay: "block"` for game pages — the games' `style.css` isn't applying in Playwright (computed body bg should be `#0f1116`). CSS file itself is reachable (`HTTP 200`, `content-type: text/css`) — likely a service-worker or HTTP cache issue specific to headless Chromium. Investigate by adding `bypassCSP: true` to the Playwright context and/or sending `Cache-Control: no-cache` headers on the navigation. Until resolved, hand-grabbed PNGs would be a fine workaround.
 
 ---
@@ -73,13 +72,13 @@ The Sept 2026 responsive pass shipped the core fixes (see "Recently shipped"). H
 
 - Extend `tests/screenshots.spec.ts` to capture each route at one mobile viewport — gives a regression baseline.
 - Gallery lightbox: add swipe gestures (tap targets for prev / next already exist).
-- Spot-check on a real iPhone (Safari) and Android (Chrome) — everything so far was verified in desktop Chromium's mobile emulation.
 - The header hides the `jdilig.me` wordmark below 640px so the three nav links fit. If the nav grows past three links, switch to a menu (Headless UI's `Disclosure` is installed but unused — mind the bundle cost).
 
 ---
 
 ## Recently shipped
 
+- **Site screenshots retaken (Sept 27, 2026).** The jdilig.me gallery now shows Squanto as the featured project (City App Framework is hidden) and the refreshed Lighthouse scores. The capture spec now writes each thumbnail right after its capture and captures the two project pages last, so one run is consistent. Also fixed the jdilig.me case study: the light accent is orange-700, not orange-600.
 - **Featured card and pop-up use thumbnails too (Sept 2026).** Both now pick the 720 px copy when it's enough for the screen: on regular-resolution screens and 2× phones, the featured card on `/projects` went from 60 KB to 12 KB and the Squanto pop-up image from 43 KB to 21 KB. 2× desktops and 3× phones still get the original. The thumbnail test now covers every project screenshot.
 - **Gallery thumbnails (Sept 2026).** Gallery tiles load 720 px-wide copies (`public/screenshots/thumbs/`, made by `npm run thumbnails`) instead of the 1280 px originals; the lightbox still loads the original. Tile images per project page: Squanto 196 → 88 KB, jdilig.me 431 → 177 KB, Coding Interview Reviewer 142 → 56 KB. A unit test fails if a gallery screenshot has no thumbnail.
 - **Squanto's Lighthouse scores removed (Sept 2026).** The score panel no longer appears on `/projects/squanto`; `src/data/squanto-lighthouse.json`, the `lighthouse:squanto` script, and its workflow step are gone. The Squanto project page and resume entry are unchanged.
