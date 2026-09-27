@@ -25,7 +25,7 @@ The scores shown on `/projects/jdilig-me` (Performance 82) and `/projects/squant
 
 ## 2. Lighthouse automation
 
-The **Lighthouse** workflow (`.github/workflows/lighthouse.yml`) scores both live sites from a GitHub runner when started by hand. It prints the new JSON files and attaches them to the run; committing them is still manual. Possible next steps:
+The **Lighthouse** workflow (`.github/workflows/lighthouse.yml`) scores both live sites from a GitHub runner. It runs when started by hand, or on a push that changes `scripts/lighthouse.mjs` or the workflow file. It prints the new JSON files and attaches them to the run; committing them is still manual. Possible next steps:
 - Run it automatically after each production deploy (a Vercel Deploy Hook or a `deployment_status` trigger).
 - Have it open a PR with the updated JSON when scores change.
 
