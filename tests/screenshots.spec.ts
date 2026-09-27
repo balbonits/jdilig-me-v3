@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import path from 'node:path';
 import fs from 'node:fs';
 import sharp from 'sharp';
+import { makeThumbnails } from '../scripts/thumbnails.mjs';
 
 const OUT_DIR = path.join(process.cwd(), 'public', 'screenshots');
 
@@ -76,6 +77,12 @@ const SHOTS: Shot[] = [
 
 test.beforeAll(() => {
   fs.mkdirSync(OUT_DIR, { recursive: true });
+});
+
+// Refresh the gallery thumbnails (public/screenshots/thumbs/) from whatever
+// this run captured.
+test.afterAll(async () => {
+  await makeThumbnails();
 });
 
 for (const shot of SHOTS) {

@@ -60,6 +60,7 @@ src/
     lighthouse.json              # scores written by `npm run lighthouse`
   lib/
     url.ts                       # displayUrl() for human-friendly links
+    screenshots.ts               # gallery thumbnail paths + srcset
   layouts/
     SiteLayout.tsx               # skip link + header + <Outlet /> + footer, scroll-to-top
   components/
@@ -160,10 +161,11 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 - `npm run screenshots` runs `tests/screenshots.spec.ts`, which walks a list of routes in both themes and writes `public/screenshots/<slug>.webp` (converted from Playwright's PNG with sharp).
 - Playwright auto-starts its own dev server (`vite --port 4173 --strictPort`, so it never collides with `npm run dev` on `:5173`) unless something is already listening on `:4173`.
 - Projects in `src/data/projects.ts` can reference a screenshot via `previewImage: '/screenshots/...webp'`. `ProjectHeroPreview` uses the image when provided and falls back to a starfield placeholder.
+- Gallery tiles load 720 px-wide copies from `public/screenshots/thumbs/` (`npm run thumbnails`; the capture spec also runs it). The lightbox loads the original.
 
 ## Testing
 
-- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers, `displayUrl` / `telHref`, and a guard that `public/sitemap.xml` lists every project.
+- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers, `displayUrl` / `telHref`, a guard that `public/sitemap.xml` lists every project, and a guard that every project screenshot exists and every gallery screenshot has its thumbnail.
 - **Playwright** handles screenshots and the resume PDF. Set `CHROMIUM_PATH` to use an existing Chromium instead of `npx playwright install`.
 - Per project rule: **don't write tests for trivial UI components.** Test data-driven components, custom hooks, utilities, and complex business logic.
 

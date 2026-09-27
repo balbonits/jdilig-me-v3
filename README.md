@@ -29,6 +29,7 @@ npm run dev          # http://localhost:5173
 | `npm run lint`         | Run ESLint                                    |
 | `npm test`             | Run the Vitest unit tests                     |
 | `npm run screenshots`  | Capture site + project previews via Playwright|
+| `npm run thumbnails`   | Make the 720 px gallery thumbnails in `public/screenshots/thumbs/` |
 | `npm run resume:pdf`   | Render `public/Reuel_John_Dilig_Resume.pdf` from `src/data/resume.ts` |
 | `npm run lighthouse`   | Score the live site; writes `src/data/lighthouse.json` |
 

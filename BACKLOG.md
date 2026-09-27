@@ -24,7 +24,6 @@ Squanto's scores are no longer shown on the site or measured (removed Sept 2026 
 - **Color contrast.** The light-mode accent is now orange-700, and informational text no longer uses `--fg-faint`. axe reports 0 issues on every route in both themes.
 
 **Optional next steps**
-- Smaller gallery thumbnails. Thumbnails load the full 1280 px WebP; Lighthouse estimates 50–350 KB of savings per project page from `srcset` variants. It doesn't affect the score.
 - About 45 KB of the JS bundle goes unused on any given page, because the whole app ships as one file. Route-level code splitting would fix that, but Total Blocking Time is already 0 ms on desktop.
 - Move the workflow's `actions/checkout`, `actions/setup-node` and `actions/upload-artifact` past `@v4`. GitHub warns that v4 targets Node 20 and forces it onto Node 24; the run still passes.
 
@@ -80,6 +79,7 @@ The Sept 2026 responsive pass shipped the core fixes (see "Recently shipped"). H
 
 ## Recently shipped
 
+- **Gallery thumbnails (Sept 2026).** Gallery tiles load 720 px-wide copies (`public/screenshots/thumbs/`, made by `npm run thumbnails`) instead of the 1280 px originals; the lightbox still loads the original. Tile images per project page: Squanto 196 → 88 KB, jdilig.me 431 → 177 KB, Coding Interview Reviewer 142 → 56 KB. A unit test fails if a gallery screenshot has no thumbnail.
 - **Squanto's Lighthouse scores removed (Sept 2026).** The score panel no longer appears on `/projects/squanto`; `src/data/squanto-lighthouse.json`, the `lighthouse:squanto` script, and its workflow step are gone. The Squanto project page and resume entry are unchanged.
 - **Lighthouse fixes (Sept 2026).** `npm run lighthouse` now uses Lighthouse's desktop preset (it had been testing at phone speed). Fonts are self-hosted instead of loaded from Google Fonts. Screenshots are WebP (5.0 MB → 1.3 MB for the set), and the 8 site screenshots were re-captured with the real fonts and the contact card. The light-mode accent went from orange-600 to orange-700 for 4.5:1 contrast. Added the **Lighthouse** workflow. Production now scores 100 in all four categories (Sept 27, 2026).
 - **Vitest 5 (Sept 2026).** Also patched `ws` inside Lighthouse (7.5.10 → 7.5.13); `npm audit` reports 0 vulnerabilities.
