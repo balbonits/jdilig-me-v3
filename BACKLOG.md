@@ -6,36 +6,28 @@ Upcoming features and tasks for jdilig.me v3. Loosely ordered by priority. Each 
 
 ---
 
-## 1. Bring Performance score above 90
+## 1. Refresh the Lighthouse scores on the site
 
-Lighthouse last scored `https://www.jdilig.me/` at **82 / 100** for Performance (desktop, headless, Apr 2026). Below the 90 threshold. Other categories pass (Accessibility 95, Best Practices 100, SEO 100).
+The scores shown on `/projects/jdilig-me` (Performance 82) and `/projects/squanto` (Performance 16) are from April 2026, and they weren't real desktop scores. Until Sept 2026, `npm run lighthouse` set `formFactor: 'desktop'` without Lighthouse's desktop preset. So it tested at phone speed (4× slower CPU, 1.6 Mbps, 150 ms latency, phone user agent) and then graded the result against the stricter desktop thresholds. On the same local build, the old settings scored Performance 82 and the desktop preset scored 100.
 
-**Re-measure first.** These scores predate the Sept 2026 font fix (until then a CSS layer bug made every page render in Times New Roman), so run `npm run lighthouse` for a fresh baseline.
+**Fixed in Sept 2026.** Measured on a local production build with the desktop preset (Lighthouse 13.5.0):
+- **Fonts** are self-hosted (Fontsource), so there's no render-blocking Google Fonts stylesheet.
+- **Screenshots** are WebP: 5.0 MB → 1.3 MB for the set. Images on the Squanto project page went from 2.3 MB to 0.2 MB.
+- **Color contrast.** The light-mode accent is now orange-700, and informational text no longer uses `--fg-faint`. Accessibility went from 95 to 100, and axe reports 0 issues on every route in both themes.
+- **Result** on `/`, `/projects`, `/projects/squanto`, `/projects/jdilig-me`, `/resume`, and `/contact`: Performance 100, Accessibility 100, SEO 100. Best Practices is 96 locally only because Vercel's analytics scripts (`/_vercel/...`) 404 outside Vercel.
 
-**Likely culprits (to investigate)**
-- **Render-blocking CSS** — Google Fonts (`Geist`, `Instrument Serif`, `JetBrains Mono`) are loaded via `<link rel="stylesheet">` from `fonts.googleapis.com`. `display=swap` is set, which helps with FOIT but can still flash. Consider self-hosting via `@fontsource/*` (also removes the third-party connection).
-- **JavaScript bundle** — 309 kB minified / 99 kB gzip (Sept 2026). React DOM is ~55 kB of that. Keep new dependencies out of the main bundle: the Sept 2026 cleanup rejected Headless UI `Dialog` (+15 kB) and React Router's data router (+18 kB) for this reason.
-- **No image optimization** — the screenshots in `public/screenshots/` are committed at 2× retina resolution, served as PNG (~190 KB on average). Try WebP/AVIF, or compress with `oxipng` / `pngquant`, and measure the savings.
-
-**How to investigate**
-```sh
-npx lighthouse https://www.jdilig.me/ --view --form-factor=desktop
-```
-That opens the full HTML report with per-audit explanations and the "Opportunities" section.
-
-**Scope when picking this up**
-- Inspect the Lighthouse HTML report and pick the top 2–3 wins.
-- Apply fixes one at a time. Re-run `npm run lighthouse` after each to measure delta.
-- Update `src/data/lighthouse.json` (script writes it automatically) and re-deploy.
-- Aim for ≥ 90 across the board on a static SPA this small. 100 is plausible.
+**Still to do**
+- Re-measure production: run the **Lighthouse** workflow (Actions tab), then commit the two JSON files it prints. The Sept 2026 sandbox couldn't reach either site.
+- Optional: smaller gallery thumbnails. Thumbnails load the full 1280 px WebP; Lighthouse estimates 50–350 KB of savings per project page from `srcset` variants. It doesn't affect the score.
+- Optional: about 45 KB of the JS bundle goes unused on any given page, because the whole app ships as one file. Route-level code splitting would fix that, but Total Blocking Time is already 0 ms on desktop.
 
 ---
 
 ## 2. Lighthouse automation
 
-The current `npm run lighthouse` is manual — run it locally, commit the JSON. Once Performance is above threshold, consider automating:
-- A Vercel Deploy Hook that triggers a post-deploy Lighthouse run.
-- Or a GitHub Action that runs Lighthouse on every push to `main`, opens a PR with the updated JSON if scores changed.
+The **Lighthouse** workflow (`.github/workflows/lighthouse.yml`) scores both live sites from a GitHub runner when started by hand. It prints the new JSON files and attaches them to the run; committing them is still manual. Possible next steps:
+- Run it automatically after each production deploy (a Vercel Deploy Hook or a `deployment_status` trigger).
+- Have it open a PR with the updated JSON when scores change.
 
 Low priority — manual is fine for now since the score doesn't change often.
 
@@ -64,8 +56,6 @@ Loose ends from the launch session that don't fit into a feature ticket.
 
 - **Clean up the old contact form's Resend setup.** The form and `/api/contact` were removed in Sept 2026, so the Resend key is no longer needed. Revoke it in the Resend dashboard (API Keys). If `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, and `CONTACT_FROM_EMAIL` are still set in Vercel (Settings → Environment Variables), delete them. Whether they're still set is unverified: the token used in Sept 2026 couldn't list env vars.
 - **Archive or delete the old `jdilig-me` Vercel project.** It's orphaned now that `jdilig.me` / `www.jdilig.me` moved to `jdilig-me-v3`. Confirm v3 has been stable for a few days, then in Vercel: open the old project → Settings → bottom of page → "Delete Project" (or just leave it parked at its `*.vercel.app` URL).
-- **Re-capture the jdilig.me screenshots.** `home-*`, `projects-*`, `project-detail-*`, `resume`, and `contact` in `public/screenshots/` predate the Sept 2026 font fix (they show Times New Roman) and the resume update. Run `npx playwright test tests/screenshots.spec.ts -g "capture (home-(light|dark)|projects-(light|dark)|project-detail-.+|resume|contact)$"` (selects exactly those 8 shots) on a machine that can reach Google Fonts, then commit.
-- **Upgrade Vitest to v5.** `npm audit` still flags `@vitest/mocker` (GHSA-82fw-gwwq-j7x9, dev-only) and `ws` via `lighthouse` (dev-only). The Vitest fix is a major-version bump; check the migration guide first.
 - **Improve game canvas screenshots.** Per-game previews still capture only the HUD overlay. The capture spec now clicks the canvas, sends a key, waits for `networkidle`, and probes computed styles. Diagnostic shows `bodyBg: "rgba(0, 0, 0, 0)"` and `bodyDisplay: "block"` for game pages — the games' `style.css` isn't applying in Playwright (computed body bg should be `#0f1116`). CSS file itself is reachable (`HTTP 200`, `content-type: text/css`) — likely a service-worker or HTTP cache issue specific to headless Chromium. Investigate by adding `bypassCSP: true` to the Playwright context and/or sending `Cache-Control: no-cache` headers on the navigation. Until resolved, hand-grabbed PNGs would be a fine workaround.
 
 ---
@@ -83,6 +73,8 @@ The Sept 2026 responsive pass shipped the core fixes (see "Recently shipped"). H
 
 ## Recently shipped
 
+- **Lighthouse fixes (Sept 2026).** `npm run lighthouse` now uses Lighthouse's desktop preset (it had been testing at phone speed). Fonts are self-hosted instead of loaded from Google Fonts. Screenshots are WebP (5.0 MB → 1.3 MB for the set), and the 8 site screenshots were re-captured with the real fonts and the contact card. The light-mode accent went from orange-600 to orange-700 for 4.5:1 contrast. Added the manual **Lighthouse** workflow.
+- **Vitest 5 (Sept 2026).** Also patched `ws` inside Lighthouse (7.5.10 → 7.5.13); `npm audit` reports 0 vulnerabilities.
 - **Contact form → contact card (Sept 2026).** John never received emails from the form, so `/contact` now shows a contact card (email, phone, LinkedIn, GitHub, resume download) from `src/data/profile.ts`. Removed `/api/contact`, the shared validation rules and their tests, the `resend` package, `.env.example`, and `docs/contact-form.md`.
 - **Sept 2026 review + cleanup.**
   - **Fonts and shadows fixed.** The CSS layer order let Tailwind's `--font-sans: var(--font-sans)` override the tokens, so every font fell back to Times New Roman and every `shadow-*` was empty since launch. Now `@layer theme, tokens, …` (see docs/design-system.md).
