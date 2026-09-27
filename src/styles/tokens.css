@@ -8,14 +8,14 @@
    - Geist (sans, UI)           → body, headings
    - Fraunces is also overused; using Instrument Serif for display accents
    - JetBrains Mono (mono)      → code, tabular, wordmark accents
-   These are loaded from Google Fonts in the root index.
+   These are self-hosted via Fontsource packages, imported in src/main.tsx.
 */
 
 :root {
   /* ---------- Type families ---------- */
-  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* ---------- Type scale (fluid-ish, fixed here for system cards) ---------- */
   --text-2xs: 11px;
