@@ -66,12 +66,14 @@ With that, you can write `dark:bg-bg-muted` in any component and it works.
 | `--bg` | `#fdfcfb` | `#0c0a09` |
 | `--fg` | `#1c1917` | `#fafaf9` |
 | `--fg-strong` | `#0c0a09` | `#ffffff` |
-| `--accent` | `#ea580c` (orange-600) | `#fb923c` (orange-400) |
+| `--accent` | `#c2410c` (orange-700) | `#fb923c` (orange-400) |
 | `--accent-contrast` | `#ffffff` | `#1c1917` |
 | `--border` | `#e7e5e4` | `#292524` |
 | `--surface` | `#ffffff` | `#1c1917` |
 
-Note that **accent flips with the theme** — orange-600 on light backgrounds, orange-400 on dark — so contrast ratios stay legible without per-mode color hacks. This is the whole point of `--accent-contrast`: text on top of accent buttons is dark-on-orange in dark mode, white-on-orange in light mode.
+Note that **accent flips with the theme** — orange-700 on light backgrounds, orange-400 on dark — so accent text and accent buttons meet WCAG AA (4.5:1) in both themes. This is the whole point of `--accent-contrast`: text on top of accent buttons is dark-on-orange in dark mode, white-on-orange in light mode. (Until Sept 2026 the light accent was orange-600, which measured only 3.5:1.)
+
+Keep `--fg-faint` for decorative icons; it's too light for text (2.5:1 in light mode). In light mode, `--fg-subtle` text passes on `--bg` and `--surface` but not on `--bg-subtle` / `--bg-muted`; use `--fg-muted` there.
 
 ## Type scale
 

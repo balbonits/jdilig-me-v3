@@ -96,8 +96,8 @@
 :root,
 [data-theme="light"] {
   /* Brand accents — warm */
-  --accent: #ea580c;          /* orange-600 — primary */
-  --accent-hover: #c2410c;    /* orange-700 */
+  --accent: #c2410c;          /* orange-700 — primary; 4.5:1+ on the light backgrounds and under white text */
+  --accent-hover: #9a3412;    /* orange-800 */
   --accent-soft: #fff7ed;     /* orange-50 — tinted bg */
   --accent-border: #fed7aa;   /* orange-200 */
   --accent-fg: #7c2d12;       /* orange-900 — on soft */

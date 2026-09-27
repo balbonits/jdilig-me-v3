@@ -106,7 +106,7 @@ export default function Projects() {
                   className={`${pillClass(isActive)} font-mono tracking-[0.04em]`}
                 >
                   {cat}
-                  <span className={`ml-1.5 ${isActive ? 'text-bg/60' : 'text-fg-faint'}`}>
+                  <span className={`ml-1.5 ${isActive ? 'text-bg/60' : 'text-fg-subtle'}`}>
                     {count}
                   </span>
                 </button>
