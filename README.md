@@ -84,4 +84,4 @@ If you fork this for your own site, please replace the personal content with you
 
 ## Privacy
 
-The site uses Vercel Web Analytics (page views) and Vercel Speed Insights (performance). Per [Vercel's Web Analytics privacy page](https://vercel.com/docs/analytics/privacy-policy), Web Analytics uses no cookies and can't track visitors across days or websites; see the [Speed Insights privacy page](https://vercel.com/docs/concepts/analytics/privacy) for what it collects. Fonts load from Google Fonts. There are no ad or social trackers.
+The site uses Vercel Web Analytics (page views) and Vercel Speed Insights (performance). Per [Vercel's Web Analytics privacy page](https://vercel.com/docs/analytics/privacy-policy), Web Analytics uses no cookies and can't track visitors across days or websites; see the [Speed Insights privacy page](https://vercel.com/docs/concepts/analytics/privacy) for what it collects. Fonts are self-hosted, so pages make no requests to Google. There are no ad or social trackers.

@@ -77,11 +77,11 @@ Note that **accent flips with the theme** — orange-600 on light backgrounds, o
 
 | Family | CSS var | Where |
 |---|---|---|
-| Sans | `--font-sans` → `Geist, ui-sans-serif, …` | Body, UI |
+| Sans | `--font-sans` → `Geist Variable, ui-sans-serif, …` | Body, UI |
 | Serif | `--font-serif` → `Instrument Serif` | Display accents — italic single-word emphasis (`I build`, `marketplace`, `seeds`) |
-| Mono | `--font-mono` → `JetBrains Mono` | Eyebrows, code, kbd, meta lines, footer |
+| Mono | `--font-mono` → `JetBrains Mono Variable` | Eyebrows, code, kbd, meta lines, footer |
 
-Fonts load from Google Fonts — see the `<link>` in `index.html`. Headings step down at breakpoints (e.g. the hero is `text-[44px] sm:text-[60px] md:text-[72px]`).
+Fonts are self-hosted with Fontsource packages (`@fontsource-variable/geist`, `@fontsource-variable/jetbrains-mono`, `@fontsource/instrument-serif`), imported at the top of `src/main.tsx`. Headings step down at breakpoints (e.g. the hero is `text-[44px] sm:text-[60px] md:text-[72px]`).
 
 ## Motion
 
