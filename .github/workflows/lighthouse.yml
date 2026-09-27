@@ -1,10 +1,10 @@
-# Scores the live sites with Lighthouse (desktop) from a GitHub runner.
+# Scores www.jdilig.me with Lighthouse (desktop) from a GitHub runner.
 # Start it by hand: Actions tab → Lighthouse → Run workflow. It also runs
 # on any push that changes the scoring script or this file, so a broken
 # script shows up as a failed run. The job log prints the new
-# src/data/*lighthouse.json files, and the same files are attached to the
-# run as the "lighthouse" artifact. Commit them to update the scores shown
-# on the project pages.
+# src/data/lighthouse.json, and the same file is attached to the run as
+# the "lighthouse" artifact. Commit it to update the scores shown on the
+# jdilig.me project page.
 name: Lighthouse
 
 on:
@@ -29,12 +29,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lighthouse
-      - run: npm run lighthouse:squanto
       - name: Print results
-        run: cat src/data/lighthouse.json src/data/squanto-lighthouse.json
+        run: cat src/data/lighthouse.json
       - uses: actions/upload-artifact@v4
         with:
           name: lighthouse
-          path: |
-            src/data/lighthouse.json
-            src/data/squanto-lighthouse.json
+          path: src/data/lighthouse.json

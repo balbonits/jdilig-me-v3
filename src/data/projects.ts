@@ -1,5 +1,4 @@
 import jdiligLighthouse from './lighthouse.json';
-import squantoLighthouse from './squanto-lighthouse.json';
 
 export type ProjectCategory = 'GAME' | 'SITE' | 'TOOL' | 'WORK' | 'EXPT';
 export type ProjectStatus = 'LIVE' | 'SHIPPED' | 'ARCHIVED' | 'WIP';
@@ -178,7 +177,6 @@ export const PROJECTS: Project[] = [
     links: {
       live: 'https://squanto.app/',
     },
-    lighthouse: squantoLighthouse,
     previewImage: '/screenshots/squanto-home.webp',
     gallery: [
       {

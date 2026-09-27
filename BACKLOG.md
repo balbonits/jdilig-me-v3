@@ -13,9 +13,8 @@ Upcoming features and tasks for jdilig.me v3. Loosely ordered by priority. Each 
 | Site | Performance | Accessibility | Best Practices | SEO |
 |---|---|---|---|---|
 | `www.jdilig.me` | 100 (82) | 100 (95) | 100 (100) | 100 (100) |
-| `squanto.app` | 70 (16) | 93 (100) | 77 (81) | 92 (92) |
 
-Squanto's code isn't in this repo, so its scores are shown as measured.
+Squanto's scores are no longer shown on the site or measured (removed Sept 2026 at John's request).
 
 **Why the April scores were low.** Until Sept 2026, `npm run lighthouse` set `formFactor: 'desktop'` without Lighthouse's desktop preset. So it tested at phone speed (4× slower CPU, 1.6 Mbps, 150 ms latency, phone user agent) and then graded the result against the stricter desktop thresholds. On the same local build, the old settings scored Performance 82 and the desktop preset scored 100.
 
@@ -33,7 +32,7 @@ Squanto's code isn't in this repo, so its scores are shown as measured.
 
 ## 2. Lighthouse automation
 
-The **Lighthouse** workflow (`.github/workflows/lighthouse.yml`) scores both live sites from a GitHub runner. It runs when started by hand, or on a push that changes `scripts/lighthouse.mjs` or the workflow file. It prints the new JSON files and attaches them to the run; committing them is still manual. Possible next steps:
+The **Lighthouse** workflow (`.github/workflows/lighthouse.yml`) scores `www.jdilig.me` from a GitHub runner. It runs when started by hand, or on a push that changes `scripts/lighthouse.mjs` or the workflow file. It prints the new JSON file and attaches it to the run; committing it is still manual. Possible next steps:
 - Run it automatically after each production deploy (a Vercel Deploy Hook or a `deployment_status` trigger).
 - Have it open a PR with the updated JSON when scores change.
 
@@ -81,6 +80,7 @@ The Sept 2026 responsive pass shipped the core fixes (see "Recently shipped"). H
 
 ## Recently shipped
 
+- **Squanto's Lighthouse scores removed (Sept 2026).** The score panel no longer appears on `/projects/squanto`; `src/data/squanto-lighthouse.json`, the `lighthouse:squanto` script, and its workflow step are gone. The Squanto project page and resume entry are unchanged.
 - **Lighthouse fixes (Sept 2026).** `npm run lighthouse` now uses Lighthouse's desktop preset (it had been testing at phone speed). Fonts are self-hosted instead of loaded from Google Fonts. Screenshots are WebP (5.0 MB → 1.3 MB for the set), and the 8 site screenshots were re-captured with the real fonts and the contact card. The light-mode accent went from orange-600 to orange-700 for 4.5:1 contrast. Added the **Lighthouse** workflow. Production now scores 100 in all four categories (Sept 27, 2026).
 - **Vitest 5 (Sept 2026).** Also patched `ws` inside Lighthouse (7.5.10 → 7.5.13); `npm audit` reports 0 vulnerabilities.
 - **Contact form → contact card (Sept 2026).** John never received emails from the form, so `/contact` now shows a contact card (email, phone, LinkedIn, GitHub, resume download) from `src/data/profile.ts`. Removed `/api/contact`, the shared validation rules and their tests, the `resend` package, `.env.example`, and `docs/contact-form.md`.
