@@ -112,7 +112,7 @@ The token layer drives a small reusable kit in `src/components/ui/` and `src/com
 - **`Eyebrow`** — `§ EYEBROW TEXT` mono-uppercase accent label.
 - **`Container`** — the page column: `max-w-[1120px]` (wide) or `max-w-[720px]` (narrow) with `px-5 sm:px-10` gutters.
 - **`ProjectCard`** — `<article>` with a stretched title button; CSS-only hover lift (`shadow-xs` → `shadow-lg`), wrapped in `@media (hover: hover)` so it only applies on devices that can hover.
-- **`Modal`** — native `<dialog>`; used by `ProjectModal` and the `ProjectGallery` lightbox. Lightbox keys: Esc / ← / →.
+- **`Modal`** — native `<dialog>`; used by `ProjectModal` and the `ProjectGallery` lightbox. Lightbox keys: Esc / ← / →; on touch screens, swipe left / right (the dialog's `touch-pan-y` keeps the browser from treating the swipe as back / forward).
 
 ## Adding a new token
 

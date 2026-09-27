@@ -41,6 +41,7 @@ src/
   lib/
     url.ts                       # displayUrl() — "https://www.x.com/a/" → "x.com/a"
     screenshots.ts               # thumbnailSrc() / screenshotSrcSet() for gallery tiles and previews
+    swipe.ts                     # swipeStep() — touch gesture → next / previous image
 
   layouts/
     SiteLayout.tsx               # skip link + header + <Outlet /> + footer; scrolls new pages to top
@@ -57,7 +58,7 @@ src/
     projects/ProjectCard.tsx     # grid card with CSS hover lift
     projects/FeaturedProjectCard.tsx  # hero card on /projects
     projects/ProjectModal.tsx    # quick-look dialog
-    projects/ProjectGallery.tsx  # thumbnail grid + lightbox with arrow-key nav
+    projects/ProjectGallery.tsx  # thumbnail grid + lightbox (arrow keys, swipe)
     projects/ProjectHeroPreview.tsx  # screenshot or starfield fallback
     projects/{ProjectMeta,ProjectTitle,TagList}.tsx  # shared card pieces
     projects/LighthouseScores.tsx    # score gauges
