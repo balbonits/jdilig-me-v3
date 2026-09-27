@@ -40,7 +40,7 @@ src/
 
   lib/
     url.ts                       # displayUrl() — "https://www.x.com/a/" → "x.com/a"
-    screenshots.ts               # thumbnailSrc() / screenshotSrcSet() for gallery tiles
+    screenshots.ts               # thumbnailSrc() / screenshotSrcSet() for gallery tiles and previews
 
   layouts/
     SiteLayout.tsx               # skip link + header + <Outlet /> + footer; scrolls new pages to top

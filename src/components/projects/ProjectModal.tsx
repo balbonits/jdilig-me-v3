@@ -31,9 +31,11 @@ export default function ProjectModal({ project, onClose }: Props) {
       {p && (
         <>
           <div className="relative">
+            {/* The dialog is 560 px wide, or the viewport minus 2.5rem. */}
             <ProjectHeroPreview
               image={p.previewImage}
               alt={`${p.title} preview`}
+              sizes="(min-width: 600px) 560px, calc(100vw - 40px)"
               className="h-[160px]"
             />
             <button
