@@ -1,12 +1,18 @@
 # Scores the live sites with Lighthouse (desktop) from a GitHub runner.
-# Start it by hand: Actions tab → Lighthouse → Run workflow. The job log
-# prints the new src/data/*lighthouse.json files, and the same files are
-# attached to the run as the "lighthouse" artifact. Commit them to update
-# the scores shown on the project pages.
+# Start it by hand: Actions tab → Lighthouse → Run workflow. It also runs
+# on any push that changes the scoring script or this file, so a broken
+# script shows up as a failed run. The job log prints the new
+# src/data/*lighthouse.json files, and the same files are attached to the
+# run as the "lighthouse" artifact. Commit them to update the scores shown
+# on the project pages.
 name: Lighthouse
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - scripts/lighthouse.mjs
+      - .github/workflows/lighthouse.yml
 
 permissions:
   contents: read
