@@ -5,7 +5,7 @@
 // full-size file only loads in the lightbox.
 //
 // Usage: npm run thumbnails
-// tests/screenshots.spec.ts also runs this after every capture run.
+// tests/screenshots.spec.ts calls writeThumbnail() after each capture.
 
 import sharp from 'sharp';
 import { mkdirSync, readdirSync, rmSync } from 'node:fs';
@@ -18,16 +18,19 @@ const THUMB_WIDTH = 720;
 const DIR = join(process.cwd(), 'public', 'screenshots');
 const THUMBS_DIR = join(DIR, 'thumbs');
 
+/** public/screenshots/<file> → public/screenshots/thumbs/<file> */
+export async function writeThumbnail(file) {
+  mkdirSync(THUMBS_DIR, { recursive: true });
+  await sharp(join(DIR, file))
+    .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
+    .webp({ quality: 80, smartSubsample: true })
+    .toFile(join(THUMBS_DIR, file));
+}
+
 export async function makeThumbnails() {
   mkdirSync(THUMBS_DIR, { recursive: true });
   const shots = readdirSync(DIR).filter((f) => f.endsWith('.webp'));
-
-  for (const file of shots) {
-    await sharp(join(DIR, file))
-      .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
-      .webp({ quality: 80, smartSubsample: true })
-      .toFile(join(THUMBS_DIR, file));
-  }
+  for (const file of shots) await writeThumbnail(file);
 
   for (const file of readdirSync(THUMBS_DIR)) {
     if (!shots.includes(file)) rmSync(join(THUMBS_DIR, file));
