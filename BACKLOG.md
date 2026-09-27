@@ -71,13 +71,13 @@ Loose ends from the launch session that don't fit into a feature ticket.
 The Sept 2026 responsive pass shipped the core fixes (see "Recently shipped"). Home, Projects, the Squanto project page, Resume, and Contact were checked at 375px wide in Chromium's mobile emulation: no sideways scrolling. Left to do:
 
 - Extend `tests/screenshots.spec.ts` to capture each route at one mobile viewport — gives a regression baseline.
-- Gallery lightbox: add swipe gestures (tap targets for prev / next already exist).
 - The header hides the `jdilig.me` wordmark below 640px so the three nav links fit. If the nav grows past three links, switch to a menu (Headless UI's `Disclosure` is installed but unused — mind the bundle cost).
 
 ---
 
 ## Recently shipped
 
+- **Swipe in the gallery lightbox (Sept 27, 2026).** On touch screens, swipe left / right to page through images; taps, short moves, vertical moves and pinches don't page. The dialog sets `touch-action: pan-y pinch-zoom`: in Chrome's touch emulation, without it a right swipe in the lightbox took the browser back a page (the browser's own history gesture). Tested with emulated touch in headless Chromium, not on a real phone.
 - **Link preview image (Sept 27, 2026).** Shared links now show `public/og-image.png` (1200×630: name, role, location, one-line summary, in the site's dark theme and fonts) instead of the small logo; Twitter/X uses the large card. `npm run og:image` regenerates it from `src/data/profile.ts`; a unit test checks `index.html` points at it at the right size.
 - **Site screenshots retaken (Sept 27, 2026).** The jdilig.me gallery now shows Squanto as the featured project (City App Framework is hidden) and the refreshed Lighthouse scores. The capture spec now writes each thumbnail right after its capture and captures the two project pages last, so one run is consistent. Also fixed the jdilig.me case study: the light accent is orange-700, not orange-600.
 - **Featured card and pop-up use thumbnails too (Sept 2026).** Both now pick the 720 px copy when it's enough for the screen: on regular-resolution screens and 2× phones, the featured card on `/projects` went from 60 KB to 12 KB and the Squanto pop-up image from 43 KB to 21 KB. 2× desktops and 3× phones still get the original. The thumbnail test now covers every project screenshot.

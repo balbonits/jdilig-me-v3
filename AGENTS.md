@@ -61,6 +61,7 @@ src/
   lib/
     url.ts                       # displayUrl() for human-friendly links
     screenshots.ts               # gallery thumbnail paths + srcset
+    swipe.ts                     # swipeStep() for the gallery lightbox
   layouts/
     SiteLayout.tsx               # skip link + header + <Outlet /> + footer, scroll-to-top
   components/
@@ -170,7 +171,7 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 
 ## Testing
 
-- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers, `displayUrl` / `telHref`, a guard that `public/sitemap.xml` lists every visible project and no hidden one, a guard that every project screenshot exists, is at least 1280 px wide, and has its thumbnail, and a guard that the link-preview image in `index.html` exists at the size its tags claim.
+- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers, `displayUrl` / `telHref`, `swipeStep`, a guard that `public/sitemap.xml` lists every visible project and no hidden one, a guard that every project screenshot exists, is at least 1280 px wide, and has its thumbnail, and a guard that the link-preview image in `index.html` exists at the size its tags claim.
 - **Playwright** handles screenshots and the resume PDF. Set `CHROMIUM_PATH` to use an existing Chromium instead of `npx playwright install`.
 - Per project rule: **don't write tests for trivial UI components.** Test data-driven components, custom hooks, utilities, and complex business logic.
 

@@ -1,7 +1,8 @@
-import { useState, type KeyboardEvent } from 'react';
+import { useRef, useState, type KeyboardEvent, type TouchEvent } from 'react';
 import { Icon } from '@/components/icons';
 import Modal from '@/components/ui/Modal';
 import { screenshotSrcSet, thumbnailSrc } from '@/lib/screenshots';
+import { swipeStep } from '@/lib/swipe';
 
 export type GalleryImage = { src: string; alt: string };
 
@@ -13,6 +14,7 @@ type Props = {
 export default function ProjectGallery({ images, className = '' }: Props) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const count = images.length;
   if (count === 0) return null;
 
@@ -23,6 +25,22 @@ export default function ProjectGallery({ images, className = '' }: Props) {
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'ArrowRight') step(1);
     else if (e.key === 'ArrowLeft') step(-1);
+  };
+
+  // On touch screens, swipe left / right to page. A second finger (pinch to
+  // zoom) cancels the swipe. The dialog's touch-pan-y keeps the browser from
+  // also treating the swipe as back / forward navigation.
+  const onTouchStart = (e: TouchEvent) => {
+    const t = e.touches[0];
+    touchStart.current = e.touches.length === 1 ? { x: t.clientX, y: t.clientY } : null;
+  };
+  const onTouchEnd = (e: TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const delta = swipeStep(t.clientX - start.x, t.clientY - start.y);
+    if (delta) step(delta);
   };
 
   return (
@@ -57,10 +75,18 @@ export default function ProjectGallery({ images, className = '' }: Props) {
         open={open}
         onClose={() => setOpen(false)}
         label={`${current.alt} — image ${index + 1} of ${count}`}
-        className="h-full max-h-none w-full max-w-none bg-transparent p-4 open:flex open:items-center open:justify-center backdrop:bg-[rgb(12_10_9/0.88)] backdrop:backdrop-blur-[6px] sm:p-10"
+        className="h-full max-h-none w-full max-w-none touch-pan-y touch-pinch-zoom bg-transparent p-4 open:flex open:items-center open:justify-center backdrop:bg-[rgb(12_10_9/0.88)] backdrop:backdrop-blur-[6px] sm:p-10"
       >
         {/* The dialog fills the screen; its empty area acts as the backdrop. */}
-        <div onKeyDown={onKeyDown} className="contents">
+        <div
+          onKeyDown={onKeyDown}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onTouchCancel={() => {
+            touchStart.current = null;
+          }}
+          className="contents"
+        >
           <figure className="relative flex max-h-full max-w-[1200px] flex-col">
             <img
               src={current.src}
