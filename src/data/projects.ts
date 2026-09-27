@@ -46,6 +46,11 @@ export type Project = {
   liveLabel?: string;
   /** When true, the project is pulled out of the grid and rendered as the hero. */
   featured?: boolean;
+  /**
+   * When true, the project is left off the site: lists, detail page, and
+   * prev/next links. Also remove it from public/sitemap.xml (a test checks).
+   */
+  hidden?: boolean;
   /** Lighthouse scores shown as gauges on the detail page. */
   lighthouse?: LighthouseData;
 };
@@ -95,7 +100,8 @@ export function sortProjects(projects: Project[], sort: SortOption): Project[] {
   });
 }
 
-export const PROJECTS: Project[] = [
+/** Every project, including hidden ones. Use PROJECTS for anything the site shows. */
+export const ALL_PROJECTS: Project[] = [
   {
     slug: 'city-app-framework',
     categories: ['TOOL', 'EXPT'],
@@ -118,6 +124,8 @@ export const PROJECTS: Project[] = [
     role: 'Author / Sponsor',
     timeline: 'Aug 2025 — Present',
     featured: true,
+    // Hidden Sept 27, 2026 while it's being redone.
+    hidden: true,
     overview: [
       'City App Framework is a personal development framework for building apps and games with AI coding agents (Claude, Grok, others). It exists to solve one specific problem: AI agents are stateless, so without a baked-in answer to "how does John want code structured, named, tested, and reviewed," every new project burns tokens on the same arbitrary choices and drifts from how I actually build.',
       'The architecture has two layers. The universal layer (this repo) holds rules and patterns that apply across all my projects — anti-overengineering, escalation triggers, decision patterns, communication norms. The per-project layer is each project\'s own AGENTS.md — stack, commands, file layout, naming, footguns. When an agent opens a project, it reads the project\'s AGENTS.md first, then falls back to the universal rules.',
@@ -454,6 +462,9 @@ export const PROJECTS: Project[] = [
     previewImage: '/screenshots/game-maze-runner.webp',
   },
 ];
+
+/** The projects the site shows. */
+export const PROJECTS = ALL_PROJECTS.filter((p) => !p.hidden);
 
 export function getProject(slug: string): Project | undefined {
   return PROJECTS.find((p) => p.slug === slug);

@@ -3,7 +3,7 @@ import {
   liveLinkLabel,
   filterProjects,
   sortProjects,
-  PROJECTS,
+  ALL_PROJECTS,
   type Project,
   type ProjectCategory,
 } from './projects';
@@ -135,13 +135,13 @@ describe('sortProjects', () => {
 
 describe('PROJECTS seed data', () => {
   it('every project has at least one category', () => {
-    for (const p of PROJECTS) {
+    for (const p of ALL_PROJECTS) {
       expect(p.categories.length).toBeGreaterThan(0);
     }
   });
 
   it('games are tagged with both GAME and EXPT', () => {
-    const games = PROJECTS.filter((p) => p.categories.includes('GAME'));
+    const games = ALL_PROJECTS.filter((p) => p.categories.includes('GAME'));
     for (const g of games) {
       expect(g.categories).toContain('EXPT');
     }

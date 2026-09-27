@@ -33,7 +33,7 @@ src/
 
   data/
     profile.ts                   # name, email, links, location
-    projects.ts                  # Project type + PROJECTS seed + helpers (getProject, liveLinkLabel)
+    projects.ts                  # Project type + ALL_PROJECTS seed, PROJECTS (minus hidden) + helpers (getProject, liveLinkLabel)
     resume.ts                    # SKILLS, EXPERIENCE, EDUCATION, SUMMARY (also feeds the PDF)
     lighthouse.json              # scores from `npm run lighthouse`
     # data files are lowercase — they're modules, not components
