@@ -8,7 +8,6 @@ Deeper reference for the v3 portfolio site. For the public-facing project overvi
 |-----|---------|
 | [`architecture.md`](./architecture.md) | Stack, project layout, routing model, theme system, design-system bridge |
 | [`design-system.md`](./design-system.md) | Tokens, Tailwind v4 `@theme` bridge, light/dark mechanics, motion + spacing scale |
-| [`contact-form.md`](./contact-form.md) | The `/api/contact` Edge function, Resend integration, validation, security posture, env vars |
 | [`deployment.md`](./deployment.md) | Vercel project setup, GoDaddy DNS, custom domain swap, auto-deploy on push, subdomains |
 | [`screenshots.md`](./screenshots.md) | Playwright capture spec, the 404 guard, gallery wiring, when / how to re-capture |
 | [`workflow.md`](./workflow.md) | Git conventions, commit-message style, BACKLOG hygiene rule, when to update what |

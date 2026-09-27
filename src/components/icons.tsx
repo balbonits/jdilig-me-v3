@@ -5,7 +5,7 @@ import {
   ArrowRightIcon,
   EnvelopeIcon,
   DocumentIcon,
-  CheckIcon,
+  PhoneIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 
@@ -18,7 +18,7 @@ export const Icon = {
   ArrowRight: ArrowRightIcon,
   Mail: EnvelopeIcon,
   Document: DocumentIcon,
-  Check: CheckIcon,
+  Phone: PhoneIcon,
   Close: XMarkIcon,
 };
 

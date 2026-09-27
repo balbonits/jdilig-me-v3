@@ -59,7 +59,6 @@ src/
     resume.ts                    # summary, skills, experience, education
     lighthouse.json              # scores written by `npm run lighthouse`
   lib/
-    contact.ts                   # contact-form limits + email check (shared with api/)
     url.ts                       # displayUrl() for human-friendly links
   layouts/
     SiteLayout.tsx               # skip link + header + <Outlet /> + footer, scroll-to-top
@@ -87,11 +86,8 @@ src/
     Projects.tsx                 # filters + grid + modal
     ProjectDetail.tsx            # /projects/:slug full case study
     Resume.tsx
-    Contact.tsx                  # secure (mailto + honeypot + length caps)
+    Contact.tsx                  # contact card (email, phone, links, resume)
     NotFound.tsx
-
-api/
-  contact.ts                     # Vercel Edge Function (Resend)
 
 public/
   logo.png                       # GitHub avatar, used as header logo + favicon
@@ -167,10 +163,9 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 
 ## Testing
 
-- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers, the contact API + validation, `displayUrl`, and a guard that `public/sitemap.xml` lists every project.
+- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers, `displayUrl` / `telHref`, and a guard that `public/sitemap.xml` lists every project.
 - **Playwright** handles screenshots and the resume PDF. Set `CHROMIUM_PATH` to use an existing Chromium instead of `npx playwright install`.
 - Per project rule: **don't write tests for trivial UI components.** Test data-driven components, custom hooks, utilities, and complex business logic.
-- Don't put test files in `api/` — Vercel would deploy them as functions.
 
 ## Resume
 

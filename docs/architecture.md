@@ -12,8 +12,7 @@ How the v3 portfolio site is organized and why.
 | Routing | **React Router v7** library mode | Single source of truth for routes via a `RouteObject[]`; nav metadata lives on each route. |
 | Styling | **Tailwind CSS v4** via `@tailwindcss/vite` | Tokens-first via `@theme inline`; `@custom-variant dark`. |
 | Hosting | **Vercel** | Auto-deploys from `balbonits/jdilig-me-v3` on push to `main`. |
-| Mail | **Resend** + **Vercel Edge Function** | `/api/contact.ts` runs on Edge runtime; Resend SDK calls fetch under the hood. |
-| Unit tests | **Vitest** | Project helpers, contact API + validation, sitemap coverage. Matches the Vite toolchain. |
+| Unit tests | **Vitest** | Project helpers, URL helpers, sitemap coverage. Matches the Vite toolchain. |
 | Capture | **Playwright** | Site screenshots for the project gallery (404 guard catches bad URLs) and the resume PDF. |
 
 ## Source layout
@@ -40,7 +39,6 @@ src/
     # data files are lowercase — they're modules, not components
 
   lib/
-    contact.ts                   # contact-form limits + email check, shared with api/contact.ts
     url.ts                       # displayUrl() — "https://www.x.com/a/" → "x.com/a"
 
   layouts/
@@ -68,12 +66,8 @@ src/
     Projects.tsx                 # filter pills + card grid + modal
     ProjectDetail.tsx            # /projects/:slug — gallery, sidebar, prev/next
     Resume.tsx                   # narrow column, mono section headers
-    Contact.tsx                  # secure form (POST /api/contact)
+    Contact.tsx                  # contact card (email, phone, links, resume)
     NotFound.tsx                 # 404
-
-api/
-  contact.ts                     # Vercel Edge Function (export const config = { runtime: 'edge' })
-  tsconfig.json                  # @types/node so process.env type-checks; referenced by the root tsconfig
 
 public/
   logo.png                       # GitHub avatar — header logo + favicon
@@ -86,7 +80,7 @@ tests/
 
 playwright.config.ts             # chromium project; auto-starts vite via webServer
 index.html                       # Vite HTML entry; data-theme="light" default
-vercel.json                      # SPA rewrite (all paths → /, except /api/* which Vercel handles first)
+vercel.json                      # SPA rewrite (all paths → /)
 ```
 
 ## Routing model
@@ -152,7 +146,7 @@ If a new file default-exports a React component, name it after that component in
 
 ```
 npm run build
-  ├─ tsc -b           # type-check src/, vite.config.ts, and api/ (strict)
+  ├─ tsc -b           # type-check src/ and vite.config.ts (strict)
   └─ vite build       # bundle to dist/
 ```
 
@@ -168,6 +162,5 @@ Type errors fail the build. Vercel's auto-deploy runs the same `npm run build`.
 ## Related docs
 
 - [`design-system.md`](./design-system.md) — tokens + theme deep dive
-- [`contact-form.md`](./contact-form.md) — `/api/contact` walkthrough
 - [`deployment.md`](./deployment.md) — Vercel + DNS + auto-deploy
 - [`screenshots.md`](./screenshots.md) — Playwright spec details
