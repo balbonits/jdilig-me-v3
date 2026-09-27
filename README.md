@@ -32,6 +32,8 @@ npm run dev          # http://localhost:5173
 | `npm run resume:pdf`   | Render `public/Reuel_John_Dilig_Resume.pdf` from `src/data/resume.ts` |
 | `npm run lighthouse`   | Score the live site; writes `src/data/lighthouse.json` |
 
+To score the live sites without running anything locally, use the **Lighthouse** workflow on GitHub (Actions tab → Lighthouse → Run workflow). It prints the updated JSON files and attaches them to the run.
+
 Playwright uses its own Chromium (`npx playwright install chromium`), or set `CHROMIUM_PATH` to use one you already have.
 
 ## Project layout

@@ -7,6 +7,7 @@
 // Usage: npm run lighthouse [-- --url=https://example.com]
 
 import lighthouse from 'lighthouse';
+import desktopConfig from 'lighthouse/core/config/desktop-config.js';
 import * as chromeLauncher from 'chrome-launcher';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -27,11 +28,6 @@ function parseArgs(argv) {
 
 const { url, formFactor, out } = parseArgs(process.argv);
 
-const isMobile = formFactor === 'mobile';
-const screenEmulation = isMobile
-  ? { mobile: true, width: 412, height: 823, deviceScaleFactor: 1.75, disabled: false }
-  : { mobile: false, width: 1350, height: 940, deviceScaleFactor: 1, disabled: false };
-
 console.log(`Launching Chrome (headless)...`);
 const chrome = await chromeLauncher.launch({
   chromeFlags: ['--headless=new', '--no-sandbox'],
@@ -39,14 +35,20 @@ const chrome = await chromeLauncher.launch({
 
 try {
   console.log(`Running Lighthouse against ${url} (${formFactor})...`);
-  const runner = await lighthouse(url, {
-    port: chrome.port,
-    output: 'json',
-    logLevel: 'error',
-    onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
-    formFactor,
-    screenEmulation,
-  });
+  // Use Lighthouse's own desktop preset (the default config is mobile).
+  // Setting only `formFactor: 'desktop'` keeps the default mobile throttling
+  // (4× slower CPU, 1.6 Mbps, 150 ms latency) and a phone user agent, then
+  // grades the result against the stricter desktop thresholds.
+  const runner = await lighthouse(
+    url,
+    {
+      port: chrome.port,
+      output: 'json',
+      logLevel: 'error',
+      onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+    },
+    formFactor === 'desktop' ? desktopConfig : undefined,
+  );
 
   if (!runner) {
     throw new Error('Lighthouse returned no result');
