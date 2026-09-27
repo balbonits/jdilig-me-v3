@@ -108,14 +108,14 @@ export default function LighthouseScores({
       aria-label="Lighthouse scores"
     >
       <div className="mb-4 flex items-baseline justify-between gap-4">
-        <h2 className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-fg-subtle">
+        <h2 className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-fg-muted">
           Lighthouse
         </h2>
         <a
           href="https://developer.chrome.com/docs/lighthouse/overview"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-mono text-[10px] uppercase tracking-[0.08em] text-fg-faint hover:text-fg-muted"
+          className="font-mono text-[10px] uppercase tracking-[0.08em] text-fg-muted hover:text-fg-strong"
         >
           About scoring →
         </a>
@@ -127,7 +127,7 @@ export default function LighthouseScores({
         ))}
       </div>
 
-      <div className="mt-6 text-center font-mono text-[10px] text-fg-faint">
+      <div className="mt-6 text-center font-mono text-[10px] text-fg-muted">
         Lighthouse {data.lighthouseVersion} ·{' '}
         <span className="capitalize">{data.formFactor}</span> · measured{' '}
         {measured.toLocaleDateString('en-US', {

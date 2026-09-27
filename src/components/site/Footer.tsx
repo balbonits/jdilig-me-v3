@@ -8,7 +8,7 @@ export default function Footer() {
           © {new Date().getFullYear()} {PROFILE.name} · Built with React, Vite,
           and Tailwind.
         </div>
-        <div className="text-fg-faint">
+        <div>
           Sub-site:{' '}
           <a
             href="https://games.jdilig.me/"
