@@ -1,9 +1,16 @@
+import { screenshotSrcSet } from '@/lib/screenshots';
+
 type Props = {
   image?: string;
   alt?: string;
   starCount?: number;
   /** Load eagerly at high priority — for previews above the fold. */
   priority?: boolean;
+  /**
+   * How wide the preview shows (an `<img sizes>` value). When set, the
+   * browser can load the 720 px thumbnail instead of the original.
+   */
+  sizes?: string;
   /** Size the preview with height utilities, e.g. `h-[160px] sm:h-[240px]`. */
   className?: string;
 };
@@ -13,6 +20,7 @@ export default function ProjectHeroPreview({
   alt = '',
   starCount = 50,
   priority = false,
+  sizes,
   className = '',
 }: Props) {
   if (image) {
@@ -20,6 +28,8 @@ export default function ProjectHeroPreview({
       <div className={`relative overflow-hidden bg-bg-muted ${className}`}>
         <img
           src={image}
+          srcSet={sizes ? screenshotSrcSet(image) : undefined}
+          sizes={sizes}
           alt={alt}
           loading={priority ? 'eager' : 'lazy'}
           fetchPriority={priority ? 'high' : 'auto'}
