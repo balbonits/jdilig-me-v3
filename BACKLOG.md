@@ -48,9 +48,9 @@ Add page-view + basic event tracking via Google Analytics 4.
 **Scope**
 - Provision a GA4 property and measurement ID (`G-XXXXXXXXXX`); store as `VITE_GA_MEASUREMENT_ID` in Vercel env (Production + Preview).
 - Inject `gtag.js` (lazy / consent-gated, not blocking initial render) and fire a page view on every React Router navigation.
-- Track explicit events worth measuring: contact-form submit success, project-card click, resume PDF download, theme toggle.
+- Track explicit events worth measuring: project-card click, resume PDF download, theme toggle.
 - Add a **cookie / consent banner** (GA sets `_ga` cookies, so this is required for EU/CA visitors). Headless UI dialog or a small inline strip — match the design tokens.
-- **Update privacy disclosure**: the current line in `Contact.tsx` says "no analytics" and the README's Privacy section says "no third-party trackers". Both must change when GA goes live.
+- **Update privacy disclosure**: the README's Privacy section describes the current analytics (Vercel Web Analytics + Speed Insights, no ad or social trackers). It must change when GA goes live.
 
 **Notes**
 - Keep the bar low: page views + 4–5 events. Don't add a full analytics layer or event taxonomy.
@@ -62,11 +62,9 @@ Add page-view + basic event tracking via Google Analytics 4.
 
 Loose ends from the launch session that don't fit into a feature ticket.
 
-- **Rotate the Resend API key.** The current key was pasted into a chat transcript and should be treated as exposed. Resend dashboard → API Keys → revoke the existing one + generate a new one → update `RESEND_API_KEY` in Vercel (Production + Preview) → trigger a redeploy. Don't forget to update `.env.local` if you still use `vercel dev` locally.
-- **Live-fire the contact form.** Visit `https://www.jdilig.me/contact`, send a real message, confirm it lands in `rjdofficemail@gmail.com`. We never tested production end-to-end (the API was confirmed reachable via GET → 405, but no real send was attempted, since that would email the user in the middle of the build session).
+- **Clean up the old contact form's Resend setup.** The form and `/api/contact` were removed in Sept 2026, so the Resend key is no longer needed. Revoke it in the Resend dashboard (API Keys). If `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, and `CONTACT_FROM_EMAIL` are still set in Vercel (Settings → Environment Variables), delete them. Whether they're still set is unverified: the token used in Sept 2026 couldn't list env vars.
 - **Archive or delete the old `jdilig-me` Vercel project.** It's orphaned now that `jdilig.me` / `www.jdilig.me` moved to `jdilig-me-v3`. Confirm v3 has been stable for a few days, then in Vercel: open the old project → Settings → bottom of page → "Delete Project" (or just leave it parked at its `*.vercel.app` URL).
 - **Re-capture the jdilig.me screenshots.** `home-*`, `projects-*`, `project-detail-*`, `resume`, and `contact` in `public/screenshots/` predate the Sept 2026 font fix (they show Times New Roman) and the resume update. Run `npx playwright test tests/screenshots.spec.ts -g "capture (home-(light|dark)|projects-(light|dark)|project-detail-.+|resume|contact)$"` (selects exactly those 8 shots) on a machine that can reach Google Fonts, then commit.
-- **Consider rate-limiting `/api/contact`.** The honeypot stops naive bots, but nothing stops a scripted flood from filling the inbox or burning Resend quota. Vercel Firewall supports rate-limit rules (`vercel firewall rules add ... --action rate_limit`, see the [CLI docs](https://vercel.com/docs/cli/firewall)); check whether your plan includes them.
 - **Upgrade Vitest to v5.** `npm audit` still flags `@vitest/mocker` (GHSA-82fw-gwwq-j7x9, dev-only) and `ws` via `lighthouse` (dev-only). The Vitest fix is a major-version bump; check the migration guide first.
 - **Improve game canvas screenshots.** Per-game previews still capture only the HUD overlay. The capture spec now clicks the canvas, sends a key, waits for `networkidle`, and probes computed styles. Diagnostic shows `bodyBg: "rgba(0, 0, 0, 0)"` and `bodyDisplay: "block"` for game pages — the games' `style.css` isn't applying in Playwright (computed body bg should be `#0f1116`). CSS file itself is reachable (`HTTP 200`, `content-type: text/css`) — likely a service-worker or HTTP cache issue specific to headless Chromium. Investigate by adding `bypassCSP: true` to the Playwright context and/or sending `Cache-Control: no-cache` headers on the navigation. Until resolved, hand-grabbed PNGs would be a fine workaround.
 
@@ -85,6 +83,7 @@ The Sept 2026 responsive pass shipped the core fixes (see "Recently shipped"). H
 
 ## Recently shipped
 
+- **Contact form → contact card (Sept 2026).** John never received emails from the form, so `/contact` now shows a contact card (email, phone, LinkedIn, GitHub, resume download) from `src/data/profile.ts`. Removed `/api/contact`, the shared validation rules and their tests, the `resend` package, `.env.example`, and `docs/contact-form.md`.
 - **Sept 2026 review + cleanup.**
   - **Fonts and shadows fixed.** The CSS layer order let Tailwind's `--font-sans: var(--font-sans)` override the tokens, so every font fell back to Times New Roman and every `shadow-*` was empty since launch. Now `@layer theme, tokens, …` (see docs/design-system.md).
   - **Resume updated.** Added the Fox Corporation contract (Jul 2026 – present), closed out Squanto (Jun 2026), rewrote the content, and replaced the 2.3 MB image-only PDF with a 2-page text PDF generated from `src/data/resume.ts` (`npm run resume:pdf`).

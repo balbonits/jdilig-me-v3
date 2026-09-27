@@ -216,28 +216,27 @@ export const PROJECTS: Project[] = [
     status: 'LIVE',
     desc: 'This site. A 2026 rewrite on Vite + React 19 + Tailwind v4, wired to a custom design system.',
     summary:
-      'A complete rewrite of my personal site. Warm-stone design system, dark mode that adjusts ink and accent (not just background), a Resend-backed contact form, and a Playwright pipeline that captures the site as previews for its own project cards.',
+      'A complete rewrite of my personal site. Warm-stone design system, dark mode that adjusts ink and accent (not just background), a resume page and PDF rendered from one data file, and a Playwright pipeline that captures the site as previews for its own project cards.',
     tags: [
       'Vite',
       'React 19',
       'Tailwind v4',
       'React Router v7',
       'TypeScript',
-      'Resend',
       'Playwright',
     ],
     role: 'Solo',
     timeline: 'Apr 2026',
     bundle: '99 KB gzipped',
     overview: [
-      "I rebuilt jdilig.me from the ground up as a showcase of the patterns I use day-to-day — tokens-first styling, a router that generates its own nav metadata, component composition with a small reusable kit, and a contact form that's actually secure.",
+      "I rebuilt jdilig.me from the ground up as a showcase of the patterns I use day-to-day — tokens-first styling, a router that generates its own nav metadata, component composition with a small reusable kit, and a resume that renders to both a web page and a PDF from the same data.",
       "Every component and token here was designed in Claude Design first, then ported to a real Vite + React + Tailwind v4 project. The site is the kit.",
     ],
     highlights: [
       'Tokens-first: every color, radius, shadow, and motion curve lives in one CSS file, bridged to Tailwind v4 via `@theme inline`.',
       "Dark mode that flips ink and accent (orange-600 → orange-400) — not just background — driven by a `data-theme` attribute with a `@custom-variant dark` bridge.",
       "Header nav is auto-generated from the router table via a `handle: { showInNav }` convention — adding a route to the nav is a one-line change.",
-      'Contact form runs on a Vercel Edge Function backed by Resend, with type checks, a honeypot, length caps, and server-side email validation. The form and the function import one shared rules module, so they can never disagree.',
+      'The resume page and the downloadable PDF both render from `src/data/resume.ts`; `npm run resume:pdf` regenerates the PDF with Playwright, so the two never drift.',
       'Playwright captures both site themes and the live Squanto app, writing directly to `/public/screenshots` for use as project previews.',
     ],
     learned:
@@ -267,7 +266,7 @@ export const PROJECTS: Project[] = [
       },
       {
         src: '/screenshots/contact.png',
-        alt: 'Contact form with live email validation',
+        alt: 'Contact card',
       },
     ],
   },

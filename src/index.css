@@ -109,42 +109,6 @@
 }
 
 @layer components {
-  /* Text inputs + textareas on the contact form. */
-  .field-input {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: var(--surface);
-    color: var(--fg);
-    font-family: var(--font-sans);
-    /* 16px keeps iOS Safari from zooming the page on focus. */
-    font-size: 16px;
-    box-shadow: var(--shadow-xs);
-    transition:
-      border-color var(--dur-fast) var(--ease-out),
-      box-shadow var(--dur-fast) var(--ease-out);
-  }
-  .field-input::placeholder {
-    color: var(--fg-faint);
-  }
-  .field-input:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-  /* Restate the focus ring: this layer outranks the base `*:focus-visible`. */
-  .field-input:focus-visible {
-    border-color: var(--accent);
-    box-shadow: var(--ring);
-  }
-  .field-input[aria-invalid="true"] {
-    border-color: var(--danger);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 15%, transparent);
-  }
-  .field-input[aria-invalid="true"]:focus-visible {
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 30%, transparent);
-  }
-
   /* Round translucent buttons laid over images (modal + lightbox controls). */
   .overlay-button {
     display: flex;

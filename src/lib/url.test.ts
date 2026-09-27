@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { displayUrl } from './url';
+import { displayUrl, telHref } from './url';
 
 describe('displayUrl', () => {
   it.each([
@@ -12,5 +12,15 @@ describe('displayUrl', () => {
     ['http://example.com/', 'example.com'],
   ])('%s → %s', (url, expected) => {
     expect(displayUrl(url)).toBe(expected);
+  });
+});
+
+describe('telHref', () => {
+  it.each([
+    ['(909) 997-1393', 'tel:+19099971393'],
+    ['909.997.1393', 'tel:+19099971393'],
+    ['+1 909 997 1393', 'tel:+19099971393'],
+  ])('%s → %s', (phone, expected) => {
+    expect(telHref(phone)).toBe(expected);
   });
 });

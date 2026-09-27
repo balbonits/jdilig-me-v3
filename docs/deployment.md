@@ -61,14 +61,6 @@ Total downtime: under a minute. Rollback would be remove-from-new + re-add-to-ol
 
 Catch-all rewrite so React Router handles client-side routes on direct visits and refreshes (e.g. `https://www.jdilig.me/projects/squanto` returns `index.html` and the SPA hydrates the right route).
 
-**Why this doesn't break `/api/contact`:** Vercel's request pipeline runs in this order:
-
-1. Static files in `dist/`
-2. Serverless / Edge functions in `api/`
-3. Rewrites
-
-`/api/contact` matches the function in step 2 *before* the rewrite catches it. So the catch-all rule is safe.
-
 ## Subdomains
 
 `games.jdilig.me` is a separate Vercel project (`balbonits/ai-browser-game-demos`). Setup:
@@ -81,15 +73,9 @@ The footer of jdilig.me v3 links to it — see `src/components/site/Footer.tsx`.
 
 ## Env vars
 
-Set via `vercel env add VARNAME [environment]` (CLI) or the Vercel Settings → Environment Variables tab. Sensitive values use `--sensitive` (encrypts at rest, doesn't show in CLI listing).
+The site's code uses no environment variables. The contact form removed in Sept 2026 used `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, and `CONTACT_FROM_EMAIL`; see BACKLOG #4 about deleting them.
 
-| Variable | Production | Preview | Development |
-|---|---|---|---|
-| `RESEND_API_KEY` | ✅ sensitive | ✅ sensitive | ❌ (use `.env.local`) |
-| `CONTACT_TO_EMAIL` | ✅ | ✅ | `.env.local` |
-| `CONTACT_FROM_EMAIL` | ✅ | ✅ | `.env.local` |
-
-Vercel disallows `--sensitive` env vars in the `development` environment (you'd just see a warning). For local development with the Edge function, run `vercel dev` — it pulls from `.env.local`.
+If you add one later: `vercel env add VARNAME [environment]` (CLI) or Vercel Settings → Environment Variables.
 
 ## Deploys via CLI (rare — auto-deploy is the norm)
 
@@ -100,18 +86,6 @@ npx vercel@latest --prod --yes
 ```
 
 Pinning `@latest` matters — the system-installed `vercel` CLI may be too old for newer endpoints. We hit this on the first deploy ("Your Vercel CLI version is outdated. Requires 47.2.2 or later" in commit `dee3727`).
-
-## Rotating the Resend API key
-
-The current key was pasted into a chat transcript and should be considered exposed. Process to rotate:
-
-1. Resend dashboard → API Keys → revoke the existing key
-2. Generate a new key
-3. `npx vercel@latest env rm RESEND_API_KEY production` (and `preview`)
-4. `printf '%s' '<new-key>' | npx vercel@latest env add RESEND_API_KEY production --sensitive`
-5. Repeat for `preview`
-6. Update `.env.local`
-7. Push any commit (or `vercel --prod --yes`) so the new env var takes effect on next deploy
 
 ## Common ops
 
@@ -132,10 +106,6 @@ The current key was pasted into a chat transcript and should be considered expos
 
 **Symptom:** deploy succeeded but production URL serves the old version.
 - Check Vercel → Deployments — was the new deploy promoted to Production? If "Preview" only, manually promote.
-
-**Symptom:** `/api/contact` returns 500.
-- Check Vercel → Logs for the function's runtime errors.
-- Most common cause: env var typo. Verify with `vercel env ls`.
 
 **Symptom:** custom domain shows cert warning.
 - Vercel → Domains tab usually shows the exact DNS record to fix.

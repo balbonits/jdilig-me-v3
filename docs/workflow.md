@@ -57,11 +57,9 @@ git push origin main                        # to GitHub
                      ├─ tsc -b           (type-check; failures block)
                      └─ vite build       (output to dist/)
                             │
-                            └─► Edge functions in api/ packaged separately
+                            └─► deployment promoted to Production
                                    │
-                                   └─► deployment promoted to Production
-                                          │
-                                          └─► https://www.jdilig.me serves new version
+                                   └─► https://www.jdilig.me serves new version
 ```
 
 Typical end-to-end time: **~30s** from `git push` to live.
