@@ -1,6 +1,7 @@
 import { useState, type KeyboardEvent } from 'react';
 import { Icon } from '@/components/icons';
 import Modal from '@/components/ui/Modal';
+import { screenshotSrcSet, thumbnailSrc } from '@/lib/screenshots';
 
 export type GalleryImage = { src: string; alt: string };
 
@@ -37,8 +38,12 @@ export default function ProjectGallery({ images, className = '' }: Props) {
             }}
             className="group relative aspect-[16/10] cursor-pointer overflow-hidden rounded-[10px] border border-border-DEFAULT bg-bg-muted transition-colors duration-200 ease-out hover:border-border-strong"
           >
+            {/* Tiles are at most ~340 px wide (3 columns from 768 px, 2 below),
+                so they load the 720 px thumbnail; the lightbox loads the original. */}
             <img
-              src={img.src}
+              src={thumbnailSrc(img.src)}
+              srcSet={screenshotSrcSet(img.src)}
+              sizes="(min-width: 768px) 340px, 50vw"
               alt={img.alt}
               loading="lazy"
               decoding="async"

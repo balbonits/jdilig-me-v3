@@ -20,6 +20,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "screenshots": "playwright test tests/screenshots.spec.ts",
+    "thumbnails": "node scripts/thumbnails.mjs",
     "resume:pdf": "playwright test tests/resume-pdf.spec.ts",
     "lighthouse": "node scripts/lighthouse.mjs"
   },

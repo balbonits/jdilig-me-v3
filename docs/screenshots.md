@@ -27,6 +27,7 @@ npm run screenshots
        │    6. (optional) extra wait
        │    7. 404 guard — fail if document.title contains '404' / 'Not Found' / 'Server Error' / 'Unauthorized'
        │    8. screenshot (PNG in memory) → sharp → public/screenshots/<slug>.webp
+       ├─ afterAll: makeThumbnails() (same as npm run thumbnails) → public/screenshots/thumbs/
        └─ exit 0 if all pass
 ```
 
@@ -119,7 +120,8 @@ The `pressKey` step clicks the first `<canvas>` to focus the game, then calls `p
 ## Where the captures live
 
 - `public/screenshots/*.webp` — committed to the repo. Captured with Playwright's Desktop Chrome preset (1280×720 viewport at 1×), so most are 1280 px wide; full-page shots are taller. `city-app-framework.webp` is the exception at 2560×1440.
-- Got a PNG from somewhere else (like the `cir-*` shots)? Convert it the same way: `node -e "require('sharp')('in.png').webp({ quality: 80, smartSubsample: true }).toFile('public/screenshots/out.webp')"`.
+- `public/screenshots/thumbs/*.webp` — a 720 px-wide copy of each screenshot, also committed. Gallery tiles are at most ~340 px wide, so they load these through `srcset` (see `src/lib/screenshots.ts`); the lightbox loads the original. `npm run thumbnails` rewrites them all and deletes any whose screenshot is gone. The capture spec runs it at the end of every run. `src/data/screenshots.test.ts` fails if a gallery screenshot isn't 1280 px wide or has no 720 px thumbnail.
+- Got a PNG from somewhere else (like the `cir-*` shots)? Convert it the same way, then run `npm run thumbnails`: `node -e "require('sharp')('in.png').webp({ quality: 80, smartSubsample: true }).toFile('public/screenshots/out.webp')"`.
 - `test-results/` — Playwright run artifacts. Gitignored.
 - `playwright-report/` — HTML report. Gitignored.
 
