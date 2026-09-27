@@ -1,0 +1,34 @@
+# Scores the live sites with Lighthouse (desktop) from a GitHub runner.
+# Start it by hand: Actions tab → Lighthouse → Run workflow. The job log
+# prints the new src/data/*lighthouse.json files, and the same files are
+# attached to the run as the "lighthouse" artifact. Commit them to update
+# the scores shown on the project pages.
+name: Lighthouse
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lighthouse
+      - run: npm run lighthouse:squanto
+      - name: Print results
+        run: cat src/data/lighthouse.json src/data/squanto-lighthouse.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: |
+            src/data/lighthouse.json
+            src/data/squanto-lighthouse.json
