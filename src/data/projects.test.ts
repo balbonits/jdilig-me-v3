@@ -4,6 +4,7 @@ import {
   filterProjects,
   sortProjects,
   ALL_PROJECTS,
+  PROJECTS,
   type Project,
   type ProjectCategory,
 } from './projects';
@@ -145,5 +146,11 @@ describe('PROJECTS seed data', () => {
     for (const g of games) {
       expect(g.categories).toContain('EXPT');
     }
+  });
+
+  // The Projects page shows the first featured project as the hero and leaves
+  // every featured project out of the grid, so a second one would vanish.
+  it('features at most one visible project', () => {
+    expect(PROJECTS.filter((p) => p.featured).length).toBeLessThanOrEqual(1);
   });
 });

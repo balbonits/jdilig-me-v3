@@ -185,6 +185,9 @@ export const ALL_PROJECTS: Project[] = [
     links: {
       live: 'https://squanto.app/',
     },
+    // Featured while City App Framework is hidden. When it's back, remove
+    // this line (the tests allow only one featured project).
+    featured: true,
     previewImage: '/screenshots/squanto-home.webp',
     gallery: [
       {
