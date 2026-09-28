@@ -123,7 +123,6 @@ export const ALL_PROJECTS: Project[] = [
     ],
     role: 'Author',
     timeline: 'Aug 2025 — Present',
-    featured: true,
     overview: [
       "City App Framework is a small kit for building apps with AI coding agents, shipped as a Claude Code plugin. Running `/city-app:setup` in a project installs a 28-line AGENTS.md — the project's facts, filled in from the repo, plus an 8-line working agreement — a one-line CLAUDE.md that makes Claude load it, and two hooks: a guard that asks before a new dependency or deleting a test and blocks force-push, production deploys, and publishing, and a test gate that won't let the agent finish with failing or newly skipped tests. The AGENTS.md part also works with Codex, Cursor, Copilot, and Grok.",
       "Version 4 is a rebuild. A test harness runs headless Claude Code on a small app and scores every run with fixed checks, and it showed that most of v3 never reached the agent: its CLAUDE.md pointer stopped Claude from loading AGENTS.md automatically, and the universal rules sat behind a link no agent opened (0 of 25 runs). Rules against overbuilding and new dependencies made no difference either — none of 285 runs added a dependency, with or without them, even when asked for a web server. So v4 cuts every rule that didn't change behavior and puts anything that must never happen in a hook.",
@@ -180,6 +179,7 @@ export const ALL_PROJECTS: Project[] = [
     links: {
       live: 'https://squanto.app/',
     },
+    featured: true,
     previewImage: '/screenshots/squanto-home.webp',
     gallery: [
       {
