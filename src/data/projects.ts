@@ -129,6 +129,7 @@ export const ALL_PROJECTS: Project[] = [
       'The rest of the plugin: `/city-app:start` builds an app or feature from a short spec, tests first; `/city-app:lesson` turns a correction into a test, a guard rule, or one AGENTS.md line; and `rules:test` and `rules:prune` re-check whether each rule still earns its place on your project, for example after a model update. Front-end checks round it out: `ui:check` finds accessibility problems, console errors, and pages wider than the screen at phone, tablet, and desktop sizes; `ui:baseline` fails a page that no longer matches its approved screenshot; and `ui:tokens` keeps colors in design tokens.',
     ],
     highlights: [
+      'Written up as a white paper, "Laws and customs: which instructions change what AI coding agents do": a case study from v3 to v4 with research questions, methods, significance tests, and limitations.',
       'Every part tested against real model runs — 285 scored headless Claude Code sessions — and rules that made no difference were cut.',
       'Found the rules that still change behavior: with a "build the smallest part, then offer options" rule, agents offered options on a vague ask in 5 of 5 runs (0 of 5 without it), and a one-line "add a test for new logic" rule raised test writing from 17 of 25 runs to 25 of 25.',
       'Lessons that stick: a journal of past mistakes carried its lesson in 0 of 5 runs, while one AGENTS.md line or a failing check carried it in 5 of 5 — so `/city-app:lesson` writes checks and one-line rules, not journal entries.',
@@ -139,8 +140,11 @@ export const ALL_PROJECTS: Project[] = [
     learned:
       "More rules didn't make better agents. v3 had a 178-line universal AGENTS.md and about 40 convention docs, but most of it never reached the agent, and some of what did — like the anti-overbuild and no-new-dependency rules — was already the model's default. Only short, specific rules the agent could actually load changed its behavior. So v4 keeps a short working agreement, turns lessons into checks, and puts anything that must never happen in a hook. The city idea survives in one form: laws are enforced; customs are advice.",
     links: {
+      live: 'https://website-pi-one-3ymijizbxt.vercel.app',
       source: 'https://github.com/balbonits/city-app-framework',
     },
+    liveLabel: 'Read the white paper',
+    previewImage: '/screenshots/city-app-framework.webp',
   },
   {
     slug: 'squanto',
