@@ -107,11 +107,11 @@ export const ALL_PROJECTS: Project[] = [
     categories: ['TOOL', 'EXPT'],
     year: '2026',
     title: 'City App Framework',
-    accent: 'a tested kit for AI agents',
+    accent: 'structure for AI-assisted dev',
     status: 'LIVE',
-    desc: 'A small Claude Code plugin for building apps with AI coding agents — project setup, hard stops for risky actions, corrections that stick, and front-end checks, each tested against real model runs.',
+    desc: 'A framework for structuring AI-assisted software and web development — project facts the agent loads, hard stops for risky actions, a spec-to-tests build loop, and front-end checks, each tested against real model runs.',
     summary:
-      "City App Framework gives AI coding agents three things they can't get on their own: your project's facts and working style in a file they actually load, hard stops for the few actions that need you, and a way to make corrections stick. Version 4 was rebuilt from test results — most of v3 never reached the agent — so every rule that made no difference was cut.",
+      "City App Framework gives AI-assisted software and web development a structure: what the agent must know (your project's facts, in a file it actually loads), what it must never do (hooks that stop risky actions), and what it must prove (acceptance tests written from the spec, plus front-end checks). Lessons are kept as checks, not notes. Version 4 was rebuilt from test results — most of v3 never reached the agent — so every rule that made no difference was cut.",
     tags: [
       'Claude Code plugin',
       'AGENTS.md',
@@ -124,12 +124,12 @@ export const ALL_PROJECTS: Project[] = [
     role: 'Author',
     timeline: 'Aug 2025 — Present',
     overview: [
-      "City App Framework is a small kit for building apps with AI coding agents, shipped as a Claude Code plugin. Running `/city-app:setup` in a project installs a 28-line AGENTS.md — the project's facts, filled in from the repo, plus an 8-line working agreement — a one-line CLAUDE.md that makes Claude load it, and two hooks: a guard that asks before a new dependency or deleting a test and blocks force-push, production deploys, and publishing, and a test gate that won't let the agent finish with failing or newly skipped tests. The AGENTS.md part also works with Codex, Cursor, Copilot, and Grok.",
+      "City App Framework gives AI-assisted software and web development a structure — for the process, not the code: how work is specified, checked, and remembered. It ships as a Claude Code plugin. Running `/city-app:setup` in a project installs a 28-line AGENTS.md — the project's facts, filled in from the repo, plus an 8-line working agreement — a one-line CLAUDE.md that makes Claude load it, and two hooks: a guard that asks before a new dependency or deleting a test and blocks force-push, production deploys, and publishing, and a test gate that won't let the agent finish with failing or newly skipped tests. The AGENTS.md part also works with Codex, Cursor, Copilot, and Grok.",
       "Version 4 is a rebuild. A test harness runs headless Claude Code on a small app and scores every run with fixed checks, and it showed that most of v3 never reached the agent: its CLAUDE.md pointer stopped Claude from loading AGENTS.md automatically, and the universal rules sat behind a link no agent opened (0 of 25 runs). Rules against overbuilding and new dependencies made no difference either — none of 285 runs added a dependency, with or without them, even when asked for a web server. So v4 cuts every rule that didn't change behavior and puts anything that must never happen in a hook.",
       'The rest of the plugin: `/city-app:start` builds an app or feature from a short spec, tests first; `/city-app:lesson` turns a correction into a test, a guard rule, or one AGENTS.md line; and `rules:test` and `rules:prune` re-check whether each rule still earns its place on your project, for example after a model update. Front-end checks round it out: `ui:check` finds accessibility problems, console errors, and pages wider than the screen at phone, tablet, and desktop sizes; `ui:baseline` fails a page that no longer matches its approved screenshot; and `ui:tokens` keeps colors in design tokens.',
     ],
     highlights: [
-      'Written up as a white paper, "Laws and customs: which instructions change what AI coding agents do": a case study from v3 to v4 with research questions, methods, significance tests, and limitations.',
+      'Written up as a white paper, "Structuring AI-assisted software development: a case study of City App Framework": the framework and its development loop, with the experiments behind each part — research questions, methods, significance tests, and limitations.',
       'Every part tested against real model runs — 285 scored headless Claude Code sessions — and rules that made no difference were cut.',
       'Found the rules that still change behavior: with a "build the smallest part, then offer options" rule, agents offered options on a vague ask in 5 of 5 runs (0 of 5 without it), and a one-line "add a test for new logic" rule raised test writing from 17 of 25 runs to 25 of 25.',
       'Lessons that stick: a journal of past mistakes carried its lesson in 0 of 5 runs, while one AGENTS.md line or a failing check carried it in 5 of 5 — so `/city-app:lesson` writes checks and one-line rules, not journal entries.',
