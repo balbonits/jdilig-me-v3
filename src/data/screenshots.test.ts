@@ -8,8 +8,7 @@ import { PROJECTS } from './projects';
 // Gallery tiles and project previews pick between the thumbnail and the
 // original with srcset, which needs both files at the widths it claims. The
 // browser only uses the claimed width to pick a file (CSS sizes the image), so
-// an original may be wider than FULL_WIDTH (city-app-framework is 2560 px)
-// but not narrower.
+// an original may be wider than FULL_WIDTH but not narrower.
 const inPublic = (src: string) => join(process.cwd(), 'public', src);
 const widthOf = async (src: string) => (await sharp(inPublic(src)).metadata()).width;
 
