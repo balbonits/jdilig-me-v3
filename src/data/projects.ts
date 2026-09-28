@@ -140,7 +140,7 @@ export const ALL_PROJECTS: Project[] = [
     learned:
       "More rules didn't make better agents. v3 had a 178-line universal AGENTS.md and about 40 convention docs, but most of it never reached the agent, and some of what did — like the anti-overbuild and no-new-dependency rules — was already the model's default. Only short, specific rules the agent could actually load changed its behavior. So v4 keeps a short working agreement, turns lessons into checks, and puts anything that must never happen in a hook. The city idea survives in one form: laws are enforced; customs are advice.",
     links: {
-      live: 'https://website-pi-one-3ymijizbxt.vercel.app',
+      live: 'https://www.jdilig.me/whitepaper/',
       source: 'https://github.com/balbonits/city-app-framework',
     },
     liveLabel: 'Read the white paper',

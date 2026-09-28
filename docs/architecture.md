@@ -82,7 +82,7 @@ tests/
 
 playwright.config.ts             # chromium project; auto-starts vite via webServer
 index.html                       # Vite HTML entry; data-theme="light" default
-vercel.json                      # SPA rewrite (all paths → /)
+vercel.json                      # /whitepaper/ proxy + SPA rewrite (all other paths → /)
 ```
 
 ## Routing model

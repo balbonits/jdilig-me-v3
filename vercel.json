@@ -1,6 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/whitepaper", "destination": "/whitepaper/", "permanent": true }
+  ],
   "rewrites": [
+    { "source": "/whitepaper/", "destination": "https://website-pi-one-3ymijizbxt.vercel.app/" },
+    { "source": "/whitepaper/:path*", "destination": "https://website-pi-one-3ymijizbxt.vercel.app/:path*" },
     { "source": "/(.*)", "destination": "/" }
   ]
 }

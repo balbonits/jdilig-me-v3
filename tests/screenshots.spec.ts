@@ -62,7 +62,7 @@ const SHOTS: Shot[] = [
   { slug: 'squanto-demo', path: 'https://squanto.app/request-a-demo', external: true, timeout: 60_000 },
 
   // --- City App Framework white paper ---
-  { slug: 'city-app-framework', path: 'https://website-pi-one-3ymijizbxt.vercel.app/', external: true, timeout: 60_000 },
+  { slug: 'city-app-framework', path: 'https://www.jdilig.me/whitepaper/', external: true, timeout: 60_000 },
 
   // --- AI Browser Game Demos (games.jdilig.me) ---
   // Games gate their first canvas paint on a user gesture (AudioContext

@@ -47,19 +47,26 @@ The migration from v2 (old Vercel project `jdilig-me`) to v3 (`jdilig-me-v3`) wa
 
 Total downtime: under a minute. Rollback would be remove-from-new + re-add-to-old in the same UI.
 
-## SPA rewrites
+## Rewrites
 
 `vercel.json`:
 
 ```json
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/whitepaper", "destination": "/whitepaper/", "permanent": true }
+  ],
   "rewrites": [
+    { "source": "/whitepaper/", "destination": "https://website-pi-one-3ymijizbxt.vercel.app/" },
+    { "source": "/whitepaper/:path*", "destination": "https://website-pi-one-3ymijizbxt.vercel.app/:path*" },
     { "source": "/(.*)", "destination": "/" }
   ]
 }
 ```
 
-Catch-all rewrite so React Router handles client-side routes on direct visits and refreshes (e.g. `https://www.jdilig.me/projects/squanto` returns `index.html` and the SPA hydrates the right route).
+- **`/whitepaper/`** serves the City App Framework white paper from its own Vercel project (`website`, which deploys `site/` from `balbonits/city-app-framework`). Visitors stay on jdilig.me, and a new white paper deploy shows up here with no change to this repo. The page loads `styles.css` and `fonts/…` by relative path, so it needs the trailing slash; the redirect adds it. These rules must come before the catch-all, or `/whitepaper/` would get the SPA (`src/data/whitepaper.test.ts` checks the order).
+- **Catch-all** so React Router handles client-side routes on direct visits and refreshes (e.g. `https://www.jdilig.me/projects/squanto` returns `index.html` and the SPA hydrates the right route).
 
 ## Subdomains
 
