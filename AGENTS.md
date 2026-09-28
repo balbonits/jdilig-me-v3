@@ -102,7 +102,7 @@ tests/
 
 playwright.config.ts             # chromium project, auto-starts dev server
 index.html                       # Vite HTML entry, data-theme="light" default
-vercel.json                      # SPA rewrite (all paths → /)
+vercel.json                      # /whitepaper/ proxy + SPA rewrite (all other paths → /)
 ```
 
 ## File & folder naming
@@ -154,7 +154,7 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 ## Deployment (Vercel)
 
 - Vercel auto-detects Vite. No build/output overrides needed.
-- `vercel.json` rewrites all paths to `/` so React Router handles client-side routes on direct visits and refreshes.
+- `vercel.json` rewrites all paths to `/` so React Router handles client-side routes on direct visits and refreshes. Before that, it proxies `/whitepaper/` to the City App Framework white paper (a separate Vercel project, `website`), so the link stays on jdilig.me; see docs/deployment.md.
 - The production domain is www.jdilig.me. Preview deploys come from PRs.
 
 ## Screenshots
