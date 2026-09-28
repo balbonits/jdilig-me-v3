@@ -107,46 +107,41 @@ export const ALL_PROJECTS: Project[] = [
     categories: ['TOOL', 'EXPT'],
     year: '2026',
     title: 'City App Framework',
-    accent: 'an OS for AI-driven dev',
+    accent: 'a tested kit for AI agents',
     status: 'LIVE',
-    desc: 'A personal "operating system" for building apps and games with AI coding agents — universal rules, per-project conventions, and a Sponsor / AI-Council operating model.',
+    desc: 'A small Claude Code plugin for building apps with AI coding agents — project setup, hard stops for risky actions, corrections that stick, and front-end checks, each tested against real model runs.',
     summary:
-      'AI agents are stateless: every project is "first prompt" forever. City App Framework is the answer — a universal AGENTS.md plus per-project AGENTS.md files that bake in how I want code structured, named, tested, and reviewed. Two layers, a Sponsor / AI-Council operating model, and templates I can drop into any new repo so Claude, Grok, and friends start aligned instead of drifting.',
+      "City App Framework gives AI coding agents three things they can't get on their own: your project's facts and working style in a file they actually load, hard stops for the few actions that need you, and a way to make corrections stick. Version 4 was rebuilt from test results — most of v3 never reached the agent — so every rule that made no difference was cut.",
     tags: [
+      'Claude Code plugin',
       'AGENTS.md',
-      'Claude Code',
-      'Grok',
-      'Spec-driven',
-      'Conventions',
-      'Templates',
-      'Anti-overengineering',
+      'Hooks',
+      'Evals',
+      'Node.js',
+      'Playwright',
+      'axe-core',
     ],
-    role: 'Author / Sponsor',
+    role: 'Author',
     timeline: 'Aug 2025 — Present',
     featured: true,
-    // Hidden Sept 27, 2026 while it's being redone.
-    hidden: true,
     overview: [
-      'City App Framework is a personal development framework for building apps and games with AI coding agents (Claude, Grok, others). It exists to solve one specific problem: AI agents are stateless, so without a baked-in answer to "how does John want code structured, named, tested, and reviewed," every new project burns tokens on the same arbitrary choices and drifts from how I actually build.',
-      'The architecture has two layers. The universal layer (this repo) holds rules and patterns that apply across all my projects — anti-overengineering, escalation triggers, decision patterns, communication norms. The per-project layer is each project\'s own AGENTS.md — stack, commands, file layout, naming, footguns. When an agent opens a project, it reads the project\'s AGENTS.md first, then falls back to the universal rules.',
-      'The operating model treats the relationship as Sponsor + AI Council, not democracy. I set vision and boundaries; the agents execute autonomously inside them, escalate only when human judgment is genuinely required, and propose improvements after significant work. It\'s the slim, operational descendant of an earlier "City 2.0" design exercise that framed development as autonomous city governance — same metaphor, less ceremony.',
+      "City App Framework is a small kit for building apps with AI coding agents, shipped as a Claude Code plugin. Running `/city-app:setup` in a project installs a 28-line AGENTS.md — the project's facts, filled in from the repo, plus an 8-line working agreement — a one-line CLAUDE.md that makes Claude load it, and two hooks: a guard that asks before a new dependency or deleting a test and blocks force-push, production deploys, and publishing, and a test gate that won't let the agent finish with failing or newly skipped tests. The AGENTS.md part also works with Codex, Cursor, Copilot, and Grok.",
+      "Version 4 is a rebuild. A test harness runs headless Claude Code on a small app and scores every run with fixed checks, and it showed that most of v3 never reached the agent: its CLAUDE.md pointer stopped Claude from loading AGENTS.md automatically, and the universal rules sat behind a link no agent opened (0 of 25 runs). Rules against overbuilding and new dependencies made no difference either — none of 285 runs added a dependency, with or without them, even when asked for a web server. So v4 cuts every rule that didn't change behavior and puts anything that must never happen in a hook.",
+      'The rest of the plugin: `/city-app:start` builds an app or feature from a short spec, tests first; `/city-app:lesson` turns a correction into a test, a guard rule, or one AGENTS.md line; and `rules:test` and `rules:prune` re-check whether each rule still earns its place on your project, for example after a model update. Front-end checks round it out: `ui:check` finds accessibility problems, console errors, and pages wider than the screen at phone, tablet, and desktop sizes; `ui:baseline` fails a page that no longer matches its approved screenshot; and `ui:tokens` keeps colors in design tokens.',
     ],
     highlights: [
-      'Two-layer architecture — universal AGENTS.md + per-project AGENTS.md — so an agent always has fallback rules without the universal layer overriding project-specific intent.',
-      'Sponsor / AI-Council operating model with explicit escalation triggers (new dependency, scope change, architecture choice, irreversible operation) — agents act autonomously inside the boundary and only ask when they should.',
-      'Drop-in templates (project-AGENTS.md, project-CLAUDE.md, project-GROK.md, project-README.md) so a new repo is wired into the framework with one copy/paste.',
-      'Codified conventions/ and decision-patterns/ folders capturing operational rules (anti-overengineering, escalation, communication norms) and recurring tradeoffs with guidance — extracted from real `AGENTS.md` files in jdilig-me-v3, coding-interview-reviewer, and ai-browser-game-demos.',
-      'Earlier "City 2.0" philosophy-first design preserved in docs/design-notes/ — 8 Constitutional Principles, 22 docs — kept for thinking, not loaded into daily execution.',
-      'Demo / whitepaper site deployed on Vercel from examples/website/ as the framework\'s public face.',
+      'Every part tested against real model runs — 285 scored headless Claude Code sessions — and rules that made no difference were cut.',
+      'Found the rules that still change behavior: with a "build the smallest part, then offer options" rule, agents offered options on a vague ask in 5 of 5 runs (0 of 5 without it), and a one-line "add a test for new logic" rule raised test writing from 17 of 25 runs to 25 of 25.',
+      'Lessons that stick: a journal of past mistakes carried its lesson in 0 of 5 runs, while one AGENTS.md line or a failing check carried it in 5 of 5 — so `/city-app:lesson` writes checks and one-line rules, not journal entries.',
+      "Hooks as hard stops, because instructions are advice and hooks are guarantees: adding a package brings up an Allow/Deny prompt for the human, even in auto mode, and the agent can't finish while tests fail.",
+      'The harness tested the kit itself: a first-draft rule sent agents to a reviewer on a trivial `--json` flag in 3 of 5 runs for no gain, so it was cut. On small tasks a solo agent was right 15 of 16 times, and a second "reviewer" agent caught nothing.',
+      'A demo app, `demo/habit-web`, uses every part with the evidence for each. Its UI check catches four planted bugs — a console error, a page that scrolls sideways on phones, a button with no name for screen readers, and an image with no alt text — each with a fix-it message.',
     ],
     learned:
-      'The win wasn\'t a clever prompt — it was treating AGENTS.md as the single source of truth for how the agent works. Once the rules live in a file the agent always reads, the first prompt of every project gets dramatically shorter and the drift between projects collapses. The framework is doing the work the system prompt should have done all along.',
+      "More rules didn't make better agents. v3 had a 178-line universal AGENTS.md and about 40 convention docs, but most of it never reached the agent, and some of what did — like the anti-overbuild and no-new-dependency rules — was already the model's default. Only short, specific rules the agent could actually load changed its behavior. So v4 keeps a short working agreement, turns lessons into checks, and puts anything that must never happen in a hook. The city idea survives in one form: laws are enforced; customs are advice.",
     links: {
-      live: 'https://website-pi-one-3ymijizbxt.vercel.app',
       source: 'https://github.com/balbonits/city-app-framework',
     },
-    liveLabel: 'View whitepaper',
-    previewImage: '/screenshots/city-app-framework.webp',
   },
   {
     slug: 'squanto',
@@ -185,9 +180,6 @@ export const ALL_PROJECTS: Project[] = [
     links: {
       live: 'https://squanto.app/',
     },
-    // Featured while City App Framework is hidden. When it's back, remove
-    // this line (the tests allow only one featured project).
-    featured: true,
     previewImage: '/screenshots/squanto-home.webp',
     gallery: [
       {

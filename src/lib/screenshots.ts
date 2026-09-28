@@ -1,6 +1,6 @@
 /**
- * Screenshots are at least 1280 px wide (Playwright's Desktop Chrome preset;
- * city-app-framework.webp is 2560) and each has a 720 px-wide copy in
+ * Screenshots are at least 1280 px wide (Playwright's Desktop Chrome preset)
+ * and each has a 720 px-wide copy in
  * public/screenshots/thumbs/, written by scripts/thumbnails.mjs.
  * src/data/screenshots.test.ts checks both.
  */
