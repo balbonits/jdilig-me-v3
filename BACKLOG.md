@@ -62,6 +62,7 @@ Loose ends from the launch session that don't fit into a feature ticket.
 
 - **On hold / not doing (John's call, Sept 27, 2026):** revoking the old Resend key and deleting its Vercel env vars (the form is gone and the Resend account isn't paid); deleting the old `jdilig-me` Vercel project; spot-checking on real phones. Don't re-suggest these.
 - **Make CI a required check.** The CI workflow runs on every pull request, but nothing blocks a merge when it fails. In GitHub: Settings → Branches → a rule for `main` that requires the `check` job.
+- **GitHub Actions warns that its actions use Node 20.** The CI and Lighthouse runs say `actions/checkout@v4`, `actions/setup-node@v4`, and `actions/upload-artifact@v4` target Node 20, which is deprecated; GitHub runs them on Node 24 for now and everything passes. Move the two workflows to newer major versions of those actions when convenient.
 - **`@headlessui/react` is installed but unused.** Use it (for example, a header menu below 640 px, section 5) or remove it.
 - **`/whitepaper/` proxies to an auto-generated Vercel address** (`website-pi-one-3ymijizbxt.vercel.app`, in `vercel.json`). It works, but a custom subdomain such as `whitepaper.jdilig.me` is sturdier; it needs a DNS record at GoDaddy.
 - **Hard-coded colors.** The browser-window frame around project previews (`ProjectDetail.tsx`) and the starfield in `ProjectHeroPreview.tsx` write out hex colors instead of using tokens. Move them to `tokens.css` if retheming should reach them.
