@@ -76,8 +76,12 @@
 }
 
 @layer base {
+  /* The ring is a box-shadow, which Windows High Contrast (forced-colors)
+     mode removes. A transparent outline is invisible normally but that mode
+     draws it in a system color, so keyboard focus is still visible. */
   *:focus-visible {
-    outline: none;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
     box-shadow: var(--ring);
     border-color: var(--accent);
   }

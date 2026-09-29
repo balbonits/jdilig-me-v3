@@ -9,7 +9,9 @@ const LABELS: Record<CategoryKey, string> = {
   seo: 'SEO',
 };
 
-// Lighthouse's own score-band colors (matched to lighthouse-viewer):
+// Lighthouse's own score-band colors (matched to lighthouse-viewer) draw the
+// ring. The number uses the --score-* tokens, which stay readable on the
+// light theme.
 //   ≥ 90 → green   (#0cce6b)
 //   50–89 → amber  (#ffa400)
 //   < 50  → red    (#ff4e42)
@@ -17,20 +19,20 @@ function colorFor(score: number): { ring: string; text: string; soft: string } {
   if (score >= 90) {
     return {
       ring: '#0cce6b',
-      text: '#0cce6b',
+      text: 'var(--score-pass)',
       soft: 'rgba(12, 206, 107, 0.12)',
     };
   }
   if (score >= 50) {
     return {
       ring: '#ffa400',
-      text: '#ffa400',
+      text: 'var(--score-average)',
       soft: 'rgba(255, 164, 0, 0.12)',
     };
   }
   return {
     ring: '#ff4e42',
-    text: '#ff4e42',
+    text: 'var(--score-fail)',
     soft: 'rgba(255, 78, 66, 0.12)',
   };
 }
@@ -44,7 +46,12 @@ function Gauge({ score, label }: { score: number; label: string }) {
   const c = colorFor(score);
 
   return (
-    <div className="flex flex-col items-center gap-3">
+    // One image with a name: an aria-label on a plain <div> is ignored.
+    <div
+      role="img"
+      aria-label={`${label} score: ${score} out of 100`}
+      className="flex flex-col items-center gap-3"
+    >
       <div
         className="relative shrink-0"
         style={{ width: size, height: size }}
@@ -80,7 +87,6 @@ function Gauge({ score, label }: { score: number; label: string }) {
         <div
           className="absolute inset-0 flex items-center justify-center font-mono text-[28px] font-semibold tabular-nums"
           style={{ color: c.text }}
-          aria-label={`${label} score: ${score} out of 100`}
         >
           {score}
         </div>
