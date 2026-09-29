@@ -1,8 +1,12 @@
 import { Link } from 'react-router';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { PAGES } from '@/data/pages';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 export default function NotFound() {
+  usePageMeta(PAGES.notFound);
+
   return (
     <Container
       size="narrow"

@@ -3,6 +3,7 @@ import { Icon } from '@/components/icons';
 import { LinkButton } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { PAGES } from '@/data/pages';
 import { PROFILE } from '@/data/profile';
 import {
   EDUCATION,
@@ -11,11 +12,14 @@ import {
   SUMMARY,
   type Job,
 } from '@/data/resume';
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { displayUrl } from '@/lib/url';
 
 const profileLink = 'text-fg-muted hover:text-fg-strong';
 
 export default function Resume() {
+  usePageMeta(PAGES.resume);
+
   return (
     <Container size="narrow" className="pb-24 pt-10 sm:pt-14">
       <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-6">

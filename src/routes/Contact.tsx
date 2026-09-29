@@ -3,12 +3,16 @@ import { Icon, GitHubIcon, LinkedInIcon } from '@/components/icons';
 import { LinkButton } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { PAGES } from '@/data/pages';
 import { PROFILE } from '@/data/profile';
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { displayUrl, telHref } from '@/lib/url';
 
 const linkClass = 'text-accent no-underline hover:underline';
 
 export default function Contact() {
+  usePageMeta(PAGES.contact);
+
   return (
     <Container size="narrow" className="pb-24 pt-10 sm:pt-14">
       <Eyebrow>Contact</Eyebrow>

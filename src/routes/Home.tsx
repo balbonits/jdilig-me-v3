@@ -6,8 +6,10 @@ import ProjectModal from '@/components/projects/ProjectModal';
 import { LinkButton } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { PAGES } from '@/data/pages';
 import { PROFILE } from '@/data/profile';
 import { PROJECTS, sortProjects, type Project } from '@/data/projects';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 // The two newest projects; ties keep their order in PROJECTS.
 const SELECTED_WORK = sortProjects(PROJECTS, 'year-desc').slice(0, 2);
@@ -16,6 +18,7 @@ const socialLink =
   'flex items-center gap-1.5 text-fg-muted no-underline hover:text-fg-strong';
 
 export default function Home() {
+  usePageMeta(PAGES.home);
   const [modalProject, setModalProject] = useState<Project | null>(null);
 
   return (

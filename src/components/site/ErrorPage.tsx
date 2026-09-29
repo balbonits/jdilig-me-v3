@@ -1,9 +1,13 @@
 import { Button, LinkButton } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { PAGES } from '@/data/pages';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 /** Shown in place of a page that threw while rendering (see ErrorBoundary). */
 export default function ErrorPage() {
+  usePageMeta(PAGES.error);
+
   return (
     <Container
       size="narrow"
