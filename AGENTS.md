@@ -20,7 +20,7 @@ Repo: https://github.com/balbonits/jdilig-me-v3
 | UI kit      | Tailwind UI components + Headless UI + Heroicons |
 | Linting     | ESLint 9 (flat config) + typescript-eslint  |
 | Unit tests  | Vitest                                      |
-| E2E / shots | Playwright (screenshots + resume PDF)       |
+| E2E / shots | Playwright (smoke tests, screenshots, resume PDF) |
 | Hosting     | Vercel                                      |
 
 > Note: this project intentionally uses **Vite**, not Create React App. CRA was deprecated by Meta in February 2025; the React docs now point to Vite as the recommended SPA tooling.
@@ -33,12 +33,14 @@ Repo: https://github.com/balbonits/jdilig-me-v3
 | `npm run build`      | Type-check (`tsc -b`) and build for production |
 | `npm run preview`    | Preview the production build locally         |
 | `npm run lint`       | Run ESLint over the project                  |
+| `npm run typecheck`  | Type-check the app and the Playwright specs  |
 | `npm test`           | Run Vitest unit tests (`src/**/*.test.ts`)   |
+| `npm run test:e2e`   | Browser smoke tests (`tests/smoke.spec.ts`)  |
 | `npm run screenshots`| Capture preview screenshots with Playwright  |
 | `npm run resume:pdf` | Render the resume PDF from `src/data/resume.ts` |
 | `npm run lighthouse` | Score the live site → `src/data/lighthouse.json` |
 
-The build runs `tsc -b` before `vite build`, so type errors fail the build.
+The build runs `tsc -b` before `vite build`, so type errors in the app fail the build. `npm run typecheck` also checks the Playwright specs (`tsconfig.tests.json`); CI runs it.
 
 ## Project layout
 
@@ -53,8 +55,10 @@ src/
     tokens.css                   # design system CSS variables (colors, type, spacing, motion)
   hooks/
     useTheme.ts                  # light/dark theme (index.html sets it pre-paint)
+    usePageMeta.ts               # each page's title, description, canonical URL
   data/
     profile.ts                   # name, email, links, location
+    pages.ts                     # each page's title + description (PAGES, projectMeta)
     projects.ts                  # Project type + ALL_PROJECTS seed data, PROJECTS (minus hidden) + helpers
     resume.ts                    # summary, skills, experience, education
     lighthouse.json              # scores written by `npm run lighthouse`
@@ -63,12 +67,14 @@ src/
     screenshots.ts               # gallery thumbnail paths + srcset
     swipe.ts                     # swipeStep() for the gallery lightbox
   layouts/
-    SiteLayout.tsx               # skip link + header + <Outlet /> + footer, scroll-to-top
+    SiteLayout.tsx               # skip link + header + <Outlet /> (in an error boundary) + footer, scroll-to-top, route announcer
   components/
     icons.tsx                    # Heroicons wrappers + GitHubIcon + LinkedInIcon
     site/
       Header.tsx                 # logo, nav (auto-reads router), theme toggle
       Footer.tsx
+      ErrorBoundary.tsx          # a page that throws shows ErrorPage, not a blank screen
+      ErrorPage.tsx
     ui/
       Button.tsx                 # <Button> + <LinkButton> (`to` = route, `href` = URL)
       Container.tsx              # page column with responsive gutters
@@ -97,10 +103,15 @@ public/
   screenshots/                   # Playwright-captured previews (committed)
 
 tests/
+  smoke.spec.ts                  # Playwright smoke tests (`npm run test:e2e`)
   screenshots.spec.ts            # Playwright spec that writes to public/screenshots/
   resume-pdf.spec.ts             # Playwright spec that renders the resume PDF
 
+.github/workflows/
+  ci.yml                         # lint, typecheck, unit tests, build, smoke tests on every PR and push to main
+  lighthouse.yml                 # scores the live site (manual, or on changes to its script)
 playwright.config.ts             # chromium project, auto-starts dev server
+tsconfig.tests.json              # type-checks tests/ and playwright.config.ts (`npm run typecheck`)
 index.html                       # Vite HTML entry, data-theme="light" default
 vercel.json                      # /whitepaper/ proxy + SPA rewrite (all other paths → /)
 ```
@@ -143,13 +154,15 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 - All routes live in `src/router.tsx` as a single `RouteObject[]`. Add a route by adding a row — no string paths scattered across the app.
 - Nav items are generated automatically: set `handle: { label: 'Foo', showInNav: true }` on a route and `Header.tsx` will render it. `showInNav: false` (or omitted) keeps it out of the nav.
 - Always use `<Link>` / `<NavLink>` from `react-router` for internal links — never `<a href>`. For button-styled links use `<LinkButton to="/contact">` (internal) vs `<LinkButton href="https://…">` (external / files).
-- `SiteLayout` scrolls new pages to the top; Back/Forward keep the browser's restored position.
+- `SiteLayout` scrolls new pages to the top (Back/Forward keep the browser's restored position), announces each new page's title to screen readers, and wraps the page in an error boundary that resets on every navigation.
+- Every route calls `usePageMeta(...)` with its title, description, and path (`src/data/pages.ts`), so each page has its own title and canonical URL; `index.html` has none, because one fixed canonical URL would name the home page for every route. Unknown paths and unknown project slugs render `NotFound`, which is `noindex`.
+- `ProjectDetail` keys the page by slug, so moving between projects starts each one fresh (an open lightbox's image index used to carry over and blank the page).
 
 ## Theme
 
 - An inline script in `index.html` sets `data-theme` before first paint: `localStorage.theme`, else `prefers-color-scheme`. No flash for dark-mode visitors.
 - `useTheme()` returns `[theme, toggle]`, starting from whatever that script chose.
-- Only an explicit toggle writes `localStorage.theme`; until then the OS setting wins.
+- Only an explicit toggle writes `localStorage.theme`; until then the OS setting wins, including changes while the page is open.
 
 ## Deployment (Vercel)
 
@@ -171,8 +184,10 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 
 ## Testing
 
-- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers, `displayUrl` / `telHref`, `swipeStep`, a guard that `public/sitemap.xml` lists every visible project and no hidden one, a guard that every project screenshot exists, is at least 1280 px wide, and has its thumbnail, and a guard that the link-preview image in `index.html` exists at the size its tags claim.
-- **Playwright** handles screenshots and the resume PDF. Set `CHROMIUM_PATH` to use an existing Chromium instead of `npx playwright install`.
+- **Vitest** runs unit tests: `src/**/*.test.ts` (node environment). Covers project helpers and content (unique slugs, https links, paired backticks), page titles and descriptions (unique, and the home page matches `index.html`), `displayUrl` / `telHref`, `swipeStep`, the `/whitepaper/` rewrite, a guard that `public/sitemap.xml` lists every visible project and no hidden one, a guard that every project screenshot exists, is at least 1280 px wide, and has its thumbnail, and a guard that the link-preview image in `index.html` exists at the size its tags claim.
+- **Playwright smoke tests** (`npm run test:e2e`, `tests/smoke.spec.ts`) walk the pages, the 404s, the lightbox and pop-ups, the theme, and focus in forced-colors mode. They start the dev server themselves.
+- **Playwright** also handles screenshots and the resume PDF. Set `CHROMIUM_PATH` to use an existing Chromium instead of `npx playwright install`.
+- **CI** (`.github/workflows/ci.yml`) runs lint, typecheck, unit tests, the build, and the smoke tests on every pull request and push to `main`. Vercel's own build only type-checks the app.
 - Per project rule: **don't write tests for trivial UI components.** Test data-driven components, custom hooks, utilities, and complex business logic.
 
 ## Resume
@@ -181,7 +196,7 @@ Configured in `tsconfig.app.json` (`paths`) and `vite.config.ts` (`resolve.alias
 
 ## Modals
 
-Use `components/ui/Modal.tsx` (a native `<dialog>` opened with `showModal()`). With zero dependencies, Tab never reaches the page behind it, Esc closes it, focus returns to the trigger, and page scroll is locked. Its content stays rendered after closing (see the comment in the component).
+Use `components/ui/Modal.tsx` (a native `<dialog>` opened with `showModal()`). With zero dependencies, Tab never reaches the page behind it, Esc closes it, a click on the backdrop closes it (only when the press and the release both land there, so selecting text doesn't), focus returns to the trigger, and page scroll is locked. Its content stays rendered after closing (see the comment in the component).
 
 ## BACKLOG hygiene
 

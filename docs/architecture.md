@@ -13,7 +13,7 @@ How the v3 portfolio site is organized and why.
 | Styling | **Tailwind CSS v4** via `@tailwindcss/vite` | Tokens-first via `@theme inline`; `@custom-variant dark`. |
 | Hosting | **Vercel** | Auto-deploys from `balbonits/jdilig-me-v3` on push to `main`. |
 | Unit tests | **Vitest** | Project helpers, URL helpers, sitemap coverage. Matches the Vite toolchain. |
-| Capture | **Playwright** | Site screenshots for the project gallery (404 guard catches bad URLs) and the resume PDF. |
+| Browser tests & capture | **Playwright** | Smoke tests (`tests/smoke.spec.ts`), site screenshots for the project gallery (404 guard catches bad URLs), and the resume PDF. |
 
 ## Source layout
 
@@ -30,9 +30,11 @@ src/
 
   hooks/
     useTheme.ts                  # light/dark theme; index.html applies it before first paint
+    usePageMeta.ts               # each page's title, description, canonical URL (index.html has no canonical)
 
   data/
     profile.ts                   # name, email, links, location
+    pages.ts                     # per-page title + description (PAGES, projectMeta)
     projects.ts                  # Project type + ALL_PROJECTS seed, PROJECTS (minus hidden) + helpers (getProject, liveLinkLabel)
     resume.ts                    # SKILLS, EXPERIENCE, EDUCATION, SUMMARY (also feeds the PDF)
     lighthouse.json              # scores from `npm run lighthouse`
@@ -44,12 +46,13 @@ src/
     swipe.ts                     # swipeStep() — touch gesture → next / previous image
 
   layouts/
-    SiteLayout.tsx               # skip link + header + <Outlet /> + footer; scrolls new pages to top
+    SiteLayout.tsx               # skip link + header + <Outlet /> in an error boundary + footer; scrolls new pages to top; announces page changes
 
   components/
     icons.tsx                    # heroicons + GitHub/LinkedIn marks (lowercase: multi-export module)
     site/Header.tsx              # logo + auto-generated nav + theme toggle
     site/Footer.tsx              # copyright + sub-site link
+    site/ErrorBoundary.tsx       # a page that throws shows site/ErrorPage.tsx instead of a blank screen
     ui/Button.tsx                # <Button> + <LinkButton> (`to` → router Link, `href` → <a>)
     ui/Container.tsx             # page column + responsive gutters
     ui/Eyebrow.tsx               # § accent label
@@ -77,10 +80,13 @@ public/
   screenshots/                   # Playwright-captured previews (committed)
 
 tests/
+  smoke.spec.ts                  # Playwright smoke tests — pages, 404s, lightbox, pop-ups, theme (`npm run test:e2e`)
   screenshots.spec.ts            # Playwright spec — captures site + external project sites
   resume-pdf.spec.ts             # Playwright spec — renders public/Reuel_John_Dilig_Resume.pdf
 
 playwright.config.ts             # chromium project; auto-starts vite via webServer
+tsconfig.tests.json              # type-checks tests/ (`npm run typecheck`; the Vercel build only checks the app)
+.github/workflows/ci.yml         # lint, typecheck, unit tests, build, smoke tests on every PR and push to main
 index.html                       # Vite HTML entry; data-theme="light" default
 vercel.json                      # /whitepaper/ proxy + SPA rewrite (all other paths → /)
 ```
@@ -110,13 +116,18 @@ export const routeTree: RouteObject[] = [
 
 `SiteLayout` scrolls to the top on every new navigation (PUSH/REPLACE) and leaves Back/Forward (POP) alone so the browser restores the old position. We stay on `<BrowserRouter>` on purpose: switching to `createBrowserRouter` just for `<ScrollRestoration>` added ~18 KB gzipped.
 
+Two more things follow from that choice and from the site being one HTML file:
+
+- **Errors.** A data router's `errorElement` isn't available with `useRoutes`, so `SiteLayout` wraps the page in `ErrorBoundary`. A page that throws while rendering shows `ErrorPage` (with the header and footer still working) instead of a blank screen. The boundary is keyed by navigation, so going to another page tries again.
+- **Titles and canonical URLs.** Every route calls `usePageMeta(...)` with a title, description, and path from `data/pages.ts`. Without it every route would share the home page's title and canonical URL. `index.html` ships the home page's title and description and no canonical link (a test keeps it out). `NotFound` and `ErrorPage` are `noindex`.
+
 ## Theme system
 
 `useTheme()` returns `[theme, toggle]`:
 
 - **Before first paint:** an inline script in `index.html` reads `localStorage.theme`, falls back to `prefers-color-scheme`, and sets `data-theme` — so dark-mode visitors never see a light flash.
 - **First render:** `useTheme` starts from that `data-theme` value.
-- **On toggle:** sets `data-theme` and saves `localStorage.theme`. Until the first toggle nothing is saved, so the OS setting keeps winning.
+- **On toggle:** sets `data-theme` and saves `localStorage.theme`. Until the first toggle nothing is saved, so the OS setting keeps winning, including when it changes while the page is open.
 
 The dark variant is wired into Tailwind utilities via `@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));` in `src/index.css`. So `dark:bg-bg-muted` works without any provider.
 
