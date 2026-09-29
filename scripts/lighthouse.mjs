@@ -55,12 +55,27 @@ try {
   }
 
   const lhr = runner.lhr;
-  const cats = lhr.categories;
+
+  // A run that fails (site down, page error) still returns a report, with a
+  // runtimeError and null scores. Turning those into 0 would write a
+  // convincing set of failing scores, so stop instead.
+  if (lhr.runtimeError) {
+    throw new Error(
+      `Lighthouse could not score ${url}: ${lhr.runtimeError.code}: ${lhr.runtimeError.message}`,
+    );
+  }
+  const toScore = (category) => {
+    const score = lhr.categories[category]?.score;
+    if (score == null) {
+      throw new Error(`Lighthouse returned no ${category} score for ${url}`);
+    }
+    return Math.round(score * 100);
+  };
   const scores = {
-    performance: Math.round((cats.performance.score || 0) * 100),
-    accessibility: Math.round((cats.accessibility.score || 0) * 100),
-    bestPractices: Math.round((cats['best-practices'].score || 0) * 100),
-    seo: Math.round((cats.seo.score || 0) * 100),
+    performance: toScore('performance'),
+    accessibility: toScore('accessibility'),
+    bestPractices: toScore('best-practices'),
+    seo: toScore('seo'),
   };
 
   const result = {
