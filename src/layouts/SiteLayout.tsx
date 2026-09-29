@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigationType } from 'react-router';
+import ErrorBoundary from '@/components/site/ErrorBoundary';
 import Header from '@/components/site/Header';
 import Footer from '@/components/site/Footer';
 
 export default function SiteLayout() {
-  const { pathname } = useLocation();
+  const { pathname, key } = useLocation();
   const navigationType = useNavigationType();
 
   // New pages open at the top. Back/Forward (POP) keep the position the
@@ -23,7 +24,9 @@ export default function SiteLayout() {
       </a>
       <Header />
       <main id="main" className="grow">
-        <Outlet />
+        <ErrorBoundary key={key}>
+          <Outlet />
+        </ErrorBoundary>
       </main>
       <Footer />
     </div>
