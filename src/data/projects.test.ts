@@ -3,6 +3,7 @@ import {
   liveLinkLabel,
   filterProjects,
   sortProjects,
+  getAdjacent,
   ALL_PROJECTS,
   PROJECTS,
   type Project,
@@ -152,5 +153,73 @@ describe('PROJECTS seed data', () => {
   // every featured project out of the grid, so a second one would vanish.
   it('features at most one visible project', () => {
     expect(PROJECTS.filter((p) => p.featured).length).toBeLessThanOrEqual(1);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Content that pages depend on
+// ---------------------------------------------------------------------------
+
+describe('project content', () => {
+  // Shown through RichText, which turns `backtick` pairs into <code>.
+  const richText = (p: Project) => [
+    ...p.overview,
+    ...p.highlights,
+    ...(p.learned ? [p.learned] : []),
+  ];
+  // Shown as plain text, so a backtick would appear as a backtick.
+  const plainText = (p: Project) => [p.title, p.accent ?? '', p.desc, p.summary];
+  const backticks = (text: string) => text.split('`').length - 1;
+
+  it('gives every project its own slug (it is the URL)', () => {
+    const slugs = ALL_PROJECTS.map((p) => p.slug);
+    expect(new Set(slugs).size).toBe(slugs.length);
+  });
+
+  it('uses four-digit years', () => {
+    for (const p of ALL_PROJECTS) expect(p.year).toMatch(/^\d{4}$/);
+  });
+
+  it('links only to https URLs', () => {
+    for (const p of ALL_PROJECTS) {
+      for (const url of Object.values(p.links)) {
+        expect(url, p.slug).toMatch(/^https:\/\//);
+      }
+    }
+  });
+
+  // These lists render with the text as the React key.
+  it('has no repeated tag, paragraph, or highlight within a project', () => {
+    for (const p of ALL_PROJECTS) {
+      for (const list of [p.tags, p.overview, p.highlights]) {
+        expect(new Set(list).size, p.slug).toBe(list.length);
+      }
+    }
+  });
+
+  it('closes every backtick in text shown through RichText', () => {
+    for (const p of ALL_PROJECTS) {
+      for (const text of richText(p)) expect(backticks(text) % 2, p.slug).toBe(0);
+    }
+  });
+
+  it('has no backticks in text that is not shown through RichText', () => {
+    for (const p of ALL_PROJECTS) {
+      for (const text of plainText(p)) expect(backticks(text), p.slug).toBe(0);
+    }
+  });
+});
+
+describe('getAdjacent', () => {
+  it('wraps around the ends of the list', () => {
+    const first = PROJECTS[0];
+    const last = PROJECTS[PROJECTS.length - 1];
+    expect(getAdjacent(first.slug).prev).toBe(last);
+    expect(getAdjacent(last.slug).next).toBe(first);
+  });
+
+  it('steps through the list in order', () => {
+    const [a, b, c] = PROJECTS;
+    expect(getAdjacent(b.slug)).toEqual({ prev: a, next: c });
   });
 });
