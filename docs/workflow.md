@@ -67,7 +67,7 @@ Typical end-to-end time: **~30s** from `git push` to live.
 ## What goes in a "good" commit
 
 - ✅ Compiles. (`npm run build` succeeds locally before pushing.)
-- ✅ Lint passes. (Not enforced by CI yet, but `npm run lint` is cheap.)
+- ✅ Lint, types, and tests pass: `npm run lint`, `npm run typecheck`, `npm test`, and `npm run test:e2e`. CI runs them (and the build) on every pull request.
 - ✅ Screenshots regenerated if UI changed visibly.
 - ✅ `BACKLOG.md` updated if the change affects any backlog item.
 - ✅ Body explains *why* the change exists.

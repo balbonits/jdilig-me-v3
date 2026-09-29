@@ -9,7 +9,7 @@ Personal portfolio site for **John Dilig** — front-end developer.
 - **Vite 6** + **React 19** + **TypeScript** (strict)
 - **Tailwind CSS v4** (via `@tailwindcss/vite`, with `@theme inline` token bridge)
 - **React Router v7** (library mode, with auto-generated nav from route metadata)
-- **Vitest** (unit tests) + **Playwright** (project screenshots, resume PDF)
+- **Vitest** (unit tests) + **Playwright** (smoke tests, project screenshots, resume PDF)
 - **Vercel** (hosting, auto-deploy on push to `main`, Web Analytics + Speed Insights)
 
 ## Quick start
@@ -27,7 +27,9 @@ npm run dev          # http://localhost:5173
 | `npm run build`        | Type-check (`tsc -b`) and build for production|
 | `npm run preview`      | Preview the production build locally          |
 | `npm run lint`         | Run ESLint                                    |
+| `npm run typecheck`    | Type-check the app and the Playwright specs   |
 | `npm test`             | Run the Vitest unit tests                     |
+| `npm run test:e2e`     | Run the browser smoke tests (Playwright)      |
 | `npm run screenshots`  | Capture site + project previews via Playwright|
 | `npm run thumbnails`   | Make the 720 px screenshot thumbnails in `public/screenshots/thumbs/` |
 | `npm run resume:pdf`   | Render `public/Reuel_John_Dilig_Resume.pdf` from `src/data/resume.ts` |
@@ -44,17 +46,18 @@ Playwright uses its own Chromium (`npx playwright install chromium`), or set `CH
 src/
   main.tsx, App.tsx, router.tsx       # entry, app shell, route table
   index.css, styles/tokens.css        # Tailwind v4 + design tokens
-  hooks/useTheme.ts                   # light/dark with localStorage
+  hooks/                              # useTheme (light/dark), usePageMeta (title, canonical URL)
   data/                               # profile, projects, resume content
-  lib/                                # shared helpers (contact rules, URLs)
+  lib/                                # shared helpers (URLs, screenshot paths, swipe)
   layouts/SiteLayout.tsx              # header + <Outlet /> + footer
   components/
-    site/{Header,Footer}.tsx
+    site/{Header,Footer,ErrorBoundary,ErrorPage}.tsx
     ui/{Button,Container,Eyebrow,Modal,RichText}.tsx
     projects/                         # cards, modal, gallery, meta/title/tag bits
     icons.tsx                         # heroicons + GitHub/LinkedIn marks
   routes/{Home,Projects,ProjectDetail,Resume,Contact,NotFound}.tsx
 public/screenshots/                   # Playwright-captured previews
+tests/smoke.spec.ts                   # Playwright smoke tests (npm run test:e2e)
 tests/screenshots.spec.ts             # Playwright spec (with 404 guard)
 tests/resume-pdf.spec.ts              # renders the resume PDF
 ```
@@ -65,7 +68,7 @@ tests/resume-pdf.spec.ts              # renders the resume PDF
 
 ## Deployment
 
-Pushed to GitHub → Vercel auto-deploys. The current production deploy serves at both `https://www.jdilig.me/` and (via 307 redirect) `https://jdilig.me/`. SPA routes are preserved through `vercel.json` rewrites.
+Pushed to GitHub → Vercel auto-deploys. The current production deploy serves at both `https://www.jdilig.me/` and (via 307 redirect) `https://jdilig.me/`. SPA routes are preserved through `vercel.json` rewrites, and `/whitepaper/` is proxied to the City App Framework white paper (a separate Vercel project). GitHub Actions runs lint, types, unit tests, the build, and browser smoke tests on every pull request (`.github/workflows/ci.yml`).
 
 ## More
 
