@@ -10,7 +10,10 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-10 border-b border-border-faint bg-bg/80 backdrop-blur-[10px] backdrop-saturate-[1.8]">
-      <nav className="mx-auto flex max-w-[1280px] items-center justify-between gap-3 px-4 py-4 sm:px-10">
+      <nav
+        aria-label="Primary"
+        className="mx-auto flex max-w-[1280px] items-center justify-between gap-3 px-4 py-4 sm:px-10"
+      >
         <Link
           to="/"
           className="flex shrink-0 items-center gap-2.5 font-mono text-[17px] font-semibold tracking-[-0.03em] text-fg-strong no-underline"

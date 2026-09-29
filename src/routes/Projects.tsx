@@ -4,6 +4,7 @@ import ProjectCard from '@/components/projects/ProjectCard';
 import ProjectModal from '@/components/projects/ProjectModal';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { PAGES } from '@/data/pages';
 import {
   PROJECTS,
   type Project,
@@ -14,6 +15,7 @@ import {
   getFeaturedProject,
   getNonFeaturedProjects,
 } from '@/data/projects';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const FEATURED = getFeaturedProject(PROJECTS);
 const GRID_PROJECTS = getNonFeaturedProjects(PROJECTS);
@@ -40,6 +42,7 @@ function pillClass(active: boolean) {
 }
 
 export default function Projects() {
+  usePageMeta(PAGES.projects);
   const [active, setActive] = useState<Set<ProjectCategory>>(new Set());
   const [sort, setSort] = useState<SortOption>('year-desc');
   const [modalProject, setModalProject] = useState<Project | null>(null);

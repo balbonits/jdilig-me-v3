@@ -10,12 +10,14 @@ import TagList from '@/components/projects/TagList';
 import { LinkButton } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import RichText from '@/components/ui/RichText';
+import { projectMeta } from '@/data/pages';
 import {
   getAdjacent,
   getProject,
   liveLinkLabel,
   type Project,
 } from '@/data/projects';
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { displayUrl } from '@/lib/url';
 import NotFound from '@/routes/NotFound';
 
@@ -32,6 +34,7 @@ export default function ProjectDetail() {
 }
 
 function ProjectPage({ project: p }: { project: Project }) {
+  usePageMeta(projectMeta(p));
   const { prev, next } = getAdjacent(p.slug);
 
   return (
