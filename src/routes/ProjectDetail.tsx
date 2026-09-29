@@ -10,25 +10,29 @@ import TagList from '@/components/projects/TagList';
 import { LinkButton } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import RichText from '@/components/ui/RichText';
-import { getAdjacent, getProject, liveLinkLabel } from '@/data/projects';
+import {
+  getAdjacent,
+  getProject,
+  liveLinkLabel,
+  type Project,
+} from '@/data/projects';
 import { displayUrl } from '@/lib/url';
+import NotFound from '@/routes/NotFound';
 
 export default function ProjectDetail() {
   const { slug = '' } = useParams();
-  const p = getProject(slug);
+  const project = getProject(slug);
 
-  if (!p) {
-    return (
-      <Container className="py-14">
-        <p className="text-fg-muted">Project not found.</p>
-        <Link to="/projects" className="mt-4 inline-block text-accent">
-          ← Back to projects
-        </Link>
-      </Container>
-    );
-  }
+  if (!project) return <NotFound />;
 
-  const { prev, next } = getAdjacent(slug);
+  // Keyed by slug so moving to another project starts the page fresh. Without
+  // it, state such as the lightbox's current image carried over and pointed
+  // past the end of a shorter gallery, which blanked the page.
+  return <ProjectPage key={project.slug} project={project} />;
+}
+
+function ProjectPage({ project: p }: { project: Project }) {
+  const { prev, next } = getAdjacent(p.slug);
 
   return (
     <Container className="pb-24 pt-10 sm:pt-14">
