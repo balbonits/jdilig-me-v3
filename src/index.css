@@ -36,6 +36,9 @@
   --color-fg-subtle: var(--fg-subtle);
   --color-fg-faint: var(--fg-faint);
 
+  --color-teal: var(--teal);
+  --color-tile: var(--tile);
+  --color-pixel: var(--pixel);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
@@ -80,10 +83,8 @@
      mode removes. A transparent outline is invisible normally but that mode
      draws it in a system color, so keyboard focus is still visible. */
   *:focus-visible {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-    box-shadow: var(--ring);
-    border-color: var(--accent);
+    outline: 3px solid var(--teal);
+    outline-offset: 3px;
   }
 
   /* Lock page scroll while a modal <dialog> is open (see ui/Modal.tsx). */
@@ -95,8 +96,9 @@
     *,
     *::before,
     *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
     }
   }
 }
@@ -113,6 +115,30 @@
 }
 
 @layer components {
+  /* Build-plate grid: hero only (design spec v1.0, pixel moment 2). */
+  .build-plate {
+    position: relative;
+    isolation: isolate;
+  }
+  .build-plate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 96px), transparent);
+    pointer-events: none;
+  }
+  /* Links in prose are underlined (never colour alone). */
+  .prose-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
   /* Round translucent buttons laid over images (modal + lightbox controls). */
   .overlay-button {
     display: flex;

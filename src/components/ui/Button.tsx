@@ -17,16 +17,16 @@ type StyleProps = {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-accent text-accent-contrast shadow-sm hover:bg-accent-hover hover:-translate-y-[1px] active:translate-y-0 border-transparent',
+    'bg-accent text-accent-contrast shadow-sm hover:bg-accent-hover border-transparent',
   secondary:
-    'bg-surface text-fg-strong border-border-DEFAULT shadow-xs hover:bg-bg-subtle hover:border-border-strong',
+    'bg-surface text-fg-strong border-border-strong hover:bg-bg-subtle',
   ghost:
     'bg-transparent text-fg-muted border-transparent hover:bg-bg-muted hover:text-fg-strong',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
   md: 'px-4 py-[9px] text-sm rounded-md gap-1.5',
-  lg: 'px-5 py-[11px] text-[15px] rounded-[10px] gap-2',
+  lg: 'min-h-12 px-5 py-[11px] text-[15px] rounded-[2px] gap-2',
 };
 
 const base =
