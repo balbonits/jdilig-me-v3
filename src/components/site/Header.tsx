@@ -1,14 +1,12 @@
 import { Link, NavLink } from 'react-router';
+import { getNavItems } from '@/router';
 import { useTheme } from '@/hooks/useTheme';
 import { Icon } from '@/components/icons';
 
 export default function Header() {
-  // UX-IA spec: Work, Resume (home #resume section), Contact.
-  const items = [
-    { path: '/projects', label: 'Work' },
-    { path: '/#resume', label: 'Resume' },
-    { path: '/contact', label: 'Contact' },
-  ];
+  // Projects, Resume, Contact, from the route table, as before PR #22.
+  // Renaming or removing a section needs John's OK.
+  const items = getNavItems();
   const [theme, toggle] = useTheme();
   const nextTheme = theme === 'light' ? 'dark' : 'light';
 
