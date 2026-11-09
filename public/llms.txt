@@ -4,7 +4,7 @@
 
 ## Pages
 
-- [Home](https://www.jdilig.me/): introduction, selected work and resume summary
+- [Home](https://www.jdilig.me/): introduction, projects and resume summary
 - [Projects](https://www.jdilig.me/projects): side projects, browser games and client work
 - [Resume](https://www.jdilig.me/resume): experience, skills and education
 - [Resume PDF](https://www.jdilig.me/Reuel_John_Dilig_Resume.pdf): full resume as a PDF

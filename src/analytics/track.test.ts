@@ -27,7 +27,7 @@ describe('click tracking', () => {
     ],
     [{ href: 'tel:+19095550100' }, '/contact', [['contact_action', { method: 'phone' }]]],
     [{ project: 'squanto' }, '/', [['project_click', { slug: 'squanto' }]]],
-    [{ href: '#work', cta: 'see-the-work' }, '/', [['cta_click', { id: 'see-the-work' }]]],
+    [{ href: '#projects', cta: 'see-projects' }, '/', [['cta_click', { id: 'see-projects' }]]],
     [{ href: '/projects' }, '/', []],
   ])('%o on %s', (info, path, expected) => {
     expect(eventsForClick(info, path)).toEqual(expected);
