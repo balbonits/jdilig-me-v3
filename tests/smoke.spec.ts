@@ -83,10 +83,10 @@ test('moving between pages announces the new page to screen readers', async ({
 
   await page
     .getByRole('navigation', { name: 'Primary' })
-    .getByRole('link', { name: 'Resume' })
+    .getByRole('link', { name: 'Contact' })
     .click();
 
-  await expect(status).toHaveText('Resume — jdilig.me');
+  await expect(status).toHaveText('Contact — jdilig.me');
 });
 
 // Regression: opening the last image of a long gallery and then moving to a
