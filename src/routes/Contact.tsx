@@ -6,7 +6,7 @@ import Eyebrow from '@/components/ui/Eyebrow';
 import { PAGES } from '@/data/pages';
 import { PROFILE } from '@/data/profile';
 import { usePageMeta } from '@/hooks/usePageMeta';
-import { displayUrl, telHref } from '@/lib/url';
+import { displayUrl } from '@/lib/url';
 
 const linkClass = 'text-accent no-underline hover:underline';
 
@@ -55,11 +55,6 @@ export default function Contact() {
           <Row icon={<Icon.Mail className="h-4 w-4" />} label="Email">
             <a href={`mailto:${PROFILE.email}`} className={linkClass}>
               {PROFILE.email}
-            </a>
-          </Row>
-          <Row icon={<Icon.Phone className="h-4 w-4" />} label="Phone">
-            <a href={telHref(PROFILE.phone)} className={linkClass}>
-              {PROFILE.phone}
             </a>
           </Row>
           <Row icon={<LinkedInIcon className="h-3.5 w-3.5" />} label="LinkedIn">

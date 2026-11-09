@@ -156,3 +156,77 @@
     background: rgb(28 25 23 / 0.85);
   }
 }
+
+/* ---- Feel pass (UX-FEEL-SPEC v2). Every movement is behind no-preference;
+   under reduced motion the global rule above also drops all transitions. ---- */
+@layer components {
+  .prose-link:hover {
+    text-decoration-thickness: 2px;
+  }
+  /* Theme toggle: both icons stay mounted; only the current one shows. */
+  .theme-icon {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+  }
+  .theme-icon[data-on='true'] {
+    opacity: 1;
+    transform: none;
+  }
+  .project-card:hover li {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  /* The swash under "I build" is drawn statically by default. */
+  .swash path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+  .theme-icon {
+    transition:
+      opacity 150ms var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+  .project-card li {
+    transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+  }
+  .wave {
+    transform-origin: 70% 70%;
+    animation: wave 1.2s var(--ease-out) 0.3s 1 both;
+  }
+  .swash path {
+    animation: swash 600ms var(--ease-out) 0.2s 1 both;
+  }
+  /* Scroll reveal. Only JS adds .reveal-pending, and only to elements below
+     the fold, so without JS (or before it runs) everything is visible. */
+  .reveal-pending {
+    opacity: 0.001;
+    transform: translateY(12px);
+  }
+  .reveal-pending.is-visible {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(16deg); }
+  40% { transform: rotate(-8deg); }
+  60% { transform: rotate(14deg); }
+  80% { transform: rotate(-4deg); }
+}
+
+@keyframes swash {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}

@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router';
 import { getNavItems } from '@/router';
+import { PROFILE } from '@/data/profile';
 import { useTheme } from '@/hooks/useTheme';
 import { Icon } from '@/components/icons';
 
@@ -40,9 +41,9 @@ export default function Header() {
               to={path}
               end
               className={({ isActive }) =>
-                `rounded-[2px] px-2.5 py-[7px] text-sm font-medium no-underline transition-all duration-[120ms] ease-out sm:px-3 ${
-                  isActive && path !== '/#resume'
-                    ? 'bg-bg-muted text-fg-strong'
+                `inline-flex min-h-11 min-w-11 items-center justify-center rounded-[2px] px-1.5 text-sm font-medium no-underline transition-all duration-[120ms] ease-out sm:px-3 ${
+                  isActive
+                    ? 'bg-bg-muted text-fg-strong underline decoration-accent decoration-2 underline-offset-[6px]'
                     : 'text-fg-muted hover:bg-bg-muted hover:text-fg-strong'
                 }`
               }
@@ -52,18 +53,26 @@ export default function Header() {
           ))}
         </div>
 
+        <div className="flex shrink-0 items-center gap-1">
+        <a
+          href={PROFILE.resumePdf}
+          download
+          className="hidden min-h-11 items-center gap-1.5 rounded-[2px] px-3 text-sm font-medium text-fg-muted no-underline transition-colors hover:bg-bg-muted hover:text-fg-strong md:inline-flex"
+        >
+          <Icon.Download className="h-4 w-4" aria-hidden="true" />
+          Resume PDF
+        </a>
         <button
           type="button"
           onClick={toggle}
           aria-label={`Switch to ${nextTheme} theme`}
-          className="flex h-[34px] w-[34px] shrink-0 cursor-pointer items-center justify-center rounded-[2px] border border-border-DEFAULT bg-surface text-fg-muted transition-all duration-[120ms] ease-out hover:border-border-strong hover:text-fg-strong"
+          className="theme-toggle relative flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-[2px] border border-border-DEFAULT bg-surface text-fg-muted transition-all duration-[120ms] ease-out hover:border-border-strong hover:text-fg-strong"
         >
-          {theme === 'light' ? (
-            <Icon.Moon className="h-4 w-4" />
-          ) : (
-            <Icon.Sun className="h-4 w-4" />
-          )}
+          {/* Both icons stay mounted so the swap can rotate and cross-fade. */}
+          <Icon.Moon aria-hidden="true" data-on={theme === 'light'} className="theme-icon absolute h-4 w-4" />
+          <Icon.Sun aria-hidden="true" data-on={theme === 'dark'} className="theme-icon absolute h-4 w-4" />
         </button>
+        </div>
       </nav>
     </header>
   );

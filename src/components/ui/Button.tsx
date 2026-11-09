@@ -30,7 +30,7 @@ const sizeClasses: Record<ButtonSize, string> = {
 };
 
 const base =
-  'inline-flex items-center justify-center font-sans font-medium tracking-[-0.01em] border transition-all duration-150 ease-out cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
+  'motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0 motion-safe:active:scale-[0.98] inline-flex items-center justify-center font-sans font-medium tracking-[-0.01em] border transition-all duration-150 ease-out cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
 
 function buttonClass(
   variant: ButtonVariant = 'primary',

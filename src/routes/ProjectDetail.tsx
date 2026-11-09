@@ -41,7 +41,7 @@ function ProjectPage({ project: p }: { project: Project }) {
     <Container className="pb-24 pt-10 sm:pt-14">
       <Link
         to="/projects"
-        className="mb-6 inline-flex items-center gap-1.5 rounded-md px-1.5 py-2 text-sm font-medium text-fg-muted no-underline hover:bg-bg-muted hover:text-fg-strong"
+        className="mb-6 inline-flex min-h-11 items-center gap-1.5 rounded-md px-1.5 py-2 text-sm font-medium text-fg-muted no-underline hover:bg-bg-muted hover:text-fg-strong"
       >
         <Icon.ArrowRight className="h-3.5 w-3.5 rotate-180" />
         All projects

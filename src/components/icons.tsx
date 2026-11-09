@@ -7,6 +7,9 @@ import {
   DocumentIcon,
   PhoneIcon,
   XMarkIcon,
+  ArrowDownTrayIcon,
+  DocumentDuplicateIcon,
+  CheckIcon,
 } from '@heroicons/react/24/outline';
 
 // A static map of icon components; it never needs granular hot reloading.
@@ -20,6 +23,9 @@ export const Icon = {
   Document: DocumentIcon,
   Phone: PhoneIcon,
   Close: XMarkIcon,
+  Download: ArrowDownTrayIcon,
+  Copy: DocumentDuplicateIcon,
+  Check: CheckIcon,
 };
 
 export function GitHubIcon(props: React.SVGProps<SVGSVGElement>) {

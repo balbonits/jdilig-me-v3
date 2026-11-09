@@ -23,13 +23,6 @@ function watchForProblems(page: Page): string[] {
   return problems;
 }
 
-/** Waits for CSS animations (the pop-up slides in) to finish. */
-async function settled(page: Page) {
-  await page.waitForFunction(() =>
-    document.getAnimations().every((a) => a.playState !== 'running'),
-  );
-}
-
 const pages = [
   { path: '/', title: 'jdilig.me — John Dilig, Front-End Developer' },
   { path: '/projects', title: 'Projects — jdilig.me' },
@@ -121,34 +114,19 @@ test('paging through every project after opening a lightbox never breaks a page'
   expect(problems).toEqual([]);
 });
 
-test('a pop-up closes on Esc and on a backdrop click, but not when a drag ends outside it', async ({
-  page,
-}) => {
+// UX-FLOW-V3-LOOSEN D5: cards open the project's own page, not a pop-up.
+test('a project card opens its page, and Back returns to the list', async ({ page }) => {
   await page.goto('/projects');
-  const dialog = page.locator('dialog[open]');
-  const open = async () => {
-    await page.locator('main article button').first().click();
-    await expect(dialog).toBeVisible();
-    await settled(page);
-  };
+  await page.locator('main article a[href^="/projects/"]').first().click();
+  await expect(page).toHaveURL(/\/projects\/[a-z0-9-]+$/);
+  await expect(page.locator('dialog[open]')).toHaveCount(0);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/projects$/);
+});
 
-  await open();
-  await page.keyboard.press('Escape');
-  await expect(dialog).toHaveCount(0);
-
-  await open();
-  await page.mouse.click(10, 10);
-  await expect(dialog).toHaveCount(0);
-
-  // Press on the title, drag out over the backdrop, release.
-  await open();
-  const title = await dialog.getByRole('heading', { level: 2 }).boundingBox();
-  if (!title) throw new Error('The pop-up has no title');
-  await page.mouse.move(title.x + 10, title.y + title.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(10, 10, { steps: 8 });
-  await page.mouse.up();
-  await expect(dialog).toBeVisible();
+test('old #work links land on the Projects section', async ({ page }) => {
+  await page.goto('/#work');
+  await expect(page.getByRole('heading', { level: 2, name: 'Projects' })).toBeInViewport();
 });
 
 test('the theme follows the OS until the visitor picks one', async ({ page }) => {
