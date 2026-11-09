@@ -62,24 +62,24 @@
   --space-24: 96px;
 
   /* ---------- Radii ---------- */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 20px;
+  --radius-xs: 2px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --radius-2xl: 2px;
   --radius-full: 9999px;
 
   /* ---------- Shadow system (soft, modern Tailwind) ---------- */
-  --shadow-xs: 0 1px 2px rgba(15, 10, 6, 0.04);
-  --shadow-sm: 0 1px 2px rgba(15, 10, 6, 0.06), 0 1px 3px rgba(15, 10, 6, 0.04);
-  --shadow-md: 0 2px 4px rgba(15, 10, 6, 0.06), 0 4px 12px rgba(15, 10, 6, 0.06);
-  --shadow-lg: 0 4px 8px rgba(15, 10, 6, 0.06), 0 12px 24px rgba(15, 10, 6, 0.08);
-  --shadow-xl: 0 12px 32px rgba(15, 10, 6, 0.10), 0 4px 12px rgba(15, 10, 6, 0.06);
-  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-inset: none;
 
   /* Focus ring — always the accent */
-  --ring: 0 0 0 3px rgba(234, 88, 12, 0.25);
+  --ring: none;
 
   /* ---------- Motion ---------- */
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -96,34 +96,38 @@
 :root,
 [data-theme="light"] {
   /* Brand accents — warm */
-  --accent: #c2410c;          /* orange-700 — primary; 4.5:1+ on the light backgrounds and under white text */
-  --accent-hover: #9a3412;    /* orange-800 */
-  --accent-soft: #fff7ed;     /* orange-50 — tinted bg */
-  --accent-border: #fed7aa;   /* orange-200 */
-  --accent-fg: #7c2d12;       /* orange-900 — on soft */
+  --teal: #0f5f73;
+  --tile: #16181b;
+  --pixel: #8fd3e0;
+  --grid-line: rgb(22 24 27 / 0.07);
+  --accent: #b93d0b;          /* orange-700 — primary; 4.5:1+ on the light backgrounds and under white text */
+  --accent-hover: #9a3209;    /* orange-800 */
+  --accent-soft: #f6e6dc;     /* orange-50 — tinted bg */
+  --accent-border: #e3b9a2;   /* orange-200 */
+  --accent-fg: #7a2807;       /* orange-900 — on soft */
   --accent-contrast: #ffffff; /* fg on solid accent */
 
   --amber: #d97706;           /* amber-600 — secondary warm */
   --terracotta: #b45309;      /* amber-700 — tertiary */
 
   /* Neutrals — warm stone */
-  --bg: #fdfcfb;              /* near-white, warm */
-  --bg-subtle: #f7f5f2;       /* stone-50ish */
-  --bg-muted: #efece7;        /* stone-100ish */
-  --surface: #ffffff;         /* cards */
-  --surface-raised: #ffffff;
+  --bg: #f4f1ea;              /* near-white, warm */
+  --bg-subtle: #e9e4d8;       /* stone-50ish */
+  --bg-muted: #e9e4d8;        /* stone-100ish */
+  --surface: #fffdf8;         /* cards */
+  --surface-raised: #fffdf8;
   --overlay: rgba(28, 25, 23, 0.5);
 
-  --fg: #1c1917;              /* stone-900 */
-  --fg-strong: #0c0a09;       /* stone-950 */
-  --fg-muted: #57534e;        /* stone-600 */
-  --fg-subtle: #78716c;       /* stone-500 */
-  --fg-faint: #a8a29e;        /* stone-400 */
+  --fg: #3b3f45;              /* stone-900 */
+  --fg-strong: #16181b;       /* stone-950 */
+  --fg-muted: #3b3f45;        /* stone-600 */
+  --fg-subtle: #575b62;       /* stone-500 */
+  --fg-faint: #6b7077;        /* stone-400 */
   --fg-on-accent: #ffffff;
 
-  --border: #e7e5e4;          /* stone-200 */
-  --border-strong: #d6d3d1;   /* stone-300 */
-  --border-faint: #f5f5f4;    /* stone-100 */
+  --border: #d9d3c7;          /* stone-200 */
+  --border-strong: #6b7077;   /* stone-300 */
+  --border-faint: #e9e4d8;    /* stone-100 */
 
   /* Semantic */
   --success: #16a34a;
@@ -159,33 +163,36 @@
    COLOR — DARK
    ============================================================= */
 [data-theme="dark"] {
-  --accent: #fb923c;          /* orange-400 — lighter on dark */
-  --accent-hover: #fdba74;    /* orange-300 */
+  --teal: #8fd3e0;
+  --tile: #0a0908;
+  --grid-line: rgb(241 237 228 / 0.07);
+  --accent: #ff8a4c;          /* orange-400 — lighter on dark */
+  --accent-hover: #ffa676;    /* orange-300 */
   --accent-soft: #2a1509;     /* deep warm */
-  --accent-border: #7c2d12;   /* orange-900 */
-  --accent-fg: #fed7aa;
-  --accent-contrast: #1c1917;
+  --accent-border: #7a3a1c;   /* orange-900 */
+  --accent-fg: #ffd3bb;
+  --accent-contrast: #12110f;
 
   --amber: #fbbf24;
   --terracotta: #f59e0b;
 
-  --bg: #0c0a09;              /* stone-950 */
-  --bg-subtle: #1c1917;       /* stone-900 */
-  --bg-muted: #292524;        /* stone-800 */
-  --surface: #1c1917;
-  --surface-raised: #292524;
+  --bg: #12110f;              /* stone-950 */
+  --bg-subtle: #26241f;       /* stone-900 */
+  --bg-muted: #26241f;        /* stone-800 */
+  --surface: #1b1a17;
+  --surface-raised: #1b1a17;
   --overlay: rgba(0, 0, 0, 0.7);
 
-  --fg: #fafaf9;              /* stone-50 */
-  --fg-strong: #ffffff;
-  --fg-muted: #d6d3d1;        /* stone-300 */
-  --fg-subtle: #a8a29e;       /* stone-400 */
-  --fg-faint: #78716c;        /* stone-500 */
-  --fg-on-accent: #1c1917;
+  --fg: #cfcac0;              /* stone-50 */
+  --fg-strong: #f1ede4;
+  --fg-muted: #cfcac0;        /* stone-300 */
+  --fg-subtle: #9d978c;       /* stone-400 */
+  --fg-faint: #8a8479;        /* stone-500 */
+  --fg-on-accent: #12110f;
 
-  --border: #292524;          /* stone-800 */
-  --border-strong: #44403c;   /* stone-700 */
-  --border-faint: #1c1917;
+  --border: #2e2b26;          /* stone-800 */
+  --border-strong: #8a8479;   /* stone-700 */
+  --border-faint: #1b1a17;
 
   --success: #4ade80;
   --success-soft: #052e16;
@@ -205,12 +212,12 @@
   --score-average: #ffa400;
   --score-fail: #ff4e42;
 
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-inset: none;
 
   color-scheme: dark;
 }

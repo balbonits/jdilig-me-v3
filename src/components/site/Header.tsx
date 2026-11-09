@@ -1,15 +1,19 @@
 import { Link, NavLink } from 'react-router';
-import { getNavItems } from '@/router';
 import { useTheme } from '@/hooks/useTheme';
 import { Icon } from '@/components/icons';
 
 export default function Header() {
-  const items = getNavItems();
+  // UX-IA spec: Work, Resume (home #resume section), Contact.
+  const items = [
+    { path: '/projects', label: 'Work' },
+    { path: '/#resume', label: 'Resume' },
+    { path: '/contact', label: 'Contact' },
+  ];
   const [theme, toggle] = useTheme();
   const nextTheme = theme === 'light' ? 'dark' : 'light';
 
   return (
-    <header className="sticky top-0 z-10 border-b border-border-faint bg-bg/80 backdrop-blur-[10px] backdrop-saturate-[1.8]">
+    <header className="border-b border-border-DEFAULT bg-bg">
       <nav
         aria-label="Primary"
         className="mx-auto flex max-w-[1280px] items-center justify-between gap-3 px-4 py-4 sm:px-10"
@@ -36,10 +40,10 @@ export default function Header() {
             <NavLink
               key={path}
               to={path}
-              end={path === '/'}
+              end
               className={({ isActive }) =>
-                `rounded-md px-2.5 py-[7px] text-sm font-medium no-underline transition-all duration-[120ms] ease-out sm:px-3 ${
-                  isActive
+                `rounded-[2px] px-2.5 py-[7px] text-sm font-medium no-underline transition-all duration-[120ms] ease-out sm:px-3 ${
+                  isActive && path !== '/#resume'
                     ? 'bg-bg-muted text-fg-strong'
                     : 'text-fg-muted hover:bg-bg-muted hover:text-fg-strong'
                 }`
@@ -54,7 +58,7 @@ export default function Header() {
           type="button"
           onClick={toggle}
           aria-label={`Switch to ${nextTheme} theme`}
-          className="flex h-[34px] w-[34px] shrink-0 cursor-pointer items-center justify-center rounded-md border border-border-DEFAULT bg-surface text-fg-muted transition-all duration-[120ms] ease-out hover:border-border-strong hover:text-fg-strong"
+          className="flex h-[34px] w-[34px] shrink-0 cursor-pointer items-center justify-center rounded-[2px] border border-border-DEFAULT bg-surface text-fg-muted transition-all duration-[120ms] ease-out hover:border-border-strong hover:text-fg-strong"
         >
           {theme === 'light' ? (
             <Icon.Moon className="h-4 w-4" />

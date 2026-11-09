@@ -18,7 +18,7 @@ export const PAGES = {
   home: {
     title: `${SITE} — John Dilig, Front-End Developer`,
     description:
-      'Personal portfolio of John Dilig — Senior Front-End Developer in Los Angeles. React, TypeScript, and AI-assisted browser games. 18+ years shipping high-traffic web apps.',
+      'Personal portfolio of John Dilig — Senior Front-End Developer in Redondo Beach, CA. React, TypeScript, and AI-assisted browser games. 18+ years shipping high-traffic web apps.',
     path: '/',
   },
   projects: {
@@ -30,13 +30,13 @@ export const PAGES = {
   resume: {
     title: `Resume — ${SITE}`,
     description:
-      'Resume of John Dilig, Senior Front-End Developer in Los Angeles: React, TypeScript, and 18+ years shipping high-traffic web apps.',
+      'Resume of John Dilig, Senior Front-End Developer in Redondo Beach, CA: React, TypeScript, and 18+ years shipping high-traffic web apps.',
     path: '/resume',
   },
   contact: {
     title: `Contact — ${SITE}`,
     description:
-      'Email, phone, LinkedIn, and GitHub for John Dilig, Senior Front-End Developer in Los Angeles.',
+      'Email, phone, LinkedIn, and GitHub for John Dilig, Senior Front-End Developer in Redondo Beach, CA.',
     path: '/contact',
   },
   notFound: {
