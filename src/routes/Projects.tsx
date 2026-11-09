@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import FeaturedProjectCard from '@/components/projects/FeaturedProjectCard';
 import ProjectCard from '@/components/projects/ProjectCard';
-import ProjectModal from '@/components/projects/ProjectModal';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { PAGES } from '@/data/pages';
 import {
   PROJECTS,
-  type Project,
   type ProjectCategory,
   type SortOption,
   filterProjects,
@@ -45,7 +43,6 @@ export default function Projects() {
   usePageMeta(PAGES.projects);
   const [active, setActive] = useState<Set<ProjectCategory>>(new Set());
   const [sort, setSort] = useState<SortOption>('year-desc');
-  const [modalProject, setModalProject] = useState<Project | null>(null);
 
   function toggleCategory(cat: ProjectCategory) {
     setActive((prev) => {
@@ -74,8 +71,7 @@ export default function Projects() {
             .
           </h1>
           <p className="max-w-[560px] text-[16px] text-fg-muted">
-            Side projects, browser games, and work I'm proud of. Tap a card for
-            a quick look.
+            Side projects, browser games, and work I'm proud of.
           </p>
         </div>
 
@@ -83,7 +79,6 @@ export default function Projects() {
           <div className="mb-10">
             <FeaturedProjectCard
               project={FEATURED}
-              onClick={() => setModalProject(FEATURED)}
             />
           </div>
         )}
@@ -136,16 +131,10 @@ export default function Projects() {
             <ProjectCard
               key={p.slug}
               project={p}
-              onClick={() => setModalProject(p)}
             />
           ))}
         </div>
       </Container>
-
-      <ProjectModal
-        project={modalProject}
-        onClose={() => setModalProject(null)}
-      />
     </>
   );
 }

@@ -3,12 +3,14 @@ import { Outlet, useLocation, useNavigationType } from 'react-router';
 import ErrorBoundary from '@/components/site/ErrorBoundary';
 import Header from '@/components/site/Header';
 import Footer from '@/components/site/Footer';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 export default function SiteLayout() {
   const { pathname, key } = useLocation();
   const navigationType = useNavigationType();
   const [announcement, setAnnouncement] = useState('');
   const firstKey = useRef(key);
+  useScrollReveal(pathname);
 
   // New pages open at the top. Back/Forward (POP) keep the position the
   // browser restores.

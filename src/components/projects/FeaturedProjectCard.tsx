@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { Icon } from '@/components/icons';
 import ProjectHeroPreview from '@/components/projects/ProjectHeroPreview';
 import ProjectMeta from '@/components/projects/ProjectMeta';
@@ -7,10 +8,9 @@ import type { Project } from '@/data/projects';
 
 type Props = {
   project: Project;
-  onClick: () => void;
 };
 
-export default function FeaturedProjectCard({ project, onClick }: Props) {
+export default function FeaturedProjectCard({ project }: Props) {
   return (
     <article className="group relative grid w-full grid-cols-1 overflow-hidden rounded-[16px] border border-border-DEFAULT bg-surface shadow-md transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-border-strong hover:shadow-xl has-[:focus-visible]:border-accent has-[:focus-visible]:shadow-[var(--ring)] md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
       <div className="relative">
@@ -36,14 +36,14 @@ export default function FeaturedProjectCard({ project, onClick }: Props) {
         </div>
 
         <h2 className="text-[26px] font-bold leading-[1.1] tracking-[-0.02em] text-fg-strong md:text-[32px]">
-          {/* The ::after overlay stretches the button over the whole card. */}
-          <button
-            type="button"
-            onClick={onClick}
-            className="cursor-pointer text-left after:absolute after:inset-0 after:rounded-[16px] focus-visible:shadow-none"
+          {/* The ::after overlay stretches the link over the whole card. */}
+          <Link
+          to={`/projects/${project.slug}`}
+          data-track-project={project.slug}
+            className="text-fg-strong no-underline after:absolute after:inset-0 after:rounded-[16px] focus-visible:shadow-none"
           >
             <ProjectTitle project={project} />
-          </button>
+          </Link>
         </h2>
 
         <p className="text-[14.5px] leading-[1.6] text-fg-muted">
