@@ -127,6 +127,9 @@ export default function Home() {
                   {NEW_TAB}
                 </a>
               </div>
+              <a href="#projects" data-track-cta="see-projects" className="prose-link inline-flex min-h-11 items-center gap-1 self-start text-[15px]">
+                See projects <Icon.ArrowRight className="h-4 w-4 rotate-90" aria-hidden="true" />
+              </a>
             </div>
 
             <p className="max-w-[65ch] text-[16px] leading-[1.6] text-fg-muted sm:text-[18px] lg:col-span-7 lg:row-start-2">
