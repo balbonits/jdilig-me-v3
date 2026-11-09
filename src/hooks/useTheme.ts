@@ -7,6 +7,7 @@ const STORAGE_KEY = 'theme';
 // The inline script in index.html sets data-theme before first paint (saved
 // choice, else the OS preference), so start from whatever it picked.
 function readInitialTheme(): Theme {
+  if (typeof document === 'undefined') return 'light';
   return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
 }
 

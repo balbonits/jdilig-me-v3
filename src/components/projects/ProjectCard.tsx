@@ -21,6 +21,7 @@ export default function ProjectCard({ project, onClick }: Props) {
         <button
           type="button"
           onClick={onClick}
+          data-track-project={project.slug}
           className="cursor-pointer text-left after:absolute after:inset-0 after:rounded-[12px] focus-visible:shadow-none"
         >
           <ProjectTitle project={project} />

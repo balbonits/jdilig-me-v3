@@ -65,10 +65,10 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap gap-2.5">
-              <LinkButton href="#work" variant="primary" size="lg">
+              <LinkButton href="#work" variant="primary" size="lg" data-track-cta="see-the-work">
                 See the work <Icon.ArrowRight className="h-4 w-4" />
               </LinkButton>
-              <LinkButton to="/contact" variant="secondary" size="lg">
+              <LinkButton to="/contact" variant="secondary" size="lg" data-track-cta="get-in-touch">
                 Get in touch
               </LinkButton>
             </div>
@@ -135,7 +135,7 @@ export default function Home() {
               ))}
             </ol>
             <p className="mt-4 text-sm">
-              <Link to="/resume" className="prose-link">Full resume</Link>
+              <Link to="/resume" className="prose-link" data-track-cta="full-resume">Full resume</Link>
             </p>
           </section>
         </div>
