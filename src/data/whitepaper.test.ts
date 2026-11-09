@@ -12,10 +12,13 @@ const config: { redirects: Rule[]; rewrites: Rule[] } = JSON.parse(
 const rewriteAt = (source: string) => config.rewrites.findIndex((r) => r.source === source);
 
 describe('/whitepaper/ (vercel.json)', () => {
-  it('is proxied before the SPA fallback would serve the app there', () => {
+  // Every route is prerendered to its own HTML file, so there is no catch-all
+  // rewrite to the app; if one comes back it must stay after these.
+  it('is proxied, ahead of any catch-all rewrite', () => {
+    const catchAll = rewriteAt('/(.*)');
     for (const source of ['/whitepaper/', '/whitepaper/:path*']) {
       expect(rewriteAt(source)).toBeGreaterThanOrEqual(0);
-      expect(rewriteAt(source)).toBeLessThan(rewriteAt('/(.*)'));
+      if (catchAll >= 0) expect(rewriteAt(source)).toBeLessThan(catchAll);
     }
   });
 
