@@ -65,8 +65,8 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap gap-2.5">
-              <LinkButton href="#work" variant="primary" size="lg" data-track-cta="see-the-work">
-                See the work <Icon.ArrowRight className="h-4 w-4" />
+              <LinkButton href="#projects" variant="primary" size="lg" data-track-cta="view-projects">
+                View projects <Icon.ArrowRight className="h-4 w-4" />
               </LinkButton>
               <LinkButton to="/contact" variant="secondary" size="lg" data-track-cta="get-in-touch">
                 Get in touch
@@ -93,16 +93,16 @@ export default function Home() {
 
       <Container className="pb-24">
         <div className="flex max-w-[780px] flex-col gap-8">
-          <section id="work" aria-labelledby="work-title" className="scroll-mt-4 border-t border-border-DEFAULT pt-8">
+          <section id="projects" aria-labelledby="projects-title" className="scroll-mt-4 border-t border-border-DEFAULT pt-8">
             <div className="mb-5 flex items-baseline justify-between">
-              <h2 id="work-title" className="text-[22px] font-semibold text-fg-strong">
-                Selected work
+              <h2 id="projects-title" className="text-[22px] font-semibold text-fg-strong">
+                Projects
               </h2>
               <Link
                 to="/projects"
                 className="inline-flex items-center gap-1.5 rounded-md px-3 py-[7px] text-sm font-medium text-fg-muted no-underline transition hover:bg-bg-muted hover:text-fg-strong"
               >
-                See all <Icon.ArrowRight className="h-4 w-4" />
+                All projects <Icon.ArrowRight className="h-4 w-4" />
               </Link>
             </div>
             <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2">
