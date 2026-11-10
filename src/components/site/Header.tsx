@@ -5,7 +5,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { Icon } from '@/components/icons';
 
 export default function Header() {
-  // Projects, Resume, Contact, from the route table, as before PR #22.
+  // Projects, UX, Resume, Contact, from the route table (UX added 2026-11-10 with John's OK).
   // Renaming or removing a section needs John's OK.
   const items = getNavItems();
   const [theme, toggle] = useTheme();
@@ -15,7 +15,7 @@ export default function Header() {
     <header className="border-b border-border-DEFAULT bg-bg">
       <nav
         aria-label="Primary"
-        className="mx-auto flex max-w-[1280px] items-center justify-between gap-3 px-4 py-4 sm:px-10"
+        className="mx-auto flex max-w-[1280px] items-center justify-between gap-1.5 px-3 py-4 sm:gap-3 sm:px-10"
       >
         <Link
           to="/"
@@ -34,14 +34,14 @@ export default function Header() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-0.5 sm:gap-1">
+        <div className="flex items-center sm:gap-1">
           {items.map(({ path, label }) => (
             <NavLink
               key={path}
               to={path}
               end
               className={({ isActive }) =>
-                `inline-flex min-h-11 min-w-11 items-center justify-center rounded-[2px] px-1.5 text-sm font-medium no-underline transition-all duration-[120ms] ease-out sm:px-3 ${
+                `inline-flex min-h-11 min-w-11 items-center justify-center rounded-[2px] px-[3px] text-[13px] font-medium no-underline transition-all duration-[120ms] ease-out sm:px-3 sm:text-sm ${
                   isActive
                     ? 'bg-bg-muted text-fg-strong underline decoration-accent decoration-2 underline-offset-[6px]'
                     : 'text-fg-muted hover:bg-bg-muted hover:text-fg-strong'
