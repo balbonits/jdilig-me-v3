@@ -44,6 +44,7 @@ function StudyPage({ study: s }: { study: Study }) {
             target="_blank"
             rel="noreferrer"
             variant="primary"
+            className="min-h-11"
             data-track-cta={`ux-${s.slug}-demo`}
           >
             <Icon.ArrowUpRight className="h-3.5 w-3.5" />
@@ -54,6 +55,7 @@ function StudyPage({ study: s }: { study: Study }) {
             target="_blank"
             rel="noreferrer"
             variant="secondary"
+            className="min-h-11"
             data-track-cta={`ux-${s.slug}-source`}
           >
             <GitHubIcon className="h-3.5 w-3.5" />
