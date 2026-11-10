@@ -46,6 +46,12 @@ export const PAGES = {
       'Email, phone, LinkedIn, and GitHub for John Dilig, Senior Front-End Developer in Redondo Beach, CA.',
     path: '/contact',
   },
+  accessibility: {
+    title: `Accessibility — ${SITE}`,
+    description:
+      "jdilig.me's accessibility statement: the WCAG 2.2 AA and Section 508 target, current status, known limitations, how the site is tested and how to report a problem.",
+    path: '/accessibility',
+  },
   notFound: {
     title: `Page not found — ${SITE}`,
     description: "That page doesn't exist.",

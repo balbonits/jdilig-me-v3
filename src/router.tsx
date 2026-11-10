@@ -6,6 +6,7 @@ import Resume from '@/routes/Resume';
 import Ux from '@/routes/Ux';
 import UxCaseStudy from '@/routes/UxCaseStudy';
 import Contact from '@/routes/Contact';
+import Accessibility from '@/routes/Accessibility';
 import NotFound from '@/routes/NotFound';
 import SiteLayout from '@/layouts/SiteLayout';
 
@@ -48,6 +49,11 @@ export const routes: RouteObject[] = [
     path: '/contact',
     element: <Contact />,
     handle: { label: 'Contact', showInNav: true } satisfies NavMeta,
+  },
+  {
+    path: '/accessibility',
+    element: <Accessibility />,
+    handle: { label: 'Accessibility' } satisfies NavMeta,
   },
   {
     path: '*',

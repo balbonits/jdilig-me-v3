@@ -12,6 +12,7 @@
 - [Resume](https://www.jdilig.me/resume): experience, skills and education
 - [Resume PDF](https://www.jdilig.me/Reuel_John_Dilig_Resume.pdf): full resume as a PDF
 - [Contact](https://www.jdilig.me/contact): how to reach John
+- [Accessibility](https://www.jdilig.me/accessibility): accessibility statement (WCAG 2.2 AA and Section 508 target, status, known limitations, feedback)
 
 ## Elsewhere
 

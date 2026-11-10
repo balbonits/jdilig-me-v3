@@ -20,6 +20,12 @@ export default function Ux() {
         <p className="max-w-[560px] text-[16px] text-fg-muted">
           How I design and build accessible interfaces, from the problem and the people to shipped, tested code.
         </p>
+        <p className="mt-3 max-w-[560px] text-[15px] text-fg-muted">
+          <Link to="/accessibility" className="text-accent underline">
+            Read the accessibility statement
+          </Link>{' '}
+          for the standards these projects target and their current status.
+        </p>
       </div>
 
       <ul className="m-0 grid list-none grid-cols-1 gap-3.5 p-0 md:grid-cols-2">

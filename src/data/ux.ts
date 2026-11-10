@@ -168,6 +168,7 @@ export const UX_CASE_STUDIES: UxCaseStudy[] = [
         title: 'Result',
         paragraphs: [
           'The prototype is live at [/ux/job-tracker/](/ux/job-tracker/), built from release [v0.1.0](https://github.com/balbonits/job-app-tracker/releases/tag/v0.1.0). The code, the dated progress log, the wireframes and milestone screenshots are public on [GitHub](https://github.com/balbonits/job-app-tracker).',
+          'Its self-assessed [accessibility conformance report](https://github.com/balbonits/job-app-tracker/blob/main/docs/ACR.md) (VPAT 2.5, Section 508 edition) lists what passes and what is still open. The site-wide [accessibility statement](/accessibility) covers the standards and known limitations.',
         ],
       },
       {
