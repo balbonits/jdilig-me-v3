@@ -4,6 +4,8 @@ export type UxSection = { title: string; paragraphs?: string[]; bullets?: string
 
 export type UxCaseStudy = {
   slug: string;
+  /** Page path when it isn't /ux/<slug>, e.g. when the prototype itself lives at /ux/<slug>/. */
+  path?: string;
   name: string;
   /** Full page title shown as the h1. */
   title: string;
@@ -96,7 +98,95 @@ export const UX_CASE_STUDIES: UxCaseStudy[] = [
       },
     ],
   },
+  {
+    slug: 'job-tracker',
+    path: '/ux/job-tracker/case-study',
+    name: 'Job tracker',
+    title: 'Job tracker: a calm way to run a job search',
+    blurb:
+      'A job application tracker prototype: a stage board, follow-up reminders and notes, built on Ember UI and usable by keyboard on any screen.',
+    lede:
+      'I designed and built a clickable job application tracker. It starts from two assumed job seekers and a journey map and ends as a working prototype on my own design system. It runs in the browser with fictional data.',
+    links: {
+      demo: { label: 'Open the prototype', href: '/ux/job-tracker/' },
+      source: 'https://github.com/balbonits/job-app-tracker',
+    },
+    images: [
+      { src: '/ux/job-tracker-board-desktop.png', alt: 'The job tracker board on desktop: five columns, Saved, Applied, Interviewing, Offer and Closed, with role cards showing company, title, time in stage and the next reminder.', width: 1280, height: 800 },
+      { src: '/ux/job-tracker-board-mobile-dark.png', alt: 'The same board on a phone in dark mode, with the stages as tabs and the Applied tab open.', width: 390, height: 844 },
+    ],
+    sections: [
+      {
+        title: 'Problem',
+        paragraphs: [
+          "A real job search means dozens of roles at different stages, each with its own follow-up date. Most people track it in a spreadsheet that goes stale or in an inbox where things get buried, so follow-ups slip. I wanted a tracker that shows where every application stands at a glance and tells you what's due without nagging.",
+        ],
+      },
+      {
+        title: "Who it's for",
+        bullets: [
+          'Assumption: Maya, an active applicant. She is a mid-level front-end developer applying to 10 to 20 roles a week from a laptop, and she needs every stage visible and no missed follow-ups.',
+          "Assumption: Dev, a casual looker. He checks roles on his phone at lunch a few times a month, and he needs to save a role in seconds and remember later why he liked it.",
+          "These personas come from common job-search patterns, not interviews. That's why each one is labeled an assumption.",
+        ],
+      },
+      {
+        title: 'Approach',
+        bullets: [
+          'Journey first. Maya goes from find, save, apply and wait to follow up, interview and an offer or rejection. Waiting and following up are the anxious steps, so reminders are tied to stage changes.',
+          'Fast capture. Add role needs only a company and a title. Everything else is optional.',
+          'No drag-only moves. Every card has a Move to menu, so changing a stage works the same by mouse, touch, keyboard or screen reader.',
+          'Mobile-first. Stages are tabs on a phone and columns on a wide screen. Every control is at least 44 pixels.',
+          'Built on Ember UI. When the tracker needed something the design system lacked, like an Undo button in a toast, I added it to Ember UI instead of building a one-off.',
+        ],
+      },
+      {
+        title: 'Journey map and IA',
+        paragraphs: [
+          "The prototype answers the journey's opportunities directly. Moving a role to Applied adds a follow-up a week out, Interviewing adds a thank-you note for the next day, and Offer adds a reply-by reminder. Reminders shows \"Nothing due. You're caught up.\" when the list is empty.",
+          'Five places: the Board (home), Role detail with Overview, Notes and Timeline tabs, an Add role dialog, Reminders grouped Overdue, Today, This week and Later, and Settings for export, demo reset and state previews.',
+        ],
+      },
+      {
+        title: 'Wireframes and states',
+        paragraphs: [
+          'I sketched low-fidelity frames for the Board, Role detail, Add role and Reminders before writing any app code, then built every screen with its empty, loading and error states. The error state is a "Can\'t save" alert with an Export button, so nobody loses their data if browser storage is blocked. You can preview each state from Settings.',
+        ],
+      },
+      {
+        title: 'Accessibility',
+        bullets: [
+          'Every function works by keyboard. A skip link is the first Tab stop.',
+          'Changing views acts like changing pages. The title updates, focus moves to the new heading, and Back returns you to where you were scrolled.',
+          'Dialogs keep focus inside, close on Escape and return focus to the button that opened them. Testing caught a case where that broke, and the fix went into Ember UI.',
+          'Saved notes, toasts and errors are announced through live regions. Form errors are tied to their fields.',
+          'An automated check runs axe on 17 screens and states at five widths, from 320 to 1280 pixels, in light and dark mode. It also fails on sideways scrolling or any control under 44 pixels. It passes with zero issues, and it runs in CI on every push.',
+          'The repo includes a self-assessed Section 508 Accessibility Conformance Report. A screen-reader pass is still to come, and the report says so.',
+        ],
+      },
+      {
+        title: 'Result',
+        paragraphs: [
+          'The prototype is live at [/ux/job-tracker/](/ux/job-tracker/), built from release [v0.1.0](https://github.com/balbonits/job-app-tracker/releases/tag/v0.1.0). The code, the dated progress log, the wireframes and milestone screenshots are public on [GitHub](https://github.com/balbonits/job-app-tracker).',
+        ],
+      },
+      {
+        title: "What I'd do next",
+        bullets: [
+          'Run a screen-reader pass and add the results to the conformance report.',
+          'Add the switchable Ember UI themes once they land in the design system.',
+          'Test it with real job seekers to replace the assumed personas.',
+          'Add the optional fields the IA lists that the prototype skips, like salary range and contacts.',
+        ],
+      },
+    ],
+  },
 ];
+
+/** The case study page's path: /ux/<slug> unless the study sets its own. */
+export function uxPath(c: Pick<UxCaseStudy, 'slug' | 'path'>): string {
+  return c.path ?? `/ux/${c.slug}`;
+}
 
 export function getUxCaseStudy(slug: string | undefined): UxCaseStudy | undefined {
   return UX_CASE_STUDIES.find((c) => c.slug === slug);

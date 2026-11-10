@@ -1,5 +1,5 @@
 import type { Project } from '@/data/projects';
-import type { UxCaseStudy } from '@/data/ux';
+import { uxPath, type UxCaseStudy } from '@/data/ux';
 
 /** What a page tells browsers and search engines (see `usePageMeta`). */
 export type PageMeta = {
@@ -70,10 +70,10 @@ export function projectMeta(
   };
 }
 
-export function uxMeta(study: Pick<UxCaseStudy, 'slug' | 'name' | 'blurb'>): PageMeta {
+export function uxMeta(study: Pick<UxCaseStudy, 'slug' | 'path' | 'name' | 'blurb'>): PageMeta {
   return {
     title: `${study.name} case study — ${SITE}`,
     description: study.blurb,
-    path: `/ux/${study.slug}`,
+    path: uxPath(study),
   };
 }

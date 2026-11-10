@@ -36,6 +36,10 @@ export const routes: RouteObject[] = [
     element: <UxCaseStudy />,
   },
   {
+    path: '/ux/:slug/case-study',
+    element: <UxCaseStudy />,
+  },
+  {
     path: '/resume',
     element: <Resume />,
     handle: { label: 'Resume', showInNav: true } satisfies NavMeta,

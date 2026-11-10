@@ -1,0 +1,27 @@
+import{j as s}from"./jsx-runtime-D_zvdyIk.js";import{d as C,F as K}from"./doc-iM-grpUe.js";import{r as m}from"./index-C9y0RuIT.js";import"./_commonjsHelpers-CqkleIqs.js";function D({label:O,tabs:u,defaultTab:V,onChange:p}){var h;const n=m.useId(),a=u.filter(e=>!e.disabled),[o,_]=m.useState(V??((h=a[0])==null?void 0:h.id)),f=m.useRef({});function g(e){var t;_(e),p==null||p(e),(t=f.current[e])==null||t.focus()}function F(e){const t=a.findIndex(W=>W.id===o);let r;e.key==="ArrowRight"?r=a[(t+1)%a.length]:e.key==="ArrowLeft"?r=a[(t-1+a.length)%a.length]:e.key==="Home"?r=a[0]:e.key==="End"&&(r=a[a.length-1]),r&&(e.preventDefault(),g(r.id))}return s.jsxs("div",{children:[s.jsx("div",{role:"tablist","aria-label":O,className:"em-tablist",onKeyDown:F,children:u.map(e=>s.jsx("button",{ref:t=>{f.current[e.id]=t},role:"tab",type:"button",id:`${n}-tab-${e.id}`,"aria-selected":e.id===o,"aria-controls":`${n}-panel-${e.id}`,tabIndex:e.id===o?0:-1,disabled:e.disabled,className:"em-tab",onClick:()=>g(e.id),children:e.label},e.id))}),u.map(e=>s.jsx("div",{role:"tabpanel",id:`${n}-panel-${e.id}`,"aria-labelledby":`${n}-tab-${e.id}`,hidden:e.id!==o,tabIndex:0,className:"em-tabpanel em-focus",children:e.content},e.id))]})}D.__docgenInfo={description:"WAI-ARIA tabs with automatic activation: arrows, Home and End move and select.",methods:[],displayName:"Tabs",props:{label:{required:!0,tsType:{name:"string"},description:""},tabs:{required:!0,tsType:{name:"Array",elements:[{name:"signature",type:"object",raw:"{ id: string; label: string; content: ReactNode; disabled?: boolean }",signature:{properties:[{key:"id",value:{name:"string",required:!0}},{key:"label",value:{name:"string",required:!0}},{key:"content",value:{name:"ReactNode",required:!0}},{key:"disabled",value:{name:"boolean",required:!1}}]}}],raw:"TabItem[]"},description:""},defaultTab:{required:!1,tsType:{name:"string"},description:""},onChange:{required:!1,tsType:{name:"signature",type:"function",raw:"(id: string) => void",signature:{arguments:[{type:{name:"string"},name:"id"}],return:{name:"void"}}},description:""}}};const v=[{id:"overview",label:"Overview",content:s.jsx("p",{style:{margin:0},children:"Role summary and current stage."})},{id:"notes",label:"Notes",content:s.jsx("p",{style:{margin:0},children:"Interview notes go here."})},{id:"contacts",label:"Contacts",content:s.jsx("p",{style:{margin:0},children:"Recruiter and hiring manager."})}],P={title:"Components/Tabs",component:D,tags:["autodocs"],args:{label:"Role details",tabs:v},parameters:{docs:{description:{component:C({use:["Related content splits into 2 to 6 views and only one is needed at a time."],avoid:["The views are steps in order. Use a stepper or separate pages.","People need to compare views side by side. Show them together."],anatomy:["`tablist` with an accessible name","`tab` buttons (roving tabindex: only the selected tab is in the Tab order)","`tabpanel` for each tab, labelled by its tab and focusable"],variants:"Horizontal tabs. Tabs scroll sideways when they do not fit (320px wide screens).",states:"Selected (accent underline), unselected, hover, focus-visible, disabled tab (skipped by arrow keys).",keyboard:[["Tab","Moves focus to the selected tab, then into the panel"],["→ / ←","Moves to and selects the next or previous tab (wraps)"],["Home / End","Selects the first or last tab"]],a11y:[["4.1.2 Name, Role, Value","WAI-ARIA tabs pattern: `tablist`, `tab` with `aria-selected` and `aria-controls`, `tabpanel` with `aria-labelledby`."],["2.1.1 Keyboard","Arrow keys, Home and End, with automatic activation."],["1.4.11 Non-text Contrast","The selected underline uses `--accent`, 3:1 or more against the background."],K],code:`<Tabs label="Role details" tabs={[
+  { id: 'overview', label: 'Overview', content: <Overview /> },
+  { id: 'notes', label: 'Notes', content: <Notes /> },
+]} />`})}}}},i={},d={args:{defaultTab:"notes"}},l={args:{tabs:[...v.slice(0,2),{...v[2],disabled:!0}]}},c={parameters:{pseudo:{hover:!0}}},b={parameters:{pseudo:{focusVisible:!0}}};var y,w,x;i.parameters={...i.parameters,docs:{...(y=i.parameters)==null?void 0:y.docs,source:{originalSource:"{}",...(x=(w=i.parameters)==null?void 0:w.docs)==null?void 0:x.source}}};var T,k,S;d.parameters={...d.parameters,docs:{...(T=d.parameters)==null?void 0:T.docs,source:{originalSource:`{
+  args: {
+    defaultTab: 'notes'
+  }
+}`,...(S=(k=d.parameters)==null?void 0:k.docs)==null?void 0:S.source}}};var R,N,A;l.parameters={...l.parameters,docs:{...(R=l.parameters)==null?void 0:R.docs,source:{originalSource:`{
+  args: {
+    tabs: [...tabs.slice(0, 2), {
+      ...tabs[2],
+      disabled: true
+    }]
+  }
+}`,...(A=(N=l.parameters)==null?void 0:N.docs)==null?void 0:A.source}}};var I,j,q;c.parameters={...c.parameters,docs:{...(I=c.parameters)==null?void 0:I.docs,source:{originalSource:`{
+  parameters: {
+    pseudo: {
+      hover: true
+    }
+  }
+}`,...(q=(j=c.parameters)==null?void 0:j.docs)==null?void 0:q.source}}};var E,$,H;b.parameters={...b.parameters,docs:{...(E=b.parameters)==null?void 0:E.docs,source:{originalSource:`{
+  parameters: {
+    pseudo: {
+      focusVisible: true
+    }
+  }
+}`,...(H=($=b.parameters)==null?void 0:$.docs)==null?void 0:H.source}}};const B=["Default","SecondSelected","WithDisabledTab","Hover","FocusVisible"];export{i as Default,b as FocusVisible,c as Hover,d as SecondSelected,l as WithDisabledTab,B as __namedExportsOrder,P as default};

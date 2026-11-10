@@ -1,19 +1,21 @@
 import type { ReactNode } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, useLocation, useParams } from 'react-router';
 import { Icon, GitHubIcon } from '@/components/icons';
 import { LinkButton } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import RichText from '@/components/ui/RichText';
 import { uxMeta } from '@/data/pages';
-import { getUxCaseStudy, type UxCaseStudy as Study } from '@/data/ux';
+import { getUxCaseStudy, uxPath, type UxCaseStudy as Study } from '@/data/ux';
 import { usePageMeta } from '@/hooks/usePageMeta';
 import NotFound from '@/routes/NotFound';
 
 export default function UxCaseStudy() {
   const { slug } = useParams();
+  const { pathname } = useLocation();
   const study = getUxCaseStudy(slug);
-  if (!study) return <NotFound />;
+  // One URL per study: /ux/<slug>, or its own path (e.g. /ux/job-tracker/case-study).
+  if (!study || pathname.replace(/\/$/, '') !== uxPath(study)) return <NotFound />;
   return <StudyPage key={study.slug} study={study} />;
 }
 
