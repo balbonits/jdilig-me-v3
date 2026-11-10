@@ -32,6 +32,7 @@ const pages = [
   { path: '/ux/job-tracker/case-study', title: 'Job tracker case study — jdilig.me' },
   { path: '/resume', title: 'Resume — jdilig.me' },
   { path: '/contact', title: 'Contact — jdilig.me' },
+  { path: '/accessibility', title: 'Accessibility — jdilig.me' },
 ];
 
 for (const { path, title } of pages) {

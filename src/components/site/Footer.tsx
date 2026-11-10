@@ -1,4 +1,5 @@
 import { GitHubIcon, LinkedInIcon, Icon } from '@/components/icons';
+import { Link } from 'react-router';
 import { PROFILE } from '@/data/profile';
 
 const footLink =
@@ -25,6 +26,11 @@ export default function Footer() {
             <a href={`mailto:${PROFILE.email}`} className={footLink}>
               <Icon.Mail className="h-4 w-4" aria-hidden="true" /> {PROFILE.email}
             </a>
+          </li>
+          <li>
+            <Link to="/accessibility" className={footLink}>
+              Accessibility
+            </Link>
           </li>
         </ul>
         <div>

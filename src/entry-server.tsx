@@ -40,6 +40,7 @@ export function pages(): Array<{ url: string; file: string; meta: PageMeta }> {
     })),
     { url: '/resume', file: 'resume.html', meta: PAGES.resume },
     { url: '/contact', file: 'contact.html', meta: PAGES.contact },
+    { url: '/accessibility', file: 'accessibility.html', meta: PAGES.accessibility },
     { url: '/404', file: '404.html', meta: PAGES.notFound },
   ];
 }
