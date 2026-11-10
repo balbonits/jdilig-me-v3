@@ -517,9 +517,22 @@
   .docblock-source .token.attr-name { color: #6f3d00 !important; }
   .docblock-source .token.string, .docblock-source .token.attr-value { color: #0a5a2a !important; }
   .docblock-source .token.punctuation, .docblock-source .token.operator { color: #3d4450 !important; }
+  /* Mobile-first docs: nothing may push the page sideways. Wide tables and code scroll inside their own box. */
+  .sbdocs-wrapper { overflow-x: hidden; }
+  .sbdocs-content { max-width: 100%; min-width: 0; }
+  .sb-scroll { overflow-x: auto; max-width: 100%; }
+  .sb-scroll:focus-visible { outline: 3px solid var(--focus, #0b57a4); outline-offset: 2px; }
+  .sbdocs-content > table { display: block; overflow-x: auto; max-width: 100%; }
+  /* The props table keeps its table semantics and wraps long values instead of scrolling. */
+  .sbdocs .docblock-argstable { width: 100%; table-layout: fixed; }
+  .sbdocs .docblock-argstable td, .sbdocs .docblock-argstable th { overflow-wrap: anywhere; word-break: break-word; }
+  .sbdocs pre, .docblock-source { overflow-x: auto; max-width: 100%; }
+  /* Storybook's own docs buttons (Copy, Show code, zoom) get 44px targets too. */
+  .sbdocs button:not(.em-btn):not(.em-sort):not([role="tab"]) { min-height: 44px; min-width: 44px; }
+  @media (max-width: 640px) { .sbdocs-wrapper { padding-left: 12px !important; padding-right: 12px !important; } }
 </style>
 
-    <script type="module" crossorigin src="./assets/iframe-BovWTTCj.js"></script>
+    <script type="module" crossorigin src="./assets/iframe-4by9jpMv.js"></script>
   </head>
 
   <body>
