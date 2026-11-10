@@ -8,6 +8,7 @@
 - [Projects](https://www.jdilig.me/projects): side projects, browser games and client work
 - [UX](https://www.jdilig.me/ux): UX case studies, from problem and people to shipped, accessible code
 - [Ember UI case study](https://www.jdilig.me/ux/design-system): an accessible React design system with tokens, eight components and docs ([Storybook](https://www.jdilig.me/ux/design-system/storybook/), [code](https://github.com/balbonits/a11y-design-system))
+- [Job tracker case study](https://www.jdilig.me/ux/job-tracker/case-study): a job application tracker prototype with a stage board, reminders and notes, built on Ember UI ([prototype](https://www.jdilig.me/ux/job-tracker/), [code](https://github.com/balbonits/job-app-tracker))
 - [Resume](https://www.jdilig.me/resume): experience, skills and education
 - [Resume PDF](https://www.jdilig.me/Reuel_John_Dilig_Resume.pdf): full resume as a PDF
 - [Contact](https://www.jdilig.me/contact): how to reach John

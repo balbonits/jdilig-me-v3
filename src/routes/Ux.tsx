@@ -3,7 +3,7 @@ import { Icon } from '@/components/icons';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { PAGES } from '@/data/pages';
-import { UX_CASE_STUDIES } from '@/data/ux';
+import { UX_CASE_STUDIES, uxPath } from '@/data/ux';
 import { usePageMeta } from '@/hooks/usePageMeta';
 
 export default function Ux() {
@@ -26,7 +26,7 @@ export default function Ux() {
         {UX_CASE_STUDIES.map((c) => (
           <li key={c.slug}>
             <Link
-              to={`/ux/${c.slug}`}
+              to={uxPath(c)}
               data-track-cta={`ux-${c.slug}`}
               className="group flex h-full flex-col gap-2 rounded-[12px] border border-border-DEFAULT bg-surface p-5 no-underline transition-colors duration-[120ms] hover:border-border-strong"
             >

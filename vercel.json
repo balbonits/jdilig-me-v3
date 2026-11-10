@@ -11,6 +11,11 @@
       "source": "/ux/design-system/storybook",
       "destination": "/ux/design-system/storybook/",
       "permanent": true
+    },
+    {
+      "source": "/ux/job-tracker",
+      "destination": "/ux/job-tracker/",
+      "permanent": true
     }
   ],
   "rewrites": [
