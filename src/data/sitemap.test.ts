@@ -8,7 +8,7 @@ const sitemap = readFileSync(join(process.cwd(), 'public', 'sitemap.xml'), 'utf8
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 
 describe('public/sitemap.xml', () => {
-  it.each(['/', '/projects', '/resume', '/contact'])('lists %s', (path) => {
+  it.each(['/', '/projects', '/ux', '/ux/design-system', '/resume', '/contact'])('lists %s', (path) => {
     expect(urls).toContain(`https://www.jdilig.me${path}`);
   });
 

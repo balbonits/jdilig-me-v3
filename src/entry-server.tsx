@@ -4,7 +4,8 @@
 import { renderToString } from 'react-dom/server';
 import { StaticRouter, useRoutes } from 'react-router';
 import { routeTree } from '@/router';
-import { PAGES, projectMeta, type PageMeta } from '@/data/pages';
+import { PAGES, projectMeta, uxMeta, type PageMeta } from '@/data/pages';
+import { UX_CASE_STUDIES } from '@/data/ux';
 import { PROJECTS } from '@/data/projects';
 import { PROFILE } from '@/data/profile';
 import { EXPERIENCE, HEADLINE, SKILLS, SUMMARY } from '@/data/resume';
@@ -30,6 +31,12 @@ export function pages(): Array<{ url: string; file: string; meta: PageMeta }> {
       url: `/projects/${p.slug}`,
       file: `projects/${p.slug}.html`,
       meta: projectMeta(p),
+    })),
+    { url: '/ux', file: 'ux.html', meta: PAGES.ux },
+    ...UX_CASE_STUDIES.map((c) => ({
+      url: `/ux/${c.slug}`,
+      file: `ux/${c.slug}.html`,
+      meta: uxMeta(c),
     })),
     { url: '/resume', file: 'resume.html', meta: PAGES.resume },
     { url: '/contact', file: 'contact.html', meta: PAGES.contact },

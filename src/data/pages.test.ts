@@ -1,14 +1,16 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { PAGES, projectMeta, type PageMeta } from './pages';
+import { PAGES, projectMeta, uxMeta, type PageMeta } from './pages';
 import { PROJECTS } from './projects';
+import { UX_CASE_STUDIES } from './ux';
 
 const html = readFileSync(join(process.cwd(), 'index.html'), 'utf8');
 
 const all: [string, PageMeta][] = [
   ...Object.entries<PageMeta>(PAGES),
   ...PROJECTS.map((p): [string, PageMeta] => [p.slug, projectMeta(p)]),
+  ...UX_CASE_STUDIES.map((c): [string, PageMeta] => [`ux-${c.slug}`, uxMeta(c)]),
 ];
 
 describe('page meta', () => {
