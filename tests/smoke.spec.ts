@@ -27,6 +27,8 @@ const pages = [
   { path: '/', title: 'jdilig.me — John Dilig, Front-End Developer' },
   { path: '/projects', title: 'Projects — jdilig.me' },
   { path: '/projects/squanto', title: 'Squanto — jdilig.me' },
+  { path: '/ux', title: 'UX case studies — jdilig.me' },
+  { path: '/ux/design-system', title: 'Ember UI case study — jdilig.me' },
   { path: '/resume', title: 'Resume — jdilig.me' },
   { path: '/contact', title: 'Contact — jdilig.me' },
 ];
@@ -49,7 +51,7 @@ for (const { path, title } of pages) {
   });
 }
 
-for (const path of ['/nope', '/projects/nope']) {
+for (const path of ['/nope', '/projects/nope', '/ux/nope']) {
   test(`${path} shows the 404 page and stays out of search results`, async ({
     page,
   }) => {
@@ -167,4 +169,14 @@ test('each Lighthouse gauge is one image with a name', async ({ page }) => {
   await expect(
     page.getByRole('img', { name: /score: \d+ out of 100$/ }),
   ).toHaveCount(4);
+});
+
+test('the UX nav item leads to the Ember UI case study and its live links', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'UX' }).click();
+  await expect(page).toHaveTitle('UX case studies — jdilig.me');
+  await page.getByRole('link', { name: /Ember UI/ }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ember UI: an accessible design system starter');
+  await expect(page.getByRole('link', { name: 'View the Storybook' })).toHaveAttribute('href', 'https://ember-ui-storybook.vercel.app');
+  await expect(page.getByRole('link', { name: 'View the code' })).toHaveAttribute('href', 'https://github.com/balbonits/ember-ui');
 });

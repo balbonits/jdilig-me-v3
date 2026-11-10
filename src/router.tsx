@@ -3,6 +3,8 @@ import Home from '@/routes/Home';
 import Projects from '@/routes/Projects';
 import ProjectDetail from '@/routes/ProjectDetail';
 import Resume from '@/routes/Resume';
+import Ux from '@/routes/Ux';
+import UxCaseStudy from '@/routes/UxCaseStudy';
 import Contact from '@/routes/Contact';
 import NotFound from '@/routes/NotFound';
 import SiteLayout from '@/layouts/SiteLayout';
@@ -23,6 +25,15 @@ export const routes: RouteObject[] = [
   {
     path: '/projects/:slug',
     element: <ProjectDetail />,
+  },
+  {
+    path: '/ux',
+    element: <Ux />,
+    handle: { label: 'UX', showInNav: true } satisfies NavMeta,
+  },
+  {
+    path: '/ux/:slug',
+    element: <UxCaseStudy />,
   },
   {
     path: '/resume',

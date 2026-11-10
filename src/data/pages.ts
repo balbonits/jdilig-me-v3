@@ -1,4 +1,5 @@
 import type { Project } from '@/data/projects';
+import type { UxCaseStudy } from '@/data/ux';
 
 /** What a page tells browsers and search engines (see `usePageMeta`). */
 export type PageMeta = {
@@ -26,6 +27,12 @@ export const PAGES = {
     description:
       'Side projects, browser games, and client work by John Dilig: React, TypeScript, and AI-assisted development.',
     path: '/projects',
+  },
+  ux: {
+    title: `UX case studies — ${SITE}`,
+    description:
+      'UX case studies by John Dilig: an accessible React design system, plus prototypes built with it, from research to shipped code.',
+    path: '/ux',
   },
   resume: {
     title: `Resume — ${SITE}`,
@@ -60,5 +67,13 @@ export function projectMeta(
     title: `${project.title} — ${SITE}`,
     description: project.desc,
     path: `/projects/${project.slug}`,
+  };
+}
+
+export function uxMeta(study: Pick<UxCaseStudy, 'slug' | 'name' | 'blurb'>): PageMeta {
+  return {
+    title: `${study.name} case study — ${SITE}`,
+    description: study.blurb,
+    path: `/ux/${study.slug}`,
   };
 }
