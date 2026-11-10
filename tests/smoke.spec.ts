@@ -177,8 +177,8 @@ test('the UX nav item leads to the Ember UI case study and its live links', asyn
   await expect(page).toHaveTitle('UX case studies — jdilig.me');
   await page.getByRole('link', { name: /Ember UI/ }).click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ember UI: an accessible design system starter');
-  await expect(page.getByRole('link', { name: 'View the Storybook' })).toHaveAttribute('href', 'https://ember-ui-storybook.vercel.app');
-  await expect(page.getByRole('link', { name: 'View the code' })).toHaveAttribute('href', 'https://github.com/balbonits/ember-ui');
+  await expect(page.getByRole('link', { name: 'View the Storybook' })).toHaveAttribute('href', '/ux/design-system/storybook/');
+  await expect(page.getByRole('link', { name: 'View the code' })).toHaveAttribute('href', 'https://github.com/balbonits/a11y-design-system');
 });
 
 test('the header fits a 320px screen without sideways scrolling', async ({ page }) => {
@@ -186,5 +186,12 @@ test('the header fits a 320px screen without sideways scrolling', async ({ page 
   for (const path of ['/', '/ux/design-system']) {
     await page.goto(path);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  }
+});
+
+test('the Ember UI Storybook is served from its subpath', async ({ request }) => {
+  for (const file of ['index.html', 'iframe.html', 'index.json']) {
+    const res = await request.get(`/ux/design-system/storybook/${file}`);
+    expect(res.status(), file).toBe(200);
   }
 });
