@@ -180,3 +180,11 @@ test('the UX nav item leads to the Ember UI case study and its live links', asyn
   await expect(page.getByRole('link', { name: 'View the Storybook' })).toHaveAttribute('href', 'https://ember-ui-storybook.vercel.app');
   await expect(page.getByRole('link', { name: 'View the code' })).toHaveAttribute('href', 'https://github.com/balbonits/ember-ui');
 });
+
+test('the header fits a 320px screen without sideways scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 700 });
+  for (const path of ['/', '/ux/design-system']) {
+    await page.goto(path);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  }
+});
