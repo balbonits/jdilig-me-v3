@@ -25,8 +25,8 @@ export const UX_CASE_STUDIES: UxCaseStudy[] = [
     lede:
       'I built a small design system from the ground up: tokens first, eight core components, and documentation that explains how each one works by keyboard and for screen readers.',
     links: {
-      demo: { label: 'View the Storybook', href: 'https://ember-ui-storybook.vercel.app' },
-      source: 'https://github.com/balbonits/ember-ui',
+      demo: { label: 'View the Storybook', href: '/ux/design-system/storybook/' },
+      source: 'https://github.com/balbonits/a11y-design-system',
     },
     images: [
       { src: '/ux/ember-ui-modal-light.png', alt: 'Ember UI Modal open in the light theme: an "Add a role" dialog with a required Company field, Cancel and Save buttons, and a focused close button.', width: 1024, height: 720 },
