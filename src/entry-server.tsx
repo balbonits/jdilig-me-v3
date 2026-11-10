@@ -55,7 +55,6 @@ export function structuredData(): object[] {
     '@type': 'Person',
     '@id': `${site}#person`,
     name: PROFILE.name,
-    alternateName: PROFILE.fullName,
     jobTitle: PROFILE.role,
     description: `${HEADLINE}. ${SUMMARY}`,
     url: site,

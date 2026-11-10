@@ -1,6 +1,5 @@
 export const PROFILE = {
   name: 'John Dilig',
-  fullName: 'Reuel John Dilig',
   role: 'Senior Front-End Developer',
   location: 'Redondo Beach, CA',
   email: 'rjdofficemail@gmail.com',

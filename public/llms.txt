@@ -1,6 +1,6 @@
 # jdilig.me
 
-> Portfolio and resume of John Dilig (Reuel John Dilig), a Senior Front-End Developer in Redondo Beach, CA, working in React, TypeScript and Next.js with 18+ years of experience building production web apps in media, sports, streaming and SaaS. Open to full-time front-end roles; remote preferred.
+> Portfolio and resume of John Dilig, a Senior Front-End Developer in Redondo Beach, CA, working in React, TypeScript and Next.js with 18+ years of experience building production web apps in media, sports, streaming and SaaS. Open to full-time front-end roles; remote preferred.
 
 ## Pages
 

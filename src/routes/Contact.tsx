@@ -43,7 +43,7 @@ export default function Contact() {
               id="contact-card-name"
               className="text-[20px] font-semibold text-fg-strong"
             >
-              {PROFILE.fullName}
+              {PROFILE.name}
             </h2>
             <p className="text-[14px] text-fg-muted">
               {PROFILE.role} · {PROFILE.location}
