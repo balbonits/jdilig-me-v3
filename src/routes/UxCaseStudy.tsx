@@ -69,9 +69,10 @@ function StudyPage({ study: s }: { study: Study }) {
 
       {s.images.length > 0 && (
         <div className="mb-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-          {/* The gallery sits in the first viewport on every width, so it loads
-              eagerly and the first shot (the LCP element on mobile) is fetched
-              at high priority (PERF-100). */}
+          {/* The first row of the gallery sits in the first viewport on every
+              width, so it loads eagerly and the first shot (the LCP element on
+              mobile) is fetched at high priority. Later rows are below the fold
+              on phones and stay lazy so they don't compete with it (PERF-100). */}
           {s.images.map((img, i) => (
             <img
               key={img.src}
@@ -79,7 +80,7 @@ function StudyPage({ study: s }: { study: Study }) {
               alt={img.alt}
               width={img.width}
               height={img.height}
-              loading="eager"
+              loading={i < 2 ? 'eager' : 'lazy'}
               fetchPriority={i === 0 ? 'high' : 'auto'}
               decoding="async"
               className="h-auto w-full rounded-[12px] border border-border-DEFAULT"
