@@ -27,6 +27,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: ACR partials match a fresh regen from ACR.md
+        run: npm run acr:check
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test

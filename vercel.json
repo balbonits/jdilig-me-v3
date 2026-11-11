@@ -16,6 +16,11 @@
       "source": "/ux/job-tracker",
       "destination": "/ux/job-tracker/",
       "permanent": true
+    },
+    {
+      "source": "/ux/dev-dashboard",
+      "destination": "/ux/dev-dashboard/",
+      "permanent": true
     }
   ],
   "rewrites": [

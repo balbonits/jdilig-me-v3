@@ -30,6 +30,7 @@ const pages = [
   { path: '/ux', title: 'UX case studies — jdilig.me' },
   { path: '/ux/design-system', title: 'Ember UI case study — jdilig.me' },
   { path: '/ux/job-tracker/case-study', title: 'Job tracker case study — jdilig.me' },
+  { path: '/ux/dev-dashboard/case-study', title: 'Dev dashboard case study — jdilig.me' },
   { path: '/resume', title: 'Resume — jdilig.me' },
   { path: '/contact', title: 'Contact — jdilig.me' },
   { path: '/accessibility', title: 'Accessibility — jdilig.me' },
@@ -185,7 +186,7 @@ test('the UX nav item leads to the Ember UI case study and its live links', asyn
 
 test('the header fits a 320px screen without sideways scrolling', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 700 });
-  for (const path of ['/', '/ux/design-system', '/ux/job-tracker/case-study']) {
+  for (const path of ['/', '/ux/design-system', '/ux/job-tracker/case-study', '/ux/dev-dashboard/case-study']) {
     await page.goto(path);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   }
@@ -211,4 +212,20 @@ test('the job tracker prototype is served from its subpath, and its case study l
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Job tracker: a calm way to run a job search');
   await expect(page.getByRole('link', { name: 'Open the prototype' })).toHaveAttribute('href', '/ux/job-tracker/');
   await expect(page.getByRole('link', { name: 'View the code' })).toHaveAttribute('href', 'https://github.com/balbonits/job-app-tracker');
+});
+
+test('the dev dashboard prototype is served from its subpath, and its case study links to it', async ({ page, request }) => {
+  // The dev server only maps the folder's index.html; Vercel serves it at /ux/dev-dashboard/.
+  const res = await request.get('/ux/dev-dashboard/index.html');
+  expect(res.status()).toBe(200);
+  expect(await res.text()).toContain('/ux/dev-dashboard/assets/');
+  const build = await (await request.get('/ux/dev-dashboard/BUILD.json')).json();
+  expect(build.repo).toBe('https://github.com/balbonits/devtool-dashboard');
+  expect(build.tag).toBe('v0.1.0');
+  await page.goto('/ux');
+  await page.getByRole('link', { name: /Dev dashboard/ }).click();
+  await expect(page).toHaveURL(/\/ux\/dev-dashboard\/case-study$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Dev dashboard: a deploys view built for the on-call moment');
+  await expect(page.getByRole('link', { name: 'Open the prototype' })).toHaveAttribute('href', '/ux/dev-dashboard/');
+  await expect(page.getByRole('link', { name: 'View the code' })).toHaveAttribute('href', 'https://github.com/balbonits/devtool-dashboard');
 });
