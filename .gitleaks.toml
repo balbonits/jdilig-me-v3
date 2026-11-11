@@ -1,0 +1,13 @@
+# gitleaks config: the default rules, plus one path allowlist for vendored build output.
+# public/ux/design-system/storybook/assets/ is minified Storybook JS copied in by
+# scripts/sync-storybook.sh, not source we write. The one hit (generic-api-key in
+# entry-preview-docs-*.js, commit d823ef3) is minified React: `var s=e.type,o=e.key,u=e.childrens`.
+# Only that vendored directory is skipped; there is no global regex allowlist.
+title = "jdilig-me-v3"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Vendored, minified Storybook build assets (synced by scripts/sync-storybook.sh)"
+paths = ['''^public/ux/design-system/storybook/assets/.*\.js$''']
