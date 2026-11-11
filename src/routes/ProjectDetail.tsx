@@ -151,7 +151,7 @@ function ProjectPage({ project: p }: { project: Project }) {
           {p.bundle && <Meta label="Bundle">{p.bundle}</Meta>}
           {(p.links.live || p.links.source) && (
             <Meta label="Links">
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-1">
                 {p.links.live && (
                   <a
                     href={p.links.live}
