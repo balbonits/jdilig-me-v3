@@ -1,3 +1,4 @@
+import { HIT_44 } from '@/components/ui/hit';
 import type { LighthouseData } from '@/data/projects';
 
 type CategoryKey = keyof LighthouseData['scores'];
@@ -121,7 +122,7 @@ export default function LighthouseScores({
           href="https://developer.chrome.com/docs/lighthouse/overview"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-mono text-[10px] uppercase tracking-[0.08em] text-fg-muted hover:text-fg-strong"
+          className={`${HIT_44} font-mono text-[10px] uppercase tracking-[0.08em] text-fg-muted hover:text-fg-strong`}
         >
           About scoring →
         </a>
