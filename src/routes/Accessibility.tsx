@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from '@/components/ui/Link';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { HIT_44 } from '@/components/ui/hit';

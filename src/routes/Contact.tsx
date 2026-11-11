@@ -8,7 +8,7 @@ import { PROFILE } from '@/data/profile';
 import { usePageMeta } from '@/hooks/usePageMeta';
 import { displayUrl } from '@/lib/url';
 
-const linkClass = 'text-accent no-underline hover:underline';
+const linkClass = 'flex min-h-11 items-center text-accent no-underline hover:underline';
 
 export default function Contact() {
   usePageMeta(PAGES.contact);
@@ -17,6 +17,7 @@ export default function Contact() {
     <Container size="narrow" className="pb-24 pt-10 sm:pt-14">
       <Eyebrow>Contact</Eyebrow>
       <h1 className="mt-3 mb-3.5 text-[40px] font-bold tracking-[-0.03em] text-fg-strong sm:text-[44px]">
+        <span className="sr-only">Contact: </span>
         Say{' '}
         <span className="font-serif font-normal text-accent italic">hello</span>
         .
@@ -51,7 +52,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <dl className="mt-6 flex flex-col gap-3.5 border-t border-border-DEFAULT pt-6">
+        <dl className="mt-6 flex flex-col gap-2 border-t border-border-DEFAULT pt-6">
           <Row icon={<Icon.Mail className="h-4 w-4" />} label="Email">
             <a href={`mailto:${PROFILE.email}`} className={linkClass}>
               {PROFILE.email}
@@ -102,7 +103,7 @@ function Row({
   children: ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
       <dt className="flex w-28 shrink-0 items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-fg-subtle">
         {icon}
         {label}

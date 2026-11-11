@@ -87,6 +87,10 @@
   --dur-fast: 120ms;
   --dur-base: 200ms;
   --dur-slow: 320ms;
+  /* Page transitions (docs/MOTION-SPEC.md) */
+  --dur-page-out: 160ms;
+  --dur-page-in: 240ms;
+  --dur-morph: 280ms;
 }
 
 /* =============================================================

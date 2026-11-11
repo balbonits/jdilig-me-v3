@@ -72,19 +72,19 @@ for (const path of ['/nope', '/projects/nope', '/ux/nope']) {
   });
 }
 
-test('moving between pages announces the new page to screen readers', async ({
-  page,
-}) => {
+test('moving between pages moves focus to the new page\'s heading', async ({ page }) => {
+  // MOTION-SPEC D3: the focused h1 is the page-change announcement; there is
+  // no separate live region repeating the title.
   await page.goto('/');
-  const status = page.getByRole('status');
-  await expect(status).toBeEmpty();
+  await expect(page.getByRole('status')).toHaveCount(0);
 
   await page
     .getByRole('navigation', { name: 'Primary' })
     .getByRole('link', { name: 'Contact' })
     .click();
 
-  await expect(status).toHaveText('Contact — jdilig.me');
+  await expect(page).toHaveTitle('Contact — jdilig.me');
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
 });
 
 // Regression: opening the last image of a long gallery and then moving to a
@@ -234,4 +234,46 @@ test('the dev dashboard prototype is served from its subpath, and its case study
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Dev dashboard: a deploys view built for the on-call moment');
   await expect(page.getByRole('link', { name: 'Open the prototype' })).toHaveAttribute('href', '/ux/dev-dashboard/');
   await expect(page.getByRole('link', { name: 'View the code' })).toHaveAttribute('href', 'https://github.com/balbonits/devtool-dashboard');
+});
+
+// JDM-VT D3 (CA, 2026-11-10): with the role=status announcement gone, the focused h1 is
+// the only page-change announcement, so its accessible name must start with the page's
+// name from document.title (the text before ' — jdilig.me'; 'Home' for /). For the UX
+// case studies the title's ' case study' suffix is dropped: their h1 names the subject
+// ('Ember UI: …' for 'Ember UI case study'), which already identifies the page.
+const H1_ROUTES = [...pages.map((r) => r.path), '/nope'];
+const pageName = (path: string, title: string) =>
+  path === '/' ? 'Home' : title.split(' — jdilig.me')[0].replace(/ case study$/, '');
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+for (const path of H1_ROUTES) {
+  test(`${path} h1 accessible name starts with the page name`, async ({ page }) => {
+    await page.goto(path);
+    const h1 = page.locator('#main h1');
+    await expect(h1).toHaveCount(1);
+    const name = pageName(path, await page.title());
+    expect(name.length).toBeGreaterThan(0);
+    await expect(h1).toHaveAccessibleName(new RegExp(`^${escapeRe(name)}\\b`));
+  });
+}
+
+test('every page has a unique document.title (2.4.2)', async ({ page }) => {
+  const paths = new Set(H1_ROUTES);
+  for (const list of ['/projects', '/ux']) {
+    await page.goto(list);
+    const hrefs = await page
+      .locator('main a[href^="/projects/"], main a[href^="/ux/"]')
+      .evaluateAll((as) => as.map((a) => a.getAttribute('href') ?? ''));
+    // Static sub-apps (Storybook, prototypes) are separate documents ending in '/'.
+    for (const h of hrefs) if (!h.endsWith('/') && !h.includes('#')) paths.add(h);
+  }
+  const seen = new Map<string, string>();
+  for (const path of paths) {
+    await page.goto(path);
+    const title = await page.title();
+    expect(title, `${path} has a title`).not.toBe('');
+    expect(seen.get(title), `${path} duplicates the title of ${seen.get(title)}`).toBeUndefined();
+    seen.set(title, path);
+  }
+  expect(seen.size).toBeGreaterThan(10);
 });
