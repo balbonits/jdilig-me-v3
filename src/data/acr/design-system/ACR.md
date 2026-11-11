@@ -4,6 +4,7 @@ Based on VPAT® 2.5 Rev 508 edition (Section 508). **Self-assessed, not third-pa
 
 - **Product:** Ember UI, an accessible React design system starter (tokens, 8 components, Storybook docs). Storybook: https://jdilig.me/ux/design-system/storybook/ . Case study: https://jdilig.me/ux/design-system
 - **Version:** `main` at 757da0c (package `ember-ui` 0.2.2)
+- **Report version:** 1.0
 - **Report date:** 2026-11-10
 - **Contact:** https://github.com/balbonits/a11y-design-system/issues
 - **Standards:** Revised Section 508 (36 CFR 1194), which incorporates WCAG 2.0 A/AA (the 508 baseline). WCAG 2.1 and 2.2 A/AA criteria are extra rows, marked (2.1) or (2.2).
@@ -58,7 +59,7 @@ Supports, Partially Supports, Does Not Support, Not Applicable (as defined by VP
 | 2.4.5 Multiple Ways | AA | Not Applicable | Owned by the consuming application; the Storybook docs site is a development tool and is not in scope of this report. |
 | 2.4.6 Headings and Labels | AA | Supports | Modal requires a title (used as `aria-labelledby`). Fields require a label. Tested: axe. |
 | 2.4.7 Focus Visible | AA | Supports | A `:focus-visible` ring on every interactive element (`src/ember.css`). Tested: code review; axe doesn't measure focus rings. |
-| 2.4.11 Focus Not Obscured (Minimum) (2.2) | AA | Partially Supports | Only the toast viewport is fixed-position. Tested (`scripts/focus-obscured.mjs`): with 3 sticky toasts open over a page of 60 full-width controls, Tabbing through every control left 0 fully hidden at 1440 px, but at 320 px 26 of 120 focus stops (light and dark) were fully hidden behind the toast stack. A fix is logged. |
+| 2.4.11 Focus Not Obscured (Minimum) (2.2) | AA | Partially Supports | Only the toast viewport is fixed-position. Tested (`scripts/focus-obscured.mjs`): with 3 sticky toasts open over a page of 60 full-width controls, Tabbing through every control left 0 fully hidden at 1440 px, but at 320 px 26 of 120 focus stops (light and dark) were fully hidden behind the toast stack. The fix is tracked as card FU-FSD-TOAST. |
 | 2.5.1 Pointer Gestures (2.1) | A | Supports | No multipoint or path gestures. |
 | 2.5.2 Pointer Cancellation (2.1) | A | Supports | Native click activation (up-event). |
 | 2.5.3 Label in Name (2.1) | A | Supports | Accessible names come from the visible label text. Tested: axe. |

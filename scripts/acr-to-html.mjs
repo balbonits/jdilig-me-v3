@@ -113,16 +113,17 @@ export function render(md, source, slug) {
       html.push(`<p>${inline(para.join(' '), base)}</p>`);
     }
   }
+  if (!/^[0-9a-f]{40}$/.test(source.sha ?? '')) throw new Error(`${slug}: SOURCE.json has no full source SHA`);
   const short = source.sha.slice(0, 7);
+  const src = `${source.repo}/blob/${source.sha}/${source.path}`;
   const header = [
     `<dl class="grid grid-cols-[max-content_minmax(0,1fr)] gap-x-4 gap-y-1 rounded-[12px] border border-border-DEFAULT p-3 text-[14px]">`,
     ...[
-      ['Report version', `${esc(short)} (the source repo commit this report was taken from)`],
+      ['Report version', field(md, 'Report version', base, slug)],
       ['Report date', field(md, 'Report date', base)],
-      ['Product version', field(md, 'Version', base)],
-      ['Source', `<a href="${esc(`${source.repo}/commit/${source.sha}`)}" class="text-accent underline underline-offset-2" rel="noreferrer">${esc(source.repo.replace('https://github.com/', ''))} at ${esc(short)}</a>`],
+      ['Product version', field(md, 'Version', base, slug)],
+      ['Source', `<a href="${esc(src)}" class="text-accent underline underline-offset-2" rel="noreferrer">${esc(`${source.repo.replace('https://github.com/', '')}@${short}`)}</a> (${esc(source.path)} at the commit this page was generated from)`],
       ['Contact', field(md, 'Contact', base)],
-      ['Full report', `<a href="${esc(`${source.repo}/blob/${source.sha}/${source.path}`)}" class="text-accent underline underline-offset-2" rel="noreferrer">${esc(source.path)} in the source repo</a>`],
     ].map(([k, v]) => `<dt class="font-semibold text-fg-strong">${k}</dt><dd class="m-0 min-w-0 break-words">${v}</dd>`),
     `</dl>`,
   ];
@@ -136,8 +137,10 @@ export function render(md, source, slug) {
   ].join('\n');
 }
 
-function field(md, name, base) {
+/** Reads a `- **Name:** value` header line. With `required` (the slug), a missing line is an error. */
+function field(md, name, base, required) {
   const m = new RegExp(`^- \\*\\*${name}:\\*\\* (.+)$`, 'm').exec(md);
+  if (!m && required) throw new Error(`${required}: ACR.md has no "- **${name}:**" line`);
   return m ? inline(m[1], base) : 'Not stated in the report';
 }
 

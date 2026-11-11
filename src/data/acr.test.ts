@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { build } from '../../scripts/acr-to-html.mjs';
+import { build, render } from '../../scripts/acr-to-html.mjs';
 
 const dir = path.resolve(__dirname, 'acr');
 const { reports } = JSON.parse(fs.readFileSync(path.join(dir, 'acr.config.json'), 'utf8')) as { reports: Array<{ slug: string }> };
@@ -83,8 +83,17 @@ describe('ACR partials', () => {
   it.each(synced.map((r) => r.slug))('%s: header block names version, date, product version, source SHA, contact and the ACR.md link', (slug) => {
     const html = fs.readFileSync(path.join(dir, slug, 'acr.html'), 'utf8');
     const src = JSON.parse(fs.readFileSync(path.join(dir, slug, 'SOURCE.json'), 'utf8')) as { repo: string; path: string; sha: string };
-    for (const k of ['Report version', 'Report date', 'Product version', 'Source', 'Contact', 'Full report']) expect(html).toContain(`>${k}</dt>`);
+    for (const k of ['Report version', 'Report date', 'Product version', 'Source', 'Contact']) expect(html).toContain(`>${k}</dt>`);
     expect(html).toContain(`${src.repo}/blob/${src.sha}/${src.path}`);
     expect(html).not.toContain('Not stated in the report');
+  });
+
+  it.each(synced.map((r) => r.slug))('%s: generation fails when Report version, Version or the source SHA is missing', (slug) => {
+    const md = fs.readFileSync(path.join(dir, slug, 'ACR.md'), 'utf8');
+    const src = JSON.parse(fs.readFileSync(path.join(dir, slug, 'SOURCE.json'), 'utf8')) as { repo: string; path: string; sha: string };
+    expect(() => render(md, src, slug)).not.toThrow();
+    expect(() => render(md.replace(/^- \*\*Report version:\*\*.*$/m, ''), src, slug)).toThrow(/Report version/);
+    expect(() => render(md.replace(/^- \*\*Version:\*\*.*$/m, ''), src, slug)).toThrow(/Version/);
+    expect(() => render(md, { ...src, sha: '' }, slug)).toThrow(/source SHA/);
   });
 });
