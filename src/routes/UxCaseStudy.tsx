@@ -11,6 +11,7 @@ import { uxMeta } from '@/data/pages';
 import { getUxCaseStudy, uxPath, type UxCaseStudy as Study } from '@/data/ux';
 import { usePageMeta } from '@/hooks/usePageMeta';
 import NotFound from '@/routes/NotFound';
+import { RESPONSIVE_IMAGES } from '@/data/responsive-images';
 
 export default function UxCaseStudy() {
   const { slug } = useParams();
@@ -69,22 +70,41 @@ function StudyPage({ study: s }: { study: Study }) {
 
       {s.images.length > 0 && (
         <div className="mb-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-          {/* The gallery sits in the first viewport on every width, so it loads
-              eagerly and the first shot (the LCP element on mobile) is fetched
-              at high priority (PERF-100). */}
-          {s.images.map((img, i) => (
-            <img
-              key={img.src}
-              src={img.src}
-              alt={img.alt}
-              width={img.width}
-              height={img.height}
-              loading="eager"
-              fetchPriority={i === 0 ? 'high' : 'auto'}
-              decoding="async"
-              className="h-auto w-full rounded-[12px] border border-border-DEFAULT"
-            />
-          ))}
+          {/* The first row of the gallery sits in the first viewport on every
+              width, so it loads eagerly and the first shot (the LCP element on
+              mobile) is fetched at high priority. Later rows are below the fold
+              on phones and stay lazy so they don't compete with it (PERF-100). */}
+          {s.images.map((img, i) => {
+            const image = (
+              <img
+                key={img.src}
+                src={img.src}
+                alt={img.alt}
+                width={img.width}
+                height={img.height}
+                loading={i < 2 ? 'eager' : 'lazy'}
+                fetchPriority={i === 0 ? 'high' : 'auto'}
+                decoding="async"
+                className="h-auto w-full rounded-[12px] border border-border-DEFAULT"
+              />
+            );
+            const widths = RESPONSIVE_IMAGES[img.src];
+            if (!widths) return image;
+            // Phones (below sm, one column inside the 20px gutters) get a
+            // WebP sized for their screen; sm and up keep the original PNG.
+            const base = img.src.replace(/\.png$/, '');
+            return (
+              <picture key={img.src}>
+                <source
+                  media="(max-width: 639px)"
+                  type="image/webp"
+                  srcSet={widths.map((w) => `${base}-${w}.webp ${w}w`).join(', ')}
+                  sizes="calc(100vw - 40px)"
+                />
+                {image}
+              </picture>
+            );
+          })}
         </div>
       )}
 

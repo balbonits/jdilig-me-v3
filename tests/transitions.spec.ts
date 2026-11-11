@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { waitForApp } from './app-ready';
 
 // Page transitions (docs/MOTION-SPEC.md): internal links run as View
 // Transitions, reduced motion and browsers without the API change pages
@@ -159,6 +160,7 @@ test('Back returns to the exact scroll position on a long page, and new pages op
 
 test('a title inside a hidden region never morphs, so there are no ghost frames', async ({ page }) => {
   await page.goto('/projects');
+  await waitForApp(page);
   const pseudos = await page.evaluate(async () => {
     const link = document.querySelector<HTMLAnchorElement>('main a[href="/projects/squanto"]')!;
     // Put the source title in a closed region, like a collapsed panel.

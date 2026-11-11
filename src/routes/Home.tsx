@@ -14,7 +14,7 @@ import { PAGES } from '@/data/pages';
 import { PROFILE } from '@/data/profile';
 import { PROJECTS, liveLinkLabel, type Project } from '@/data/projects';
 import { EXPERIENCE, HEADLINE, SKILLS, STATUS, SUMMARY } from '@/data/resume';
-import { DownloadRow } from '@/routes/Resume';
+import { DownloadRow } from '@/components/resume/DownloadRow';
 import { usePageMeta } from '@/hooks/usePageMeta';
 
 // UX-FEEL-SPEC v2 section 2: four featured projects, in this order.

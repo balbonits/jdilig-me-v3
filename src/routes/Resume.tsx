@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { Icon } from '@/components/icons';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { PAGES } from '@/data/pages';
@@ -14,6 +13,7 @@ import {
   type Job,
 } from '@/data/resume';
 import { usePageMeta } from '@/hooks/usePageMeta';
+import { DownloadRow } from '@/components/resume/DownloadRow';
 
 export default function Resume() {
   usePageMeta(PAGES.resume);
@@ -62,19 +62,6 @@ export default function Resume() {
 }
 
 /** "Download resume (PDF, size)" row: full width on phones, 48px high. */
-export function DownloadRow() {
-  return (
-    <a
-      href={PROFILE.resumePdf}
-      download
-      className="mt-5 flex min-h-12 w-full items-center gap-2 rounded-[2px] border border-border-DEFAULT bg-surface px-4 text-[15px] font-medium text-accent underline underline-offset-[3px] sm:w-auto sm:inline-flex"
-    >
-      <Icon.Document className="h-4 w-4" aria-hidden="true" />
-      Download resume (PDF, {PROFILE.resumePdfSize})
-    </a>
-  );
-}
-
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mb-9">

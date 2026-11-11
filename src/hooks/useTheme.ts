@@ -44,6 +44,9 @@ export function useTheme(): [Theme, () => void] {
   // including when it changes while the page is open (say, dark at sunset).
   useEffect(() => {
     const query = matchMedia('(prefers-color-scheme: dark)');
+    // The app boots after first paint, so the OS setting may have changed
+    // since the inline script ran; catch up before listening.
+    if (!chose.current && !hasSavedChoice()) setTheme(query.matches ? 'dark' : 'light');
     const onChange = (e: MediaQueryListEvent) => {
       if (chose.current || hasSavedChoice()) return;
       setTheme(e.matches ? 'dark' : 'light');

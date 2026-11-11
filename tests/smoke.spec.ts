@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { waitForApp } from './app-ready';
 
 // A quick walk through the site the way a visitor uses it, against the dev
 // server playwright.config.ts starts. Run it with `npm run test:e2e`.
@@ -301,6 +302,7 @@ test('every page has a unique document.title (2.4.2)', async ({ page }) => {
   const paths = new Set(H1_ROUTES);
   for (const list of ['/projects', '/ux']) {
     await page.goto(list);
+    await waitForApp(page);
     const hrefs = await page
       .locator('main a[href^="/projects/"], main a[href^="/ux/"]')
       .evaluateAll((as) => as.map((a) => a.getAttribute('href') ?? ''));
@@ -310,6 +312,7 @@ test('every page has a unique document.title (2.4.2)', async ({ page }) => {
   const seen = new Map<string, string>();
   for (const path of paths) {
     await page.goto(path);
+    await waitForApp(page);
     const title = await page.title();
     expect(title, `${path} has a title`).not.toBe('');
     expect(seen.get(title), `${path} duplicates the title of ${seen.get(title)}`).toBeUndefined();
