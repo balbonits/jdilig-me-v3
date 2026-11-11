@@ -3,6 +3,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import sharp from 'sharp';
 import { writeThumbnail } from '../scripts/thumbnails.mjs';
+import { settleImages } from './settle-images';
 
 const OUT_DIR = path.join(process.cwd(), 'public', 'screenshots');
 
@@ -109,6 +110,9 @@ for (const shot of SHOTS) {
 
     // Give the SPA router a moment to hydrate and set document.title.
     await page.waitForTimeout(1500);
+
+    // Lazy images below the fold would otherwise load or not by chance.
+    if (!shot.external) await settleImages(page);
 
     // Quick computed-styles sanity check for game pages — confirms the
     // stylesheet actually applied (we hit a case where `load` fired before
