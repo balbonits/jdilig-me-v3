@@ -163,12 +163,15 @@
   .prose-link:hover {
     text-decoration-thickness: 2px;
   }
-  /* Theme toggle: both icons stay mounted; only the current one shows. */
+  /* Theme toggle: both icons stay mounted; only the current one shows. It
+     keys off <html data-theme>, which the inline script in index.html sets
+     before first paint, so hydration never has to fix the icon (PERF-100). */
   .theme-icon {
     opacity: 0;
     transform: rotate(-90deg) scale(0.6);
   }
-  .theme-icon[data-on='true'] {
+  :root:not([data-theme='dark']) .theme-icon[data-icon='moon'],
+  [data-theme='dark'] .theme-icon[data-icon='sun'] {
     opacity: 1;
     transform: none;
   }
