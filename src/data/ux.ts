@@ -93,7 +93,7 @@ export const UX_CASE_STUDIES: UxCaseStudy[] = [
           'Add a custom listbox for searchable selects.',
           'Publish it as an npm package with versioned releases.',
           'Add visual regression tests alongside the accessibility checks.',
-          'Keep growing it with the projects built on it. The job tracker is live, and the dev dashboard is next.',
+          'Keep growing it with the projects built on it. The job tracker and the [dev dashboard](/ux/dev-dashboard/) both run on it today.',
         ],
       },
     ],

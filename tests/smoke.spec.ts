@@ -235,3 +235,15 @@ test('the dev dashboard prototype is served from its subpath, and its case study
   await expect(page.getByRole('link', { name: 'Open the prototype' })).toHaveAttribute('href', '/ux/dev-dashboard/');
   await expect(page.getByRole('link', { name: 'View the code' })).toHaveAttribute('href', 'https://github.com/balbonits/devtool-dashboard');
 });
+
+test('the dev dashboard is described as live, not upcoming', async ({ page }) => {
+  await page.goto('/ux/design-system');
+  await expect(page.getByRole('link', { name: 'dev dashboard', exact: true })).toHaveAttribute('href', '/ux/dev-dashboard/');
+  await expect(page.locator('main')).not.toContainText('dev dashboard is next');
+  await page.goto('/accessibility');
+  await expect(page.getByRole('link', { name: 'Dev dashboard ACR' })).toHaveAttribute(
+    'href',
+    'https://github.com/balbonits/devtool-dashboard/blob/main/docs/ACR.md',
+  );
+  await expect(page.locator('main')).not.toContainText("isn't built yet");
+});

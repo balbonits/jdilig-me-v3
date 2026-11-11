@@ -49,7 +49,12 @@ export default function Accessibility() {
           (VPAT 2.5, Section 508 edition)
         </li>
         <li>Ember UI design system ACR: in progress, it will be linked here when it's published.</li>
-        <li>Developer tool dashboard ACR: the project isn't built yet.</li>
+        <li>
+          <a className={link} href="https://github.com/balbonits/devtool-dashboard/blob/main/docs/ACR.md">
+            Dev dashboard ACR
+          </a>{' '}
+          (VPAT 2.5, Section 508 edition)
+        </li>
       </ul>
 
       <h2 className={h2}>Known limitations</h2>
