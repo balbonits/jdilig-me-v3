@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 
 export type Theme = 'light' | 'dark';
 
@@ -17,6 +17,19 @@ function hasSavedChoice(): boolean {
   } catch {
     return false;
   }
+}
+
+const noSubscribe = () => () => {};
+
+/**
+ * False while React hydrates prerendered markup, true after (and on a plain
+ * client render). Prerendered HTML is always rendered with the light theme,
+ * and React doesn't patch attribute mismatches when it hydrates, so anything
+ * rendered from the theme reports light until hydration is done and then
+ * re-renders with the real one.
+ */
+function useHydrated(): boolean {
+  return useSyncExternalStore(noSubscribe, () => true, () => false);
 }
 
 export function useTheme(): [Theme, () => void] {
@@ -50,5 +63,6 @@ export function useTheme(): [Theme, () => void] {
     }
   }, [theme]);
 
-  return [theme, toggle];
+  const hydrated = useHydrated();
+  return [hydrated ? theme : 'light', toggle];
 }
