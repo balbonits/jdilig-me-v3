@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from '@/components/ui/Link';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { HIT_44 } from '@/components/ui/hit';
@@ -16,6 +16,7 @@ export default function NotFound() {
       <div className="text-center">
         <Eyebrow>404</Eyebrow>
         <h1 className="mt-3 mb-3.5 text-[44px] font-bold tracking-[-0.03em] text-fg-strong sm:text-[56px]">
+          <span className="sr-only">Page not found: </span>
           Nothing{' '}
           <span className="font-serif font-normal text-accent italic">
             here

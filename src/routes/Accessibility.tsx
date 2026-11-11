@@ -1,7 +1,7 @@
-import { Link } from 'react-router';
-import { HIT_44 } from '@/components/ui/hit';
+import { Link } from '@/components/ui/Link';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { HIT_44 } from '@/components/ui/hit';
 import { PAGES } from '@/data/pages';
 import { PROFILE } from '@/data/profile';
 import { usePageMeta } from '@/hooks/usePageMeta';

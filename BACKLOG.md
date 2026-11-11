@@ -6,6 +6,12 @@ Upcoming features and tasks for jdilig.me v3. Loosely ordered by priority. Each 
 
 ---
 
+## 0. Page transitions (JDM-VT) — in review
+
+Internal page changes run as View Transitions: a crossfade plus an 8 px rise, and the clicked card's title morphs into the next page's h1. Reduced motion and browsers without the API get an instant change. Focus moves to the new h1. Spec: [`docs/MOTION-SPEC.md`](./docs/MOTION-SPEC.md). Open items: Chief Architect sign-off on the spec (D1 to D3), then QA, Lighthouse on the Vercel preview and live, and a screen-reader pass of the new h1 focus.
+
+---
+
 ## 1. Lighthouse follow-ups
 
 **Production scores** (Sept 27, 2026 — desktop, Lighthouse 13.5.0, measured by the **Lighthouse** workflow). April 2026 scores in parentheses.
