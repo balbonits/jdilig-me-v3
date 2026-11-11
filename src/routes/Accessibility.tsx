@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { HIT_44 } from '@/components/ui/hit';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { PAGES } from '@/data/pages';
@@ -41,23 +42,23 @@ export default function Accessibility() {
       </p>
 
       <h2 className={h2}>Accessibility reports</h2>
-      {/* Three report links on 26px rows: a 44px ::before on each would overlap its
-          neighbours, so they rely on the 2.5.8 spacing exception (rows are 26px apart, >= 24). */}
-      <ul className={`${body} list-disc pl-5`}>
+      {/* Standalone report links: each gets a 44px hit area (HIT_44). The 18px gap makes the row
+          pitch 44px (26.4px line + 18px), so neighbouring hit areas don't overlap. */}
+      <ul className={`${body} list-disc space-y-[18px] pl-5`}>
         <li>
-          <a className={link} href="https://github.com/balbonits/job-app-tracker/blob/main/docs/ACR.md">
+          <a className={`${link} ${HIT_44}`} href="https://github.com/balbonits/job-app-tracker/blob/main/docs/ACR.md">
             Job tracker ACR
           </a>{' '}
           (VPAT 2.5, Section 508 edition)
         </li>
         <li>
-          <a className={link} href="/ux/design-system#acr">
+          <a className={`${link} ${HIT_44}`} href="/ux/design-system#acr">
             Ember UI design system ACR
           </a>{' '}
           (VPAT 2.5, Section 508 edition)
         </li>
         <li>
-          <a className={link} href="https://github.com/balbonits/devtool-dashboard/blob/main/docs/ACR.md">
+          <a className={`${link} ${HIT_44}`} href="https://github.com/balbonits/devtool-dashboard/blob/main/docs/ACR.md">
             Dev dashboard ACR
           </a>{' '}
           (VPAT 2.5, Section 508 edition)
