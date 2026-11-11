@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import type { CSSProperties } from 'react';
-import { Link } from 'react-router';
+import { Link } from '@/components/ui/Link';
 import { Icon, GitHubIcon, LinkedInIcon } from '@/components/icons';
 import CopyEmail from '@/components/home/CopyEmail';
 import SectionTitle from '@/components/home/SectionTitle';
@@ -68,6 +68,7 @@ export default function Home() {
                 {PROFILE.role} · {PROFILE.location}
               </Eyebrow>
               <h1 className="mt-3 mb-4 text-[length:min(clamp(2.25rem,1.9rem+3.146vw,4.75rem),calc((100vw-24px)/6.5))] font-bold leading-[1.02] tracking-[-0.03em] text-fg-strong max-sm:text-[length:min(2.5rem,calc((100vw-24px)/6.5))]">
+                <span className="sr-only">Home: </span>
                 <span className="block">
                   Hello.{' '}
                   <span aria-hidden="true" className="wave inline-block">

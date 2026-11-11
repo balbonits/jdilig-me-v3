@@ -1,4 +1,5 @@
-import { Link } from 'react-router';
+import { useViewTransitionState } from 'react-router';
+import { Link } from '@/components/ui/Link';
 import { Icon } from '@/components/icons';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
@@ -30,22 +31,36 @@ export default function Ux() {
 
       <ul className="m-0 grid list-none grid-cols-1 gap-3.5 p-0 md:grid-cols-2">
         {UX_CASE_STUDIES.map((c) => (
-          <li key={c.slug}>
-            <Link
-              to={uxPath(c)}
-              data-track-cta={`ux-${c.slug}`}
-              className="group flex h-full flex-col gap-2 rounded-[12px] border border-border-DEFAULT bg-surface p-5 no-underline transition-colors duration-[120ms] hover:border-border-strong"
-            >
-              <span className="text-[20px] font-semibold tracking-[-0.02em] text-fg-strong">{c.name}</span>
-              <span className="text-[15px] leading-[1.6] text-fg-muted">{c.blurb}</span>
-              <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-[13px] font-medium text-accent">
-                Read the case study
-                <Icon.ArrowRight className="h-3.5 w-3.5" />
-              </span>
-            </Link>
-          </li>
+          <UxCard key={c.slug} study={c} />
         ))}
       </ul>
     </Container>
+  );
+}
+
+function UxCard({ study: c }: { study: (typeof UX_CASE_STUDIES)[number] }) {
+  const to = uxPath(c);
+  // Only the clicked card carries the name, so it morphs into the case-study h1.
+  const morphing = useViewTransitionState(to);
+  return (
+    <li>
+      <Link
+        to={to}
+        data-track-cta={`ux-${c.slug}`}
+        className="group flex h-full flex-col gap-2 rounded-[12px] border border-border-DEFAULT bg-surface p-5 no-underline transition-colors duration-[120ms] hover:border-border-strong"
+      >
+        <span
+          className="text-[20px] font-semibold tracking-[-0.02em] text-fg-strong"
+          style={morphing ? { viewTransitionName: 'ux-title' } : undefined}
+        >
+          {c.name}
+        </span>
+        <span className="text-[15px] leading-[1.6] text-fg-muted">{c.blurb}</span>
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-[13px] font-medium text-accent">
+          Read the case study
+          <Icon.ArrowRight className="h-3.5 w-3.5" />
+        </span>
+      </Link>
+    </li>
   );
 }

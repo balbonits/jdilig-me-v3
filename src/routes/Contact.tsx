@@ -17,6 +17,7 @@ export default function Contact() {
     <Container size="narrow" className="pb-24 pt-10 sm:pt-14">
       <Eyebrow>Contact</Eyebrow>
       <h1 className="mt-3 mb-3.5 text-[40px] font-bold tracking-[-0.03em] text-fg-strong sm:text-[44px]">
+        <span className="sr-only">Contact: </span>
         Say{' '}
         <span className="font-serif font-normal text-accent italic">hello</span>
         .

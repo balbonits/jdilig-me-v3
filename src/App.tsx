@@ -1,22 +1,24 @@
 import { useEffect } from 'react';
-import { BrowserRouter, useRoutes } from 'react-router';
+import { createBrowserRouter } from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { routeTree } from '@/router';
 import { installClickTracking } from '@/analytics/track';
 
-function AppRoutes() {
-  return useRoutes(routeTree);
-}
+// A data router (rather than <BrowserRouter>) so links can run page changes
+// as View Transitions, including Back/Forward (docs/MOTION-SPEC.md). Same
+// route tree as the prerender in entry-server.tsx.
+const router = createBrowserRouter(routeTree);
 
 export default function App() {
   useEffect(() => installClickTracking(), []);
 
   return (
-    <BrowserRouter>
-      <AppRoutes />
+    <>
+      <RouterProvider router={router} />
       <Analytics />
       <SpeedInsights />
-    </BrowserRouter>
+    </>
   );
 }
