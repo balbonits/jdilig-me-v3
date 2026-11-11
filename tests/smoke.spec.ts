@@ -236,6 +236,46 @@ test('the dev dashboard prototype is served from its subpath, and its case study
   await expect(page.getByRole('link', { name: 'View the code' })).toHaveAttribute('href', 'https://github.com/balbonits/devtool-dashboard');
 });
 
+test('the dev dashboard is described as live, not upcoming', async ({ page }) => {
+  await page.goto('/ux/design-system');
+  await expect(page.getByRole('link', { name: 'dev dashboard', exact: true })).toHaveAttribute('href', '/ux/dev-dashboard/');
+  await expect(page.locator('main')).not.toContainText('dev dashboard is next');
+  await page.goto('/accessibility');
+  await expect(page.getByRole('link', { name: 'Dev dashboard ACR' })).toHaveAttribute(
+    'href',
+    'https://github.com/balbonits/devtool-dashboard/blob/main/docs/ACR.md',
+  );
+  await expect(page.locator('main')).not.toContainText("isn't built yet");
+  await expect(page.getByRole('link', { name: 'Ember UI design system ACR' })).toHaveAttribute('href', '/ux/design-system#acr');
+  await expect(page.locator('main')).not.toContainText('will be linked here when');
+});
+
+test('the /accessibility report links each have a 44px hit area that does not overlap', async ({ page }) => {
+  for (const width of [320, 639, 640, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/accessibility');
+    const names = ['Job tracker ACR', 'Ember UI design system ACR', 'Dev dashboard ACR'];
+    await page.getByRole('link', { name: names[1] }).scrollIntoViewIfNeeded();
+    const boxes = [];
+    for (const name of names) {
+      const box = await page.getByRole('link', { name }).boundingBox();
+      expect(box, `${name} @${width}`).not.toBeNull();
+      boxes.push({ name, ...box! });
+    }
+    for (const b of boxes) {
+      const cx = b.x + Math.min(b.width, 44) / 2;
+      const cy = b.y + b.height / 2;
+      for (const dy of [-21, 0, 21]) {
+        const hit = await page.evaluate(
+          ([x, y]) => document.elementFromPoint(x, y)?.closest('a')?.textContent?.trim() ?? null,
+          [cx, cy + dy],
+        );
+        expect(hit, `${b.name} @${width}, ${dy}px from centre`).toBe(b.name);
+      }
+    }
+  }
+});
+
 // JDM-VT D3 (CA, 2026-11-10): with the role=status announcement gone, the focused h1 is
 // the only page-change announcement, so its accessible name must start with the page's
 // name from document.title (the text before ' — jdilig.me'; 'Home' for /). For the UX
