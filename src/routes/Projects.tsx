@@ -117,7 +117,7 @@ export default function Projects() {
             aria-label="Sort projects"
             value={sort}
             onChange={(e) => setSort(e.target.value as SortOption)}
-            className="cursor-pointer rounded-full border border-border-DEFAULT bg-surface px-3.5 py-[13px] font-mono text-xs font-medium tracking-[0.04em] text-fg-muted transition-colors duration-[120ms] hover:border-border-strong"
+            className="cursor-pointer rounded-full border border-border-DEFAULT bg-surface px-3.5 py-3 font-mono text-xs font-medium tracking-[0.04em] text-fg-muted transition-colors duration-[120ms] hover:border-border-strong"
           >
             {(Object.keys(SORT_LABELS) as SortOption[]).map((opt) => (
               <option key={opt} value={opt}>
