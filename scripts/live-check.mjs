@@ -2,14 +2,16 @@
 // On-demand health check of a deployed jdilig.me. Read-only: it only loads
 // pages. No schedule, no polling; run it when you want to verify a deploy.
 //
-// Usage: npm run live-check -- --url https://www.jdilig.me [--out report.md] [--skip-lighthouse]
+// Usage: npm run live-check -- --url https://www.jdilig.me [--expect-sha <sha>] [--out report.md] [--skip-lighthouse]
 //
 // 1. Fetches /sitemap.xml and every route in it: HTTP 200 and a real <title>.
 // 2. axe-core on every route at 320 and 1280 px: 0 serious or critical.
 // 3. Lighthouse mobile and desktop on /, a project page, /ux and one case
 //    study: all four categories, anything under 100 fails.
-// 4. Prints deploy identifiers the site exposes (response headers and the
-//    vendored BUILD.json files).
+// 4. Deploy identity: the build-commit meta tag and /build.json that the build
+//    stamps (scripts/build-meta.mjs), plus headers and the vendored BUILD.json
+//    files. With --expect-sha (7 to 40 hex chars) the meta on every route and
+//    /build.json must match it; without it they must at least agree.
 // Writes a markdown summary to stdout (and --out). Progress goes to stderr.
 // Exit code 1 when any check fails, 2 when the run itself breaks.
 //
@@ -33,16 +35,20 @@ const AXE_WIDTHS = [320, 1280];
 const BAD_TITLES = [/^\s*$/, /\b404\b/, /not found/i, /server error/i];
 
 function parseArgs(argv) {
-  const args = { url: 'https://www.jdilig.me', out: null, lighthouse: true };
+  const args = { url: 'https://www.jdilig.me', out: null, lighthouse: true, expectSha: null };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const val = () => (a.includes('=') ? a.slice(a.indexOf('=') + 1) : argv[++i]);
     if (a === '--url' || a.startsWith('--url=')) args.url = val();
     else if (a === '--out' || a.startsWith('--out=')) args.out = val();
+    else if (a === '--expect-sha' || a.startsWith('--expect-sha=')) args.expectSha = String(val() ?? '').toLowerCase();
     else if (a === '--skip-lighthouse') args.lighthouse = false;
     else throw new Error(`Unknown argument: ${a}`);
   }
   args.url = args.url.replace(/\/+$/, '');
+  if (args.expectSha !== null && !/^[0-9a-f]{7,40}$/.test(args.expectSha)) {
+    throw new Error('--expect-sha must be 7 to 40 hex characters');
+  }
   return args;
 }
 
@@ -52,6 +58,13 @@ const titleOf = (html) => {
   const m = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   return m ? m[1].replace(/&amp;/g, '&').replace(/&mdash;/g, '—').replace(/&#x27;|&#39;/g, "'").trim() : '';
 };
+const commitOf = (html) => {
+  const tag = html.match(/<meta[^>]+name=["']build-commit["'][^>]*>/i);
+  const m = tag && tag[0].match(/content=["']([^"']*)["']/i);
+  return m ? m[1].toLowerCase() : null;
+};
+const shaMatches = (commit, expect) => Boolean(commit) && commit.startsWith(expect);
+const short = (c) => (c && /^[0-9a-f]{40}$/.test(c) ? c.slice(0, 7) : c ?? '—');
 const ptNow = () =>
   new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles', dateStyle: 'medium', timeStyle: 'short' }) + ' PT';
 
@@ -67,13 +80,14 @@ async function routesFromSitemap(base) {
 async function fetchCheck(base, path) {
   try {
     const res = await fetch(base + path, { redirect: 'follow' });
-    const title = titleOf(await res.text());
+    const html = await res.text();
+    const title = titleOf(html);
     const problems = [];
     if (res.status !== 200) problems.push(`HTTP ${res.status}`);
     if (BAD_TITLES.some((re) => re.test(title))) problems.push(`bad title "${title}"`);
-    return { status: res.status, title, problems };
+    return { status: res.status, title, commit: commitOf(html), problems };
   } catch (e) {
-    return { status: 'error', title: '', problems: [`fetch failed: ${e.message}`] };
+    return { status: 'error', title: '', commit: null, problems: [`fetch failed: ${e.message}`] };
   }
 }
 
@@ -138,19 +152,38 @@ async function lighthouseRuns(base) {
   return rows;
 }
 
-async function deployInfo(base) {
+async function deployInfo(base, expect) {
   const lines = [];
+  const problems = [];
+  let metaCommit = null;
   try {
-    const res = await fetch(base + '/', { method: 'HEAD' });
+    const res = await fetch(base + '/');
     for (const h of ['x-vercel-id', 'etag', 'last-modified', 'server']) {
       const v = res.headers.get(h);
       if (v) lines.push(`${h}: \`${v}\``);
     }
-    const html = await (await fetch(base + '/')).text();
-    const meta = html.match(/<meta[^>]+name=["'](?:commit|git-sha|build|version)["'][^>]*>/i);
-    lines.push(meta ? `meta: \`${meta[0]}\`` : 'Site commit: not exposed (no commit meta tag or header; x-vercel-id is a request id, not a commit).');
+    metaCommit = commitOf(await res.text());
+    lines.push(metaCommit ? `Site commit (build-commit meta on /): \`${metaCommit}\`` : 'Site commit: not exposed (no build-commit meta tag on /).');
   } catch (e) {
-    lines.push(`Could not read headers: ${e.message}`);
+    lines.push(`Could not read /: ${e.message}`);
+  }
+  let jsonCommit = null;
+  try {
+    const res = await fetch(base + '/build.json');
+    if (res.ok) {
+      const b = await res.json();
+      jsonCommit = String(b.commit ?? '').toLowerCase() || null;
+      lines.push(`/build.json: commit \`${jsonCommit ?? '—'}\`, built ${b.builtAt ?? '—'}`);
+    } else lines.push(`/build.json: HTTP ${res.status}`);
+  } catch (e) {
+    lines.push(`/build.json: could not read (${e.message})`);
+  }
+  if (expect) {
+    lines.push(`Expected commit: \`${expect}\``);
+    if (!shaMatches(metaCommit, expect)) problems.push(`build-commit meta on / is ${metaCommit ?? 'missing'}, expected ${expect}`);
+    if (!shaMatches(jsonCommit, expect)) problems.push(`/build.json commit is ${jsonCommit ?? 'missing'}, expected ${expect}`);
+  } else if (metaCommit && jsonCommit && metaCommit !== jsonCommit) {
+    problems.push(`build-commit meta (${metaCommit}) and /build.json (${jsonCommit}) disagree`);
   }
   for (const p of ['/ux/job-tracker/BUILD.json', '/ux/dev-dashboard/BUILD.json']) {
     try {
@@ -163,7 +196,7 @@ async function deployInfo(base) {
       /* not exposed */
     }
   }
-  return lines;
+  return { lines, problems };
 }
 
 async function main() {
@@ -192,19 +225,23 @@ async function main() {
   }
 
   const lh = args.lighthouse ? await lighthouseRuns(base) : [];
-  const deploy = await deployInfo(base);
+  const deploy = await deployInfo(base, args.expectSha);
 
   const failures = [];
   for (const r of routes) {
     for (const p of fetched[r].problems) failures.push(`${r}: ${p}`);
+    // Only app routes carry the meta; proxied pages (e.g. /whitepaper/) have none, so a missing tag is not checked per route.
+    const c = fetched[r].commit;
+    if (args.expectSha && c && !shaMatches(c, args.expectSha)) failures.push(`${r}: build-commit ${c}, expected ${args.expectSha}`);
     for (const w of AXE_WIDTHS) for (const v of axe[r][w]) failures.push(`${r} @${w}: axe ${v}`);
   }
   for (const row of lh) for (const p of row.problems) failures.push(`Lighthouse ${row.formFactor} ${row.path}: ${p}`);
+  for (const p of deploy.problems) failures.push(`Deploy: ${p}`);
 
   const md = [];
   md.push(`## Live check: ${base}`, '');
   md.push(`Run ${started}. Result: **${failures.length ? `FAIL (${failures.length})` : 'PASS'}**.`, '');
-  md.push('**Deploy**', '', ...deploy.map((l) => `- ${l}`), '');
+  md.push('**Deploy**', '', ...deploy.lines.map((l) => `- ${l}`), '');
   if (args.lighthouse) {
     md.push('**Lighthouse** (fails under 100)', '', '| Route | Form factor | Perf | A11y | BP | SEO |', '|---|---|---|---|---|---|');
     for (const row of lh) {
@@ -213,11 +250,11 @@ async function main() {
     }
     md.push('');
   } else md.push('Lighthouse: skipped (--skip-lighthouse).', '');
-  md.push(`**Routes** (${routes.length} from sitemap.xml; axe counts serious + critical)`, '', '| Route | HTTP | Title | axe 320 | axe 1280 |', '|---|---|---|---|---|');
+  md.push(`**Routes** (${routes.length} from sitemap.xml; axe counts serious + critical)`, '', '| Route | HTTP | Title | Commit | axe 320 | axe 1280 |', '|---|---|---|---|---|---|');
   for (const r of routes) {
     const f = fetched[r];
     const n = (w) => (axe[r][w].some((v) => v.startsWith('run failed')) ? 'error' : axe[r][w].length);
-    md.push(`| ${r} | ${f.status} | ${esc(f.title)} | ${n(320)} | ${n(1280)} |`);
+    md.push(`| ${r} | ${f.status} | ${esc(f.title)} | ${short(f.commit)} | ${n(320)} | ${n(1280)} |`);
   }
   md.push('');
   if (failures.length) md.push('**Failures**', '', ...failures.map((f) => `- ${f}`), '');
