@@ -246,4 +246,6 @@ test('the dev dashboard is described as live, not upcoming', async ({ page }) =>
     'https://github.com/balbonits/devtool-dashboard/blob/main/docs/ACR.md',
   );
   await expect(page.locator('main')).not.toContainText("isn't built yet");
+  await expect(page.getByRole('link', { name: 'Ember UI design system ACR' })).toHaveAttribute('href', '/ux/design-system#acr');
+  await expect(page.locator('main')).not.toContainText('will be linked here when');
 });
