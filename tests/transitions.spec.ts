@@ -154,29 +154,8 @@ test('Back returns to the exact scroll position on a long page, and new pages op
   expect(await page.evaluate(() => window.scrollY)).toBe(before);
 });
 
-test('a second click mid-transition skips the running transition, so input is never blocked over 280ms', async ({ page }) => {
-  await page.goto('/projects');
-  const ms = await page.evaluate(async () => {
-    const first = document.querySelector<HTMLAnchorElement>('main a[href="/projects/squanto"]')!;
-    const second = [...document.querySelectorAll<HTMLAnchorElement>('header a')].find((a) => a.getAttribute('href') === '/ux')!;
-    first.click();
-    await new Promise((r) => setTimeout(r, 40));
-    const start = performance.now();
-    second.click();
-    // Time until the second page is the live page.
-    while (!(location.pathname === '/ux' && document.querySelector('#main h1')?.textContent?.includes('UX case studies'))) {
-      if (performance.now() - start > 2000) break;
-      await new Promise((r) => requestAnimationFrame(r));
-    }
-    return performance.now() - start;
-  });
-  expect(ms).toBeLessThan(280);
-  await expect(page).toHaveURL(/\/ux$/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('UX case studies');
-  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
-  // Nothing from the first transition is left on screen.
-  await expect.poll(() => page.evaluate(() => document.getAnimations().filter((a) => (a.effect as KeyframeEffect | null)?.pseudoElement?.startsWith('::view-transition')).length)).toBe(0);
-});
+// The interrupted-transition condition (input never blocked over 280ms) is
+// tested with real pointer input in transitions-input.spec.ts.
 
 test('a title inside a hidden region never morphs, so there are no ghost frames', async ({ page }) => {
   await page.goto('/projects');

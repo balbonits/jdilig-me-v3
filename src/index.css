@@ -258,6 +258,17 @@
   }
 }
 
+/* Hit-testing should reach the live page under the transition overlay. Chrome
+   still routes hits to the root while a transition runs, so
+   src/lib/viewTransitionInput.ts also skips the transition on real input. */
+::view-transition,
+::view-transition-group(*),
+::view-transition-image-pair(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  pointer-events: none;
+}
+
 /* The global reduced-motion rule doesn't reach these pseudo-elements, and JS
    already skips the transition; this is the backstop. */
 @media (prefers-reduced-motion: reduce) {
