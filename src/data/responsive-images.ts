@@ -8,5 +8,5 @@ export const RESPONSIVE_IMAGES: Record<string, readonly number[]> = {
   '/ux/ember-ui-modal-dark.png': [370, 740, 1280],
   '/ux/ember-ui-modal-light.png': [370, 740, 1280],
   '/ux/job-tracker-board-desktop.png': [370, 740, 1280],
-  '/ux/job-tracker-board-mobile-dark.png': [370, 390],
+  '/ux/job-tracker-board-mobile-dark.png': [370, 390, 740, 780, 1170],
 };

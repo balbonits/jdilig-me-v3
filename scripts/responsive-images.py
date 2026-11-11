@@ -8,6 +8,11 @@ lists the widths made for each image. UxCaseStudy offers them to phones only
 (below the sm breakpoint) through <picture>, so desktop keeps the original
 PNG pixel for pixel.
 
+A screenshot can also have a sharper source, scripts/hires/<name>@3x.png (3x the
+PNG's size). Its phone copies are then made from that file at 1x, 2x and 3x
+the PNG's width as well, so phones with dense screens get a sharp image.
+public/ux/<name>.png stays the desktop image, unchanged.
+
 Rerun after adding or replacing a screenshot:  python3 scripts/responsive-images.py
 Needs Pillow with WebP support (already on the box; no npm packages).
 """
@@ -16,16 +21,21 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / 'public' / 'ux'
+HIRES = ROOT / 'scripts' / 'hires'
 OUT_TS = ROOT / 'src' / 'data' / 'responsive-images.ts'
 WIDTHS = (370, 740, 1280)
 QUALITY = 88
 
 made = {}
 for png in sorted(SRC.glob('*.png')):
-    with Image.open(png) as im:
+    with Image.open(png) as base:
+        bw = base.size[0]
+    hires = HIRES / f'{png.stem}@3x.png'
+    with Image.open(hires if hires.exists() else png) as im:
         im = im.convert('RGB')
         w, h = im.size
-        widths = sorted({x for x in WIDTHS if x <= w} | ({w} if w < max(WIDTHS) else set()))
+        dense = {bw * k for k in (1, 2, 3) if bw * k <= w} if hires.exists() else set()
+        widths = sorted({x for x in WIDTHS if x <= w} | ({w} if w < max(WIDTHS) else set()) | dense)
         for x in widths:
             out = png.with_name(f'{png.stem}-{x}.webp')
             img = im if x == w else im.resize((x, round(h * x / w)), Image.LANCZOS)
