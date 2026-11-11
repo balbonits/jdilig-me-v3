@@ -65,6 +65,7 @@ export default function Projects() {
         <div className="mb-8">
           <Eyebrow>Projects</Eyebrow>
           <h1 className="mt-3 mb-3.5 text-[40px] font-bold tracking-[-0.03em] text-fg-strong sm:text-[48px]">
+            <span className="sr-only">Projects: </span>
             Things I've{' '}
             <span className="font-serif font-normal text-accent italic">
               shipped

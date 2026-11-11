@@ -24,7 +24,7 @@ const jsonLd = structuredData()
   .join('\n    ');
 
 for (const { url, file, meta } of pages()) {
-  const body = render(url);
+  const body = await render(url);
   if (!body || body.length < 200) throw new Error(`prerender: empty render for ${url}`);
   const canonical = new URL(meta.path, PROFILE.website).href;
   const t = esc(meta.title);

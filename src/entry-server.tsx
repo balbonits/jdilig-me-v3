@@ -2,7 +2,7 @@
 // Build-time only: renders each route to static HTML so crawlers and visitors
 // without JavaScript get the real content (see scripts/prerender.mjs).
 import { renderToString } from 'react-dom/server';
-import { StaticRouter, useRoutes } from 'react-router';
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router';
 import { routeTree } from '@/router';
 import { PAGES, projectMeta, uxMeta, type PageMeta } from '@/data/pages';
 import { UX_CASE_STUDIES, uxPath } from '@/data/ux';
@@ -10,16 +10,14 @@ import { PROJECTS } from '@/data/projects';
 import { PROFILE } from '@/data/profile';
 import { EXPERIENCE, HEADLINE, SKILLS, SUMMARY } from '@/data/resume';
 
-function Routes() {
-  return useRoutes(routeTree);
-}
+const handler = createStaticHandler(routeTree);
 
-export function render(url: string): string {
-  return renderToString(
-    <StaticRouter location={url}>
-      <Routes />
-    </StaticRouter>,
-  );
+/** Renders one route with the same data router setup the client uses (App.tsx). */
+export async function render(url: string): Promise<string> {
+  const context = await handler.query(new Request(`https://www.jdilig.me${url}`));
+  if (context instanceof Response) throw new Error(`Unexpected redirect while prerendering ${url}`);
+  const router = createStaticRouter(handler.dataRoutes, context);
+  return renderToString(<StaticRouterProvider router={router} context={context} hydrate={false} />);
 }
 
 /** Every page to prerender, with its metadata. `file` is relative to dist/. */
