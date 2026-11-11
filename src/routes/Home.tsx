@@ -103,7 +103,7 @@ export default function Home() {
                   </li>
                 ))}
                 <li>
-                  <a href="#experience" className="prose-link inline-flex items-center px-1 py-0.5 font-mono text-[12px]">
+                  <a href="#experience" className="prose-link relative inline-flex items-center px-1 py-0.5 font-mono text-[12px] before:absolute before:-inset-y-[11px] before:inset-x-0 before:content-['']">
                     + more
                   </a>
                 </li>
@@ -232,7 +232,7 @@ export default function Home() {
 
 function HomeProjectCard({ project: p, index }: { project: Project; index: number }) {
   const textLink =
-    'inline-flex min-h-11 items-center gap-1.5 text-[15px] font-medium text-accent underline underline-offset-[3px] hover:decoration-2';
+    "relative inline-flex min-h-11 items-center gap-1.5 text-[15px] font-medium text-accent underline underline-offset-[3px] before:absolute before:inset-y-0 before:-inset-x-1 before:content-[''] hover:decoration-2";
   return (
     <article
       data-reveal
@@ -241,7 +241,7 @@ function HomeProjectCard({ project: p, index }: { project: Project; index: numbe
     >
       <ProjectMeta project={p} showStatus={false} />
       <h3 className="text-[19px] font-semibold tracking-[-0.01em]">
-        <Link to={`/projects/${p.slug}`} data-track-project={p.slug} className="text-fg-strong no-underline hover:underline">
+        <Link to={`/projects/${p.slug}`} data-track-project={p.slug} className="relative inline-block text-fg-strong no-underline before:absolute before:-inset-y-3 before:inset-x-0 before:content-[''] hover:underline">
           <ProjectTitle project={p} />
         </Link>
       </h3>
