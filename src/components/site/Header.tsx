@@ -19,7 +19,7 @@ export default function Header() {
       >
         <Link
           to="/"
-          className="relative flex min-h-11 shrink-0 items-center gap-2.5 font-mono before:absolute before:inset-y-0 before:-inset-x-2 before:content-[''] sm:before:hidden text-[17px] font-semibold tracking-[-0.03em] text-fg-strong no-underline"
+          className="relative flex min-h-11 shrink-0 items-center gap-2.5 font-mono before:absolute before:inset-y-0 before:-right-1.5 before:left-[min(0px,calc(100%_-_38px))] before:content-[''] sm:before:hidden text-[17px] font-semibold tracking-[-0.03em] text-fg-strong no-underline"
         >
           <img
             src="/logo.png"

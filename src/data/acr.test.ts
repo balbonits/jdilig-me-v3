@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { build, render } from '../../scripts/acr-to-html.mjs';
+import { build, HIT_44, render, standalone } from '../../scripts/acr-to-html.mjs';
 
 const dir = path.resolve(__dirname, 'acr');
 const { reports } = JSON.parse(fs.readFileSync(path.join(dir, 'acr.config.json'), 'utf8')) as { reports: Array<{ slug: string }> };
@@ -96,4 +96,14 @@ describe('ACR partials', () => {
     expect(() => render(md.replace(/^- \*\*Version:\*\*.*$/m, ''), src, slug)).toThrow(/Version/);
     expect(() => render(md, { ...src, sha: '' }, slug)).toThrow(/source SHA/);
   });
+});
+
+describe('standalone links get a 44px hit area (JDM-44d)', () => {
+  const a = '<a href="https://x.test/" class="text-accent underline underline-offset-2" rel="noreferrer">x</a>';
+  it('adds HIT_44 to a link that fills its item', () => expect(standalone(a)).toContain(HIT_44));
+  it('allows a bold label before the link', () => expect(standalone(`<strong>Contact:</strong> ${a}`)).toContain(HIT_44));
+  it('leaves a link inside a sentence alone', () => expect(standalone(`See ${a} for more`)).not.toContain(HIT_44));
+  it('leaves two links alone', () => expect(standalone(`${a} ${a}`)).not.toContain(HIT_44));
+  it('skips a crowded item so neighbouring hit areas never overlap', () => expect(standalone(a, true)).not.toContain(HIT_44));
+  it('only adds the class, nothing else', () => expect(standalone(a).replace(` ${HIT_44}`, '')).toBe(a));
 });

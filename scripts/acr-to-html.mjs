@@ -38,7 +38,23 @@ export function inline(text, base) {
 function link(href, label, base) {
   // Relative links in ACR.md point into the source repo at the vendored SHA.
   const url = /^(https?:|mailto:|#)/.test(href) ? href : new URL(href, base).href;
-  return `<a href="${esc(url)}" class="text-accent underline underline-offset-2" rel="noreferrer">${label}</a>`;
+  return `<a href="${esc(url)}" class="${LINK_CLASS}" rel="noreferrer">${label}</a>`;
+}
+
+// Same classes as HIT_44 in src/components/ui/hit.ts (jdilig-me-v3 #31): a transparent ::before grows the
+// hit area to at least 44x44 px with no visual change. Tailwind picks the classes up from the generated acr.html.
+export const HIT_44 =
+  "relative before:absolute before:content-[''] before:inset-x-[min(0px,calc((100%_-_44px)/2))] before:inset-y-[min(0px,calc((100%_-_44px)/2))]";
+const LINK_CLASS = 'text-accent underline underline-offset-2';
+
+/**
+ * A link that is the whole content of its list item or header value, optionally after a bold label such as
+ * "Contact:" (not a link inside a sentence, which WCAG 2.5.8 exempts), gets HIT_44. `crowded` skips it when a neighbouring item also holds a link, because
+ * list rows are only 26px apart and the two hit areas would overlap.
+ */
+export function standalone(fragment, crowded = false) {
+  if (crowded || !/^(?:<strong>[^<]*<\/strong>\s*)?<a [^>]*>(?:(?!<a ).)*<\/a>$/s.test(fragment)) return fragment;
+  return fragment.replace(`class="${LINK_CLASS}"`, `class="${LINK_CLASS} ${HIT_44}"`);
 }
 
 /** Splits a Markdown table row into cells, ignoring pipes inside `code`. */
@@ -106,7 +122,9 @@ export function render(md, source, slug) {
     } else if (/^- /.test(line)) {
       const items = [];
       while (i < lines.length && /^- /.test(lines[i])) items.push(lines[i++].slice(2));
-      html.push(`<ul class="m-0 flex list-disc flex-col gap-[7px] pl-[18px]">${items.map((x) => `<li>${inline(x, base)}</li>`).join('')}</ul>`);
+      const lis = items.map((x) => inline(x, base));
+      const hasLink = (i) => i >= 0 && i < lis.length && lis[i].includes('<a ');
+      html.push(`<ul class="m-0 flex list-disc flex-col gap-[7px] pl-[18px]">${lis.map((x, i) => `<li>${standalone(x, hasLink(i - 1) || hasLink(i + 1))}</li>`).join('')}</ul>`);
     } else {
       const para = [];
       while (i < lines.length && lines[i].trim() && !/^(#|\||- )/.test(lines[i])) para.push(lines[i++].trim());
@@ -124,7 +142,7 @@ export function render(md, source, slug) {
       ['Product version', field(md, 'Version', base, slug)],
       ['Source', `<a href="${esc(src)}" class="text-accent underline underline-offset-2" rel="noreferrer">${esc(`${source.repo.replace('https://github.com/', '')}@${short}`)}</a> (${esc(source.path)} at the commit this page was generated from)`],
       ['Contact', field(md, 'Contact', base)],
-    ].map(([k, v]) => `<dt class="font-semibold text-fg-strong">${k}</dt><dd class="m-0 min-w-0 break-words">${v}</dd>`),
+    ].map(([k, v]) => `<dt class="font-semibold text-fg-strong">${k}</dt><dd class="m-0 min-w-0 break-words">${standalone(v)}</dd>`),
     `</dl>`,
   ];
   return [
