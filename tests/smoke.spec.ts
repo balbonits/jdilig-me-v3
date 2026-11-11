@@ -71,19 +71,19 @@ for (const path of ['/nope', '/projects/nope', '/ux/nope']) {
   });
 }
 
-test('moving between pages announces the new page to screen readers', async ({
-  page,
-}) => {
+test('moving between pages moves focus to the new page\'s heading', async ({ page }) => {
+  // MOTION-SPEC D3: the focused h1 is the page-change announcement; there is
+  // no separate live region repeating the title.
   await page.goto('/');
-  const status = page.getByRole('status');
-  await expect(status).toBeEmpty();
+  await expect(page.getByRole('status')).toHaveCount(0);
 
   await page
     .getByRole('navigation', { name: 'Primary' })
     .getByRole('link', { name: 'Contact' })
     .click();
 
-  await expect(status).toHaveText('Contact — jdilig.me');
+  await expect(page).toHaveTitle('Contact — jdilig.me');
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
 });
 
 // Regression: opening the last image of a long gallery and then moving to a

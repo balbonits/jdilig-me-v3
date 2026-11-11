@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Outlet, ScrollRestoration, useLocation } from 'react-router';
+import { useEffect, useRef } from 'react';
+import { Outlet, ScrollRestoration, useLocation, useNavigation } from 'react-router';
 import ErrorBoundary from '@/components/site/ErrorBoundary';
 import Header from '@/components/site/Header';
 import Footer from '@/components/site/Footer';
@@ -7,7 +7,7 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 export default function SiteLayout() {
   const { pathname, key } = useLocation();
-  const [announcement, setAnnouncement] = useState('');
+  const navigation = useNavigation();
   const lastPath = useRef(pathname);
   useScrollReveal(pathname);
 
@@ -17,21 +17,23 @@ export default function SiteLayout() {
   // page while a View Transition is still running.
 
   // After a client-side page change (including Back to the first page; not
-  // in-page #hash jumps, which keep focus where the browser puts it),
-  // say the new page's title, since browsers announce only full page loads,
-  // and move focus to its heading so keyboard and screen reader users start
-  // there. The page has set its title by now: child effects run first.
-  // preventScroll leaves scrolling to <ScrollRestoration>. Mouse users see no
-  // ring: programmatic focus after a click doesn't match :focus-visible.
+  // in-page #hash jumps, which keep focus where the browser puts it), move
+  // focus to the new page's h1 so keyboard and screen reader users start
+  // there. The h1 is the page's announcement (MOTION-SPEC D3): it starts with
+  // the page's name. This runs once React has committed the new page and the
+  // navigation has settled (state idle), so focus lands on the live h1, not
+  // on a node a View Transition is about to replace. preventScroll leaves
+  // scrolling to <ScrollRestoration>. Mouse users see no ring: programmatic
+  // focus after a click doesn't match :focus-visible.
+  const settled = navigation.state === 'idle';
   useEffect(() => {
-    if (pathname === lastPath.current) return;
+    if (!settled || pathname === lastPath.current) return;
     lastPath.current = pathname;
-    setAnnouncement(document.title);
     const heading = document.querySelector<HTMLElement>('#main h1');
     if (!heading) return;
     if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
     heading.focus({ preventScroll: true });
-  }, [pathname]);
+  }, [pathname, settled]);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -49,9 +51,6 @@ export default function SiteLayout() {
       </main>
       <Footer />
       <ScrollRestoration />
-      <div role="status" className="sr-only">
-        {announcement}
-      </div>
     </div>
   );
 }

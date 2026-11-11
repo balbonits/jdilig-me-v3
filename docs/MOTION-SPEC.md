@@ -1,6 +1,6 @@
 # JDM-VT motion spec: page transitions on jdilig.me
 
-Status: DRAFT v0.2 for Chief Architect sign-off (v0.2 adds build findings, marked **[v0.2]**). Author: Front End Developer, 2026-11-10.
+Status: v0.2 SIGNED by Chief Architect, 2026-11-10 (D1, D2 and D3 approved; v0.2 conditions in section 10). Build findings are marked **[v0.2]**. Author: Front End Developer, 2026-11-10.
 Repo: balbonits/jdilig-me-v3 at main 6019094 (react-router 7.18.4, Vite, prerendered with StaticRouter).
 Scope: polish only. The look, sections, nav, ids and copy stay the same, and nothing is renamed or removed. No new dependencies.
 
@@ -57,10 +57,10 @@ The same-document View Transitions API, through React Router's own `viewTransiti
 - Focus uses `{ preventScroll: true }`, so PUSH stays at the top and POP keeps the restored scroll position.
 - Mouse users get no outline, because programmatic focus after a pointer click doesn't match `:focus-visible` in Chromium, WebKit or Gecko. An extra `h1[tabindex="-1"]:focus:not(:focus-visible){outline:none}` makes sure of it. Keyboard users keep the existing teal ring.
 - `document.title` is already set per page by `usePageMeta`, and that stays.
-- **D3:** the existing `role="status"` title announcement would double up with the h1 focus (the screen reader reads both). I propose removing that live region, since focus on the h1 now announces the page. CA's call; if you say keep, I keep it.
+- **D3 (approved):** the `role="status"` title announcement is removed, because it doubled up with the h1 focus. The focused h1 is now the only page-change announcement, so it must identify the page: its accessible name starts with the page's name from `document.title`. A test checks this on every route.
 - The skip link (`href="#main"`) works on every route. A test tabs to it after a client navigation and checks focus lands in `#main`.
 - **[v0.2] Scroll:** React Router's `<ScrollRestoration/>` replaces the manual `scrollTo(0,0)` effect. It gives the same behavior: new pages open at the top and Back/Forward return to the old position. It's needed because, with a transition running, the browser restored Back too early and clamped it to the shorter page (measured: 1989 instead of 2166 px). A test covers it.
-- **[v0.2]** Focus and the announcement fire when the pathname changes, including Back to the first page, which the old key check missed. They don't fire on in-page `#hash` jumps, which keep normal browser focus.
+- **[v0.2]** Focus fires when the pathname changes, including Back to the first page, which the old key check missed. They don't fire on in-page `#hash` jumps, which keep normal browser focus.
 
 ## 7. CLS and performance
 - View Transitions paint snapshots on a top layer without changing layout, so CLS isn't affected.
@@ -94,6 +94,15 @@ The motion is the same at every width; only what morphs differs by layout.
 - D1: switch the client to the data router (createBrowserRouter + RouterProvider), with the same routeTree and the server untouched?
 - D2: forward-only title morph, with Back as a crossfade?
 - D3: remove the duplicate role=status title announcement now that focus moves to the h1?
+
+## 10. CA conditions (v0.2 sign-off)
+1. Focus moves to the h1 after React has committed the new page and the navigation has settled (`useNavigation().state === 'idle'`), so it never lands on a node a transition is replacing. It fires on pathname changes, including Back, and not on `#hash` jumps. Tests: morph + focus, Back replay + focus, hash jump.
+2. Interruption: a second navigation mid-transition skips the running one (React Router's RouterProvider calls `skipTransition()`), so input is never blocked over 280ms. Test: click a card, click a header link 40ms later, and the second page is live in under 280ms with no `::view-transition` animations left.
+3. Reduced motion means instant navigation (stricter than a 150ms crossfade; accepted). Test: reduced-motion.
+4. No morph when the source title is inside a closed or hidden region. Test: hide the card, click its link, and no `::view-transition-old(project-title)` is created.
+5. ScrollRestoration restores Back to the exact saved position on a long page (the 2166px case). Test: the home page at 375px, deep link, Back, `scrollY` equals the saved value and stays there after the transition.
+6. D1 keeps the prerender working: tests/prerender.spec.ts loads every prerendered page in dist/ in a real browser and expects 0 console errors.
+7. D3: every route's h1 starts with the page's name (test on every route).
 
 ## [v0.2] Measured on the branch (local `vite preview`)
 - e2e: 33 passed. That's the 23 existing tests plus 10 new ones in tests/transitions.spec.ts: morph and focus at 320/375/1280, UX morph plus header link, reduced motion, no-API fallback, skip link after navigation, Back scroll, Back replay plus focus, and the hash jump.

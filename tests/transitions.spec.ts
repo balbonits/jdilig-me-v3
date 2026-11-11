@@ -131,21 +131,78 @@ test('the skip link works after a client-side page change', async ({ page }) => 
   expect(await page.evaluate(() => !!document.activeElement?.closest('#main'))).toBe(true);
 });
 
-test('Back returns to the same scroll position, and new pages open at the top', async ({ page }) => {
+test('Back returns to the exact scroll position on a long page, and new pages open at the top', async ({ page }) => {
+  // The long home page at 375px is where Back used to land short (1989 vs
+  // 2166px) while the transition was still running.
   await page.setViewportSize({ width: 375, height: 800 });
-  await page.goto('/projects');
-  const card = page.locator('main a[href^="/projects/"]').last();
-  await card.scrollIntoViewIfNeeded();
+  await page.goto('/');
+  const link = page.locator('main a[href^="/projects/"]').last();
+  await link.scrollIntoViewIfNeeded();
+  await page.evaluate(() => window.scrollBy(0, 0));
   const before = await page.evaluate(() => window.scrollY);
-  expect(before).toBeGreaterThan(400);
+  expect(before).toBeGreaterThan(1500);
 
-  await card.click();
+  await link.click();
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 
   await page.goBack();
-  await expect(page).toHaveURL(/\/projects$/);
-  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(before - 50);
+  await expect(page).toHaveURL(/\/$/);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(before);
+  // And it stays there once the transition has finished.
+  await page.waitForTimeout(400);
+  expect(await page.evaluate(() => window.scrollY)).toBe(before);
+});
+
+test('a second click mid-transition skips the running transition, so input is never blocked over 280ms', async ({ page }) => {
+  await page.goto('/projects');
+  const ms = await page.evaluate(async () => {
+    const first = document.querySelector<HTMLAnchorElement>('main a[href="/projects/squanto"]')!;
+    const second = [...document.querySelectorAll<HTMLAnchorElement>('header a')].find((a) => a.getAttribute('href') === '/ux')!;
+    first.click();
+    await new Promise((r) => setTimeout(r, 40));
+    const start = performance.now();
+    second.click();
+    // Time until the second page is the live page.
+    while (!(location.pathname === '/ux' && document.querySelector('#main h1')?.textContent?.includes('UX case studies'))) {
+      if (performance.now() - start > 2000) break;
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    return performance.now() - start;
+  });
+  expect(ms).toBeLessThan(280);
+  await expect(page).toHaveURL(/\/ux$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('UX case studies');
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  // Nothing from the first transition is left on screen.
+  await expect.poll(() => page.evaluate(() => document.getAnimations().filter((a) => (a.effect as KeyframeEffect | null)?.pseudoElement?.startsWith('::view-transition')).length)).toBe(0);
+});
+
+test('a title inside a hidden region never morphs, so there are no ghost frames', async ({ page }) => {
+  await page.goto('/projects');
+  const pseudos = await page.evaluate(async () => {
+    const link = document.querySelector<HTMLAnchorElement>('main a[href="/projects/squanto"]')!;
+    // Put the source title in a closed region, like a collapsed panel.
+    (link.closest('article') ?? link.parentElement!).hidden = true;
+    const seen = new Set<string>();
+    const original = document.startViewTransition.bind(document);
+    document.startViewTransition = ((arg: Parameters<typeof original>[0]) => {
+      const t = original(arg);
+      t.ready.then(() => {
+        for (const a of document.getAnimations()) {
+          const p = (a.effect as KeyframeEffect | null)?.pseudoElement;
+          if (p) seen.add(p);
+        }
+      }, () => {});
+      return t;
+    }) as typeof document.startViewTransition;
+    link.click();
+    await new Promise((r) => setTimeout(r, 500));
+    return [...seen];
+  });
+  await expect(page).toHaveURL(/\/projects\/squanto$/);
+  expect(pseudos.some((p) => p.includes('(page)'))).toBe(true);
+  expect(pseudos.filter((p) => p.includes('old(project-title)'))).toEqual([]);
 });
 
 test('Back replays the transition and focuses the h1', async ({ page }) => {
