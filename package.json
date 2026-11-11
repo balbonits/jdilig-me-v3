@@ -24,7 +24,9 @@
     "screenshots": "playwright test tests/screenshots.spec.ts",
     "thumbnails": "node scripts/thumbnails.mjs",
     "og:image": "playwright test tests/og-image.spec.ts",
-    "lighthouse": "node scripts/lighthouse.mjs"
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "acr": "node scripts/acr-to-html.mjs",
+    "acr:check": "node scripts/acr-to-html.mjs --check"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

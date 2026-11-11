@@ -6,6 +6,7 @@ import { LinkButton } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
 import RichText from '@/components/ui/RichText';
+import { getAcrHtml } from '@/data/acr';
 import { uxMeta } from '@/data/pages';
 import { getUxCaseStudy, uxPath, type UxCaseStudy as Study } from '@/data/ux';
 import { usePageMeta } from '@/hooks/usePageMeta';
@@ -22,6 +23,7 @@ export default function UxCaseStudy() {
 
 function StudyPage({ study: s }: { study: Study }) {
   usePageMeta(uxMeta(s));
+  const acr = getAcrHtml(s.slug);
 
   return (
     <Container size="narrow" className="pb-24 pt-10 sm:pt-14">
@@ -100,13 +102,20 @@ function StudyPage({ study: s }: { study: Study }) {
           )}
         </Sect>
       ))}
+
+      {acr && (
+        <Sect title="Accessibility Conformance Report" id="acr">
+          {/* Generated from the project's docs/ACR.md (scripts/acr-to-html.mjs); trusted, repo-committed markup. */}
+          <div dangerouslySetInnerHTML={{ __html: acr }} />
+        </Sect>
+      )}
     </Container>
   );
 }
 
-function Sect({ title, children }: { title: string; children: ReactNode }) {
+function Sect({ title, id, children }: { title: string; id?: string; children: ReactNode }) {
   return (
-    <section className="mb-8">
+    <section className="mb-8" id={id}>
       <h2 className="mb-3.5 font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-fg-subtle">
         {title}
       </h2>

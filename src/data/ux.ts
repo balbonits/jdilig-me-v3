@@ -1,4 +1,4 @@
-// UX case studies. Copy from Chief of Creatives (DS-CASE-COPY.md v1.0); facts match the shipped repo.
+// UX case studies. Copy from Chief of Creatives (DS-CASE-COPY.md v1.0, DEV-DASHBOARD-CASE-COPY.md v1.1); facts match the shipped repo.
 
 export type UxSection = { title: string; paragraphs?: string[]; bullets?: string[] };
 
@@ -178,6 +178,91 @@ export const UX_CASE_STUDIES: UxCaseStudy[] = [
           'Add the switchable Ember UI themes once they land in the design system.',
           'Test it with real job seekers to replace the assumed personas.',
           'Add the optional fields the IA lists that the prototype skips, like salary range and contacts.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'dev-dashboard',
+    path: '/ux/dev-dashboard/case-study',
+    name: 'Dev dashboard',
+    title: 'Dev dashboard: a deploys view built for the on-call moment',
+    blurb:
+      "A deploys dashboard for the engineer who just got paged. It answers three questions fast: what's failing, what changed and where the logs are.",
+    lede:
+      'I designed and built a deploys dashboard for one moment: an engineer pulled off their work by a failure alert. The whole page serves three questions. Is anything failing? What changed? Show me the logs. Every service, commit and log line in it is made up.',
+    links: {
+      demo: { label: 'Open the prototype', href: '/ux/dev-dashboard/' },
+      source: 'https://github.com/balbonits/devtool-dashboard',
+    },
+    images: [
+      { src: '/ux/dev-dashboard-production-desktop.png', alt: 'The deploys dashboard on desktop: the Production tab, an alert banner for two failed production deploys, and a table of nine runs.', width: 1280, height: 800 },
+      { src: '/ux/dev-dashboard-production-mobile-dark.png', alt: 'The same Production runs on a phone in dark mode, each status shown as a symbol and a word: Running, Failed, Succeeded or Canceled.', width: 390, height: 844 },
+      { src: '/ux/dev-dashboard-run-log-desktop.png', alt: 'A failed checkout-api run open in the log panel beside the filtered list, with the two error lines highlighted and a Copy link to this run button.', width: 1280, height: 800 },
+      { src: '/ux/dev-dashboard-loading-desktop.png', alt: 'The loading state: the table stays in place with empty placeholder rows and one line that says Loading runs.', width: 1280, height: 800 },
+    ],
+    sections: [
+      {
+        title: 'Problem',
+        paragraphs: [
+          "Deploy dashboards tend to grow sideways. They gain more charts, more tiles and more color. In a real incident, though, the person looking at the screen is stressed and short on time, and they may not be able to rely on color. I wanted a dashboard that does less and shows it more clearly. It's one table of runs, one way into the logs, and status you can read without seeing color.",
+        ],
+      },
+      {
+        title: "Who it's for",
+        bullets: [
+          'Assumption: an on-call engineer, paged mid-task, who already knows the services and needs to triage, not explore.',
+          'Assumption: they often work from the keyboard, sometimes on a phone, and sometimes in a dark room at a bad hour.',
+        ],
+      },
+      {
+        title: 'Approach',
+        paragraphs: [
+          "I started from the three tasks and cut everything that didn't serve them. The page opens on the runs for one environment at a time. A banner appears only when production is actually failing. Every run has a log one press away, with a link you can paste into the incident channel.",
+          'Each decision below links to the commit where it landed.',
+        ],
+        bullets: [
+          "Status is a word and a symbol, never only a color. Red and green fail some people, and they fail everyone on a bad screen at 3 AM. Every run reads Failed, Running, Succeeded or Canceled in plain text. ([commit](https://github.com/balbonits/devtool-dashboard/commit/ae38a4e))",
+          "Filters live in the URL. A filtered view is a link. You can share exactly what you're looking at. ([commit](https://github.com/balbonits/devtool-dashboard/commit/2e853c2))",
+          'One log view that changes shape. On a wide screen the log opens beside the list, so you never lose your place. On a phone it opens as a dialog. Either way, closing it puts focus back on the run you came from. ([commit](https://github.com/balbonits/devtool-dashboard/commit/2cd8d0b))',
+          "Shortcuts you can turn off. Single keys move through runs fast for people who want them. For people using speech input or a switch, they're a hazard. There's an off switch, and the keys never fire while you're typing. ([commit](https://github.com/balbonits/devtool-dashboard/commit/e408e1d))",
+          "No motion. A page you open during an incident shouldn't move under you. The app defines no animations at all, and a lint rule in CI enforces that. ([commit](https://github.com/balbonits/devtool-dashboard/commit/6b0c0c5))",
+        ],
+      },
+      {
+        title: 'States',
+        paragraphs: [
+          'A dashboard spends most of its life in states nobody designs for: loading, broken, empty and calm. I designed each one as a real screen.',
+        ],
+        bullets: [
+          "When there's nothing to show, it says why and gives you one way out.",
+          "When everything's green, it says so and gets out of the way.",
+          "While it loads, the table stays put. It's marked busy, one line says it's loading runs, and nothing spins or slides.",
+        ],
+      },
+      {
+        title: 'Accessibility',
+        paragraphs: [
+          "Accessibility isn't a pass at the end here. It's checked on every change, at every width from 320 pixels up, in light and dark.",
+          'The automated checks come back clean. 110 axe runs across 11 states, five widths and both color modes found 0 serious or critical issues. A text-spacing pass found no overflow and no clipped text. Lighthouse scores accessibility at 100 on the list, an open run log and the error state.',
+          "It hasn't been tested with a screen reader yet, so I don't claim it works with one. The accessibility report marks that item Partially Supports until a reader pass is recorded.",
+          'The full self-assessed [accessibility conformance report](https://github.com/balbonits/devtool-dashboard/blob/main/docs/ACR.md), in the federal VPAT format, is in the repo.',
+        ],
+      },
+      {
+        title: 'Result',
+        paragraphs: [
+          "It's a working prototype with mock data. It's not a product. The design system underneath it is my own Ember UI, so every color and focus ring comes from shared tokens instead of one-off styles.",
+          'The prototype is live at [/ux/dev-dashboard/](/ux/dev-dashboard/), built from release [v0.1.0](https://github.com/balbonits/devtool-dashboard/releases/tag/v0.1.0). The code, the dated progress log and milestone screenshots are public on [GitHub](https://github.com/balbonits/devtool-dashboard), and [Ember UI](https://github.com/balbonits/a11y-design-system) is too.',
+          "I built it for the worst five minutes of someone's week. If it's calm and readable then, it's doing its job.",
+        ],
+      },
+      {
+        title: "What I'd do next",
+        bullets: [
+          'Run a real screen-reader pass and record it.',
+          'Add the summary views I held back on purpose. The deploy stats, a trend chart and a builds list are all in the v1.1 notes, and they stayed out until the table proved itself.',
+          'Fix the dialog close-button squeeze I found at 320 pixels in Ember UI itself, not just patch it here.',
         ],
       },
     ],

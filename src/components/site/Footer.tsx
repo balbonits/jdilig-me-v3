@@ -43,7 +43,7 @@ export default function Footer() {
             href="https://games.jdilig.me/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-accent hover:underline"
+            className="relative text-accent before:absolute before:-inset-y-[13px] before:inset-x-0 before:content-[''] hover:underline"
           >
             games.jdilig.me
           </a>
