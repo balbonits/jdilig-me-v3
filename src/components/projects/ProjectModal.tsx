@@ -1,5 +1,5 @@
 import { useId, useState, type ReactNode } from 'react';
-import { Link } from 'react-router';
+import { Link } from '@/components/ui/Link';
 import { Icon, GitHubIcon } from '@/components/icons';
 import ProjectHeroPreview from '@/components/projects/ProjectHeroPreview';
 import ProjectMeta from '@/components/projects/ProjectMeta';

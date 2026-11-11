@@ -23,7 +23,25 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      // Internal links go through @/components/ui/Link so page changes run
+      // as View Transitions (docs/MOTION-SPEC.md).
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-router',
+              importNames: ['Link', 'NavLink'],
+              message: "Import Link/NavLink from '@/components/ui/Link' instead.",
+            },
+          ],
+        },
+      ],
     },
+  },
+  {
+    files: ['src/components/ui/Link.tsx'],
+    rules: { 'no-restricted-imports': 'off' },
   },
   {
     // Node scripts and config files.

@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink } from '@/components/ui/Link';
 import { getNavItems } from '@/router';
 import { PROFILE } from '@/data/profile';
 import { useTheme } from '@/hooks/useTheme';

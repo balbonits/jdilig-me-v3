@@ -1,5 +1,5 @@
 import { GitHubIcon, LinkedInIcon, Icon } from '@/components/icons';
-import { Link } from 'react-router';
+import { Link } from '@/components/ui/Link';
 import { PROFILE } from '@/data/profile';
 
 const footLink =

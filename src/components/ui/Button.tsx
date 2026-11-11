@@ -3,7 +3,7 @@ import type {
   ButtonHTMLAttributes,
   ReactNode,
 } from 'react';
-import { Link, type LinkProps } from 'react-router';
+import { Link, type LinkProps } from '@/components/ui/Link';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 export type ButtonSize = 'md' | 'lg';

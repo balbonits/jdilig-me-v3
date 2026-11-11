@@ -230,3 +230,59 @@
   from { stroke-dashoffset: 1; }
   to { stroke-dashoffset: 0; }
 }
+
+/* Page transitions (docs/MOTION-SPEC.md). React Router runs internal page
+   changes as View Transitions; browsers without the API change pages
+   instantly. The page body fades and rises 8px; the rest of the page (header,
+   footer) swaps in place, so it looks still. A clicked card's title morphs
+   into the next page's h1 (project-title / ux-title). */
+@media (prefers-reduced-motion: no-preference) {
+  #main {
+    view-transition-name: page;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(page) {
+    animation: none;
+  }
+  ::view-transition-old(page) {
+    animation: page-out var(--dur-page-out) var(--ease-out) both;
+  }
+  ::view-transition-new(page) {
+    animation: page-in var(--dur-page-in) var(--ease-out) 40ms both;
+  }
+  ::view-transition-group(project-title),
+  ::view-transition-group(ux-title) {
+    animation-duration: var(--dur-morph);
+    animation-timing-function: var(--ease-out);
+  }
+}
+
+/* The global reduced-motion rule doesn't reach these pseudo-elements, and JS
+   already skips the transition; this is the backstop. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Focus moves to the h1 after a page change. Keyboard users get the usual
+   ring; no ring for a mouse click. */
+h1[tabindex='-1']:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

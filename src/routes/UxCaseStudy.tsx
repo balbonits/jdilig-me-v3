@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Link, useLocation, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
+import { Link } from '@/components/ui/Link';
 import { Icon, GitHubIcon } from '@/components/icons';
 import { LinkButton } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
@@ -34,7 +35,7 @@ function StudyPage({ study: s }: { study: Study }) {
 
       <div className="mb-10">
         <Eyebrow>UX case study</Eyebrow>
-        <h1 className="mt-3 mb-3.5 text-[34px] font-bold leading-[1.08] tracking-[-0.03em] text-fg-strong sm:text-[44px]">
+        <h1 style={{ viewTransitionName: 'ux-title' }} className="mt-3 mb-3.5 text-[34px] font-bold leading-[1.08] tracking-[-0.03em] text-fg-strong sm:text-[44px]">
           {s.title}
         </h1>
         <p className="mb-6 text-[17px] leading-[1.55] text-fg-muted sm:text-[18px]">{s.lede}</p>

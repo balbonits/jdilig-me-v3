@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import type { CSSProperties } from 'react';
-import { Link } from 'react-router';
+import { Link } from '@/components/ui/Link';
 import { Icon, GitHubIcon, LinkedInIcon } from '@/components/icons';
 import CopyEmail from '@/components/home/CopyEmail';
 import SectionTitle from '@/components/home/SectionTitle';

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Link, useParams } from 'react-router';
+import { useParams } from 'react-router';
+import { Link } from '@/components/ui/Link';
 import { Icon, GitHubIcon } from '@/components/icons';
 import LighthouseScores from '@/components/projects/LighthouseScores';
 import ProjectGallery from '@/components/projects/ProjectGallery';
@@ -50,7 +51,7 @@ function ProjectPage({ project: p }: { project: Project }) {
       <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-[640px]">
           <ProjectMeta project={p} className="mb-3" />
-          <h1 className="mb-3.5 text-[38px] font-bold leading-[1.05] tracking-[-0.03em] text-fg-strong sm:text-[56px] sm:leading-[1.02]">
+          <h1 style={{ viewTransitionName: 'project-title' }} className="mb-3.5 text-[38px] font-bold leading-[1.05] tracking-[-0.03em] text-fg-strong sm:text-[56px] sm:leading-[1.02]">
             <ProjectTitle project={p} />
           </h1>
           <p className="max-w-[560px] text-[17px] leading-[1.55] text-fg-muted sm:text-[18px]">

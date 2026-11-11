@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Outlet, useLocation, useNavigationType } from 'react-router';
+import { Outlet, ScrollRestoration, useLocation } from 'react-router';
 import ErrorBoundary from '@/components/site/ErrorBoundary';
 import Header from '@/components/site/Header';
 import Footer from '@/components/site/Footer';
@@ -7,23 +7,31 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 export default function SiteLayout() {
   const { pathname, key } = useLocation();
-  const navigationType = useNavigationType();
   const [announcement, setAnnouncement] = useState('');
-  const firstKey = useRef(key);
+  const lastPath = useRef(pathname);
   useScrollReveal(pathname);
 
-  // New pages open at the top. Back/Forward (POP) keep the position the
-  // browser restores.
-  useEffect(() => {
-    if (navigationType !== 'POP') window.scrollTo(0, 0);
-  }, [pathname, navigationType]);
+  // New pages open at the top; Back/Forward return to where you were.
+  // <ScrollRestoration> (below) does both: it restores after the page has
+  // rendered, so the browser can't clamp the position to the old, shorter
+  // page while a View Transition is still running.
 
-  // Browsers announce a full page load but not a client-side page change, so
-  // say the new page's title. The page has set it by now: child effects run
-  // before this one.
+  // After a client-side page change (including Back to the first page; not
+  // in-page #hash jumps, which keep focus where the browser puts it),
+  // say the new page's title, since browsers announce only full page loads,
+  // and move focus to its heading so keyboard and screen reader users start
+  // there. The page has set its title by now: child effects run first.
+  // preventScroll leaves scrolling to <ScrollRestoration>. Mouse users see no
+  // ring: programmatic focus after a click doesn't match :focus-visible.
   useEffect(() => {
-    if (key !== firstKey.current) setAnnouncement(document.title);
-  }, [key]);
+    if (pathname === lastPath.current) return;
+    lastPath.current = pathname;
+    setAnnouncement(document.title);
+    const heading = document.querySelector<HTMLElement>('#main h1');
+    if (!heading) return;
+    if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
+    heading.focus({ preventScroll: true });
+  }, [pathname]);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -40,6 +48,7 @@ export default function SiteLayout() {
         </ErrorBoundary>
       </main>
       <Footer />
+      <ScrollRestoration />
       <div role="status" className="sr-only">
         {announcement}
       </div>
