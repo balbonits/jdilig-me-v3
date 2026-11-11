@@ -1,6 +1,7 @@
 import { Link } from '@/components/ui/Link';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { HIT_44 } from '@/components/ui/hit';
 import { PAGES } from '@/data/pages';
 import { usePageMeta } from '@/hooks/usePageMeta';
 
@@ -25,7 +26,7 @@ export default function NotFound() {
         <p className="mb-6 text-[16px] text-fg-muted">
           That page doesn't exist. Maybe it never did.
         </p>
-        <Link to="/" className="text-accent no-underline hover:underline">
+        <Link to="/" className={`${HIT_44} text-accent no-underline hover:underline`}>
           ← Go home
         </Link>
       </div>

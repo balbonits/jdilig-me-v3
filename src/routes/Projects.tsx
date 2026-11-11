@@ -3,6 +3,7 @@ import FeaturedProjectCard from '@/components/projects/FeaturedProjectCard';
 import ProjectCard from '@/components/projects/ProjectCard';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { HIT_44 } from '@/components/ui/hit';
 import { PAGES } from '@/data/pages';
 import {
   PROJECTS,
@@ -32,7 +33,7 @@ const SORT_LABELS: Record<SortOption, string> = {
 };
 
 function pillClass(active: boolean) {
-  return `cursor-pointer rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-[120ms] ease-out ${
+  return `${HIT_44} cursor-pointer rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-[120ms] ease-out ${
     active
       ? 'border-fg-strong bg-fg-strong text-bg'
       : 'border-border-DEFAULT bg-surface text-fg-muted hover:border-border-strong'

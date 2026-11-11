@@ -1,6 +1,7 @@
 import { Link } from '@/components/ui/Link';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import { HIT_44 } from '@/components/ui/hit';
 import { PAGES } from '@/data/pages';
 import { PROFILE } from '@/data/profile';
 import { usePageMeta } from '@/hooks/usePageMeta';
@@ -43,7 +44,7 @@ export default function Accessibility() {
       <h2 className={h2}>Accessibility reports</h2>
       <ul className={`${body} list-disc pl-5`}>
         <li>
-          <a className={link} href="https://github.com/balbonits/job-app-tracker/blob/main/docs/ACR.md">
+          <a className={`${link} ${HIT_44}`} href="https://github.com/balbonits/job-app-tracker/blob/main/docs/ACR.md">
             Job tracker ACR
           </a>{' '}
           (VPAT 2.5, Section 508 edition)

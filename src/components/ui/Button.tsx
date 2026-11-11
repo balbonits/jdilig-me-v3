@@ -4,6 +4,7 @@ import type {
   ReactNode,
 } from 'react';
 import { Link, type LinkProps } from '@/components/ui/Link';
+import { HIT_44 } from './hit';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 export type ButtonSize = 'md' | 'lg';
@@ -25,7 +26,7 @@ const variantClasses: Record<ButtonVariant, string> = {
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  md: 'px-4 py-[9px] text-sm rounded-md gap-1.5',
+  md: `px-4 py-[9px] text-sm rounded-md gap-1.5 ${HIT_44}`,
   lg: 'min-h-12 px-5 py-[11px] text-[15px] rounded-[2px] gap-2',
 };
 

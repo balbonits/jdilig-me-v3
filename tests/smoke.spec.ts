@@ -156,10 +156,16 @@ test('the theme follows the OS until the visitor picks one', async ({ page }) =>
 test('keyboard focus is still drawn in forced-colors mode', async ({ page }) => {
   await page.emulateMedia({ forcedColors: 'active' });
   await page.goto('/');
+  // The dev server renders on the client, and React can commit after the
+  // load event. Pressing Tab before the skip link exists leaves focus on
+  // <body> (outline none), so wait for it, then check Tab really landed.
+  const skip = page.getByRole('link', { name: 'Skip to content' });
+  await expect(skip).toBeAttached();
   await page.keyboard.press('Tab');
+  await expect(skip).toBeFocused();
 
-  const outline = await page.evaluate(() => {
-    const style = getComputedStyle(document.activeElement as Element);
+  const outline = await skip.evaluate((el) => {
+    const style = getComputedStyle(el);
     return { style: style.outlineStyle, width: style.outlineWidth };
   });
   expect(outline.style).toBe('solid');
