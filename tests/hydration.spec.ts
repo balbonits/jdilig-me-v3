@@ -22,6 +22,18 @@ function fileFor(path: string): string | undefined {
   return candidates.map((c) => join(DIST, c)).find((f) => existsSync(f) && statSync(f).isFile());
 }
 
+async function serveDist(page: import('@playwright/test').Page) {
+  await page.route(`${ORIGIN}/**`, async (route) => {
+    const url = new URL(route.request().url());
+    if (url.pathname.startsWith('/_vercel/')) return route.fulfill({ status: 204, body: '' });
+    const file = fileFor(url.pathname);
+    const notFound = !file && extname(url.pathname) === '';
+    const body = file ? readFileSync(file) : notFound ? readFileSync(join(DIST, '404.html')) : 'not found';
+    const type = file ? TYPES[extname(file)] ?? 'application/octet-stream' : 'text/html';
+    return route.fulfill({ status: file ? 200 : 404, body, headers: { 'content-type': type } });
+  });
+}
+
 const PATHS = ['/', '/projects', '/projects/jdilig-me', '/ux', '/ux/design-system', '/resume', '/contact', '/no-such-page'];
 
 for (const path of PATHS) {
@@ -31,15 +43,7 @@ for (const path of PATHS) {
     page.on('console', (m) => {
       if (m.type() === 'error' && !m.text().startsWith('Failed to load resource')) errors.push(m.text());
     });
-    await page.route(`${ORIGIN}/**`, async (route) => {
-      const url = new URL(route.request().url());
-      if (url.pathname.startsWith('/_vercel/')) return route.fulfill({ status: 204, body: '' });
-      const file = fileFor(url.pathname);
-      const notFound = !file && extname(url.pathname) === '';
-      const body = file ? readFileSync(file) : notFound ? readFileSync(join(DIST, '404.html')) : 'not found';
-      const type = file ? TYPES[extname(file)] ?? 'application/octet-stream' : 'text/html';
-      return route.fulfill({ status: file ? 200 : 404, body, headers: { 'content-type': type } });
-    });
+    await serveDist(page);
     await page.addInitScript(() => {
       const w = window as unknown as { __rootRemovals: number };
       w.__rootRemovals = 0;
@@ -59,5 +63,28 @@ for (const path of PATHS) {
     })).toBe(true);
     expect(await page.evaluate(() => (window as unknown as { __rootRemovals: number }).__rootRemovals)).toBe(0);
     expect(errors).toEqual([]);
+  });
+}
+
+// Prerendered HTML is rendered in the light theme. A dark visitor's page must
+// still end up with the dark theme's toggle label and icon after hydration
+// (React doesn't patch attribute mismatches while hydrating).
+for (const colorScheme of ['dark', 'light'] as const) {
+  test(`theme toggle matches the ${colorScheme} theme after hydration`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme });
+    await serveDist(page);
+    await page.goto(ORIGIN + '/');
+    await page.waitForLoadState('networkidle');
+    const next = colorScheme === 'dark' ? 'light' : 'dark';
+    const toggle = page.getByRole('button', { name: `Switch to ${next} theme` });
+    await expect(toggle).toBeVisible();
+    const shown = colorScheme === 'dark' ? 'sun' : 'moon';
+    const hidden = colorScheme === 'dark' ? 'moon' : 'sun';
+    await expect(toggle.locator(`[data-icon="${shown}"]`)).toHaveCSS('opacity', '1');
+    await expect(toggle.locator(`[data-icon="${hidden}"]`)).toHaveCSS('opacity', '0');
+    await toggle.click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', next);
+    await expect(page.getByRole('button', { name: `Switch to ${colorScheme} theme` })).toBeVisible();
+    await expect(page.locator(`.theme-toggle [data-icon="${hidden}"]`)).toHaveCSS('opacity', '1');
   });
 }

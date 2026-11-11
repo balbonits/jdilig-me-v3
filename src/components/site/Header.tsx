@@ -68,9 +68,11 @@ export default function Header() {
           aria-label={`Switch to ${nextTheme} theme`}
           className="theme-toggle relative flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-[2px] border border-border-DEFAULT bg-surface text-fg-muted transition-all duration-[120ms] ease-out hover:border-border-strong hover:text-fg-strong"
         >
-          {/* Both icons stay mounted so the swap can rotate and cross-fade. */}
-          <Icon.Moon aria-hidden="true" data-on={theme === 'light'} className="theme-icon absolute h-4 w-4" />
-          <Icon.Sun aria-hidden="true" data-on={theme === 'dark'} className="theme-icon absolute h-4 w-4" />
+          {/* Both icons stay mounted so the swap can rotate and cross-fade.
+              Which one shows follows <html data-theme> in index.css, so the
+              prerendered page shows the right icon before any JS runs. */}
+          <Icon.Moon aria-hidden="true" data-icon="moon" className="theme-icon absolute h-4 w-4" />
+          <Icon.Sun aria-hidden="true" data-icon="sun" className="theme-icon absolute h-4 w-4" />
         </button>
         </div>
       </nav>
