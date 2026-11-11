@@ -1,0 +1,6 @@
+{
+  "$comment": "One entry per case study that publishes an ACR. slug matches src/data/ux.ts. Add a project by adding an entry here and running scripts/sync-acr.sh; no code change.",
+  "reports": [
+    { "slug": "design-system", "repo": "https://github.com/balbonits/a11y-design-system", "path": "docs/ACR.md" }
+  ]
+}
