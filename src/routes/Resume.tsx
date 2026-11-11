@@ -23,6 +23,7 @@ export default function Resume() {
       <div className="mb-8">
         <Eyebrow>Resume</Eyebrow>
         <h1 className="mt-3 text-[34px] font-bold tracking-[-0.03em] text-fg-strong sm:text-[40px]">
+          <span className="sr-only">Resume: </span>
           {PROFILE.name}
         </h1>
         <p className="mt-2 text-[15px] text-fg-muted">{HEADLINE}</p>
