@@ -14,18 +14,18 @@ let replay: { x: number; y: number } | null = null;
 const swallowed = (t: EventTarget | null) => t === document.documentElement || t === document.body || t === document;
 
 export function installViewTransitionInput(): void {
-  const doc = document as Document & { startViewTransition?: (...a: unknown[]) => VT };
-  if (typeof doc.startViewTransition !== 'function' || (doc as { __vtInput?: boolean }).__vtInput) return;
-  (doc as { __vtInput?: boolean }).__vtInput = true;
+  const doc = document as Document & { __vtInput?: boolean };
+  if (typeof doc.startViewTransition !== 'function' || doc.__vtInput) return;
+  doc.__vtInput = true;
 
   const original = doc.startViewTransition.bind(doc);
-  doc.startViewTransition = (...args: unknown[]) => {
-    const t = original(...args);
+  doc.startViewTransition = ((arg?: Parameters<typeof original>[0]) => {
+    const t = original(arg);
     active = t;
     const clear = () => { if (active === t) active = null; };
     t.finished.then(clear, clear);
     return t;
-  };
+  }) as typeof doc.startViewTransition;
 
   document.addEventListener('pointerdown', (e) => {
     if (!active || !e.isPrimary) return;
