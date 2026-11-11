@@ -41,7 +41,8 @@ for (const { url, file, meta } of pages()) {
     ? '<meta name="robots" content="noindex" />'
     : `<link rel="canonical" href="${canonical}" />`;
   html = setTag(html, /<\/head>/, `    ${headExtra}\n    ${jsonLd}\n  </head>`);
-  html = setTag(html, /<div id="root"><\/div>/, `<div id="root">${body}</div>`);
+  // data-route lets main.tsx hydrate only when this markup is for the current URL.
+  html = setTag(html, /<div id="root"><\/div>/, `<div id="root" data-route="${esc(url)}">${body}</div>`);
   const out = join(dist, file);
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, html);

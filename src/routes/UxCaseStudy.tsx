@@ -68,14 +68,18 @@ function StudyPage({ study: s }: { study: Study }) {
 
       {s.images.length > 0 && (
         <div className="mb-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-          {s.images.map((img) => (
+          {/* The gallery sits in the first viewport on every width, so it loads
+              eagerly and the first shot (the LCP element on mobile) is fetched
+              at high priority (PERF-100). */}
+          {s.images.map((img, i) => (
             <img
               key={img.src}
               src={img.src}
               alt={img.alt}
               width={img.width}
               height={img.height}
-              loading="lazy"
+              loading="eager"
+              fetchPriority={i === 0 ? 'high' : 'auto'}
               decoding="async"
               className="h-auto w-full rounded-[12px] border border-border-DEFAULT"
             />
