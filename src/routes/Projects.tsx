@@ -33,7 +33,7 @@ const SORT_LABELS: Record<SortOption, string> = {
 };
 
 function pillClass(active: boolean) {
-  return `${HIT_44} cursor-pointer rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-[120ms] ease-out ${
+  return `${HIT_44} cursor-pointer rounded-full border px-3.5 py-1.5 text-xs max-[480px]:min-h-11 font-medium transition-all duration-[120ms] ease-out ${
     active
       ? 'border-fg-strong bg-fg-strong text-bg'
       : 'border-border-DEFAULT bg-surface text-fg-muted hover:border-border-strong'
@@ -85,7 +85,7 @@ export default function Projects() {
         )}
 
         <div className="mb-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
-          <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter by category">
+          <div className="flex flex-wrap gap-1.5 max-[480px]:gap-y-2" role="group" aria-label="Filter by category">
             <button
               type="button"
               onClick={() => setActive(new Set())}
@@ -117,7 +117,7 @@ export default function Projects() {
             aria-label="Sort projects"
             value={sort}
             onChange={(e) => setSort(e.target.value as SortOption)}
-            className="cursor-pointer rounded-full border border-border-DEFAULT bg-surface px-3.5 py-1.5 font-mono text-xs font-medium tracking-[0.04em] text-fg-muted transition-colors duration-[120ms] hover:border-border-strong"
+            className="cursor-pointer rounded-full border border-border-DEFAULT bg-surface px-3.5 py-[13px] font-mono text-xs font-medium tracking-[0.04em] text-fg-muted transition-colors duration-[120ms] hover:border-border-strong"
           >
             {(Object.keys(SORT_LABELS) as SortOption[]).map((opt) => (
               <option key={opt} value={opt}>

@@ -151,13 +151,13 @@ function ProjectPage({ project: p }: { project: Project }) {
           {p.bundle && <Meta label="Bundle">{p.bundle}</Meta>}
           {(p.links.live || p.links.source) && (
             <Meta label="Links">
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-3">
                 {p.links.live && (
                   <a
                     href={p.links.live}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1.5 text-[13px] text-accent no-underline hover:underline"
+                    className="inline-flex min-h-11 items-center gap-1.5 text-[13px] text-accent no-underline hover:underline"
                   >
                     <Icon.ArrowUpRight className="h-3 w-3" />
                     Live
@@ -168,7 +168,7 @@ function ProjectPage({ project: p }: { project: Project }) {
                     href={p.links.source}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1.5 text-[13px] text-fg-muted no-underline hover:text-fg-strong hover:underline"
+                    className="inline-flex min-h-11 items-center gap-1.5 text-[13px] text-fg-muted no-underline hover:text-fg-strong hover:underline"
                   >
                     <GitHubIcon className="h-3 w-3" />
                     Source
